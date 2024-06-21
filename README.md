@@ -18,6 +18,10 @@ Follow React Native's official documentation for setting up a developer environm
 
 <B>Step 4:</b> Launch the application by running `npm run android`. This will install and launch the app on your physical device.
 
+## Helpful Links
+
+[Gluestack UI Components](https://gluestack.io/ui/docs/home/overview/all-components)
+
 ## PR Approval
 
 - Ensure there is no business logic in views. Only HTML elements and click events.
