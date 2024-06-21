@@ -5,6 +5,7 @@ const useDimensions = () => {
     const [isVertical, setIsVertical] = useState<boolean>(false);
 
     useEffect(() => {
+        determineScreenOrientation();
         Dimensions.addEventListener('change', () => determineScreenOrientation());
     }, [])
 
