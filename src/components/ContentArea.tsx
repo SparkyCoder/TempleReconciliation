@@ -33,20 +33,21 @@ const ContentArea = () => {
                     <Loading state={auditState} title={'Loading report data...'} />
                     {isVertical ? 
                     <VStack space="md" style={styles.stack}>
-                            <ScrollView style={{width:'100%'}}>
+                            <ScrollView style={styles.scrollview}>
                                 <Center>
-                                    {getTiles()}
                                     {getTiles()}
                                     {getTiles()}
                                 </Center>
                             </ScrollView>
                     </VStack>
-                    :
+                    :                    
                         <HStack space='lg' style={styles.stack}>
-                            <ScrollView horizontal={true} style={{width:'100%'}}>
+                            <ScrollView horizontal={true} style={styles.scrollview}>
+                                {getTiles()}
                                 {getTiles()}
                             </ScrollView>
                         </HStack>
+                       
                     } 
                 </Box>
             </Center>                         

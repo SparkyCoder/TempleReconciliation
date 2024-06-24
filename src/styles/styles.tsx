@@ -40,6 +40,9 @@ export const styles = StyleSheet.create({
         marginBottom:'8%',
         padding:10,
     },
+    scrollview:{
+        width:'100%'
+    },
     tile: {
         backgroundColor: "#635a48",
         borderRadius: 20,
