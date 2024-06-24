@@ -1,4 +1,5 @@
 import { Platform, StyleSheet } from "react-native";
+import ContentArea from "../components/ContentArea";
 
 export const styles = StyleSheet.create({
     droidSafeArea: {
@@ -10,19 +11,46 @@ export const styles = StyleSheet.create({
         width: '100%',
         
     },
+    header: {
+        width: '100%',
+        height: '15%',
+        backgroundColor: '#d9d9d9'
+    },
+    contentArea: {
+        backgroundColor: '#abb4b5'
+    },
+    subContentArea: {
+        width: '95%',
+        height: '88%',
+        backgroundColor: '#d9d9d9'
+    },
+    autoScaledImage:{
+        flex: 1,
+        width: null,
+        height: null,
+        resizeMode: 'contain',
+        margin: 5
+    },
     stack: {
         height:'100%',
         alignItems:'center',
     },
     tile: {
-        backgroundColor: "#fff",
+        backgroundColor: "#635a48",
         marginTop: '10%',
-        height:100,
-        width:200,
         borderRadius: 20,
         elevation: 10
     },
+    tilePreviewArea:{
+        marginTop: '10%',
+        marginBottom: '2%',
+        backgroundColor: '#d9d9d9',
+        height:'50%',
+        width: '80%'
+    },
     tileText: {
-       margin: '5%',
-    }
+       color: '#d9d9d9',
+       flex: 1, 
+       flexWrap: 'wrap'
+    },
 })

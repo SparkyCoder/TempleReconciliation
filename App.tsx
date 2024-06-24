@@ -1,18 +1,18 @@
 import React from 'react';
-import {ImageBackground, SafeAreaView} from 'react-native';
+import { SafeAreaView} from 'react-native';
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "@gluestack-ui/config";
 import { styles } from './src/styles/styles';
 import ContentArea from './src/components/ContentArea';
+import Header from './src/components/Header';
 
 
 function App(): React.JSX.Element {
   return (
   <GluestackUIProvider config={config}>
     <SafeAreaView  style={styles.droidSafeArea}>
-      <ImageBackground style={styles.full} source={require('./src/media/background.png')}>
-         <ContentArea />
-      </ImageBackground>
+      <Header />
+      <ContentArea />
     </SafeAreaView>
    </GluestackUIProvider>
   );
