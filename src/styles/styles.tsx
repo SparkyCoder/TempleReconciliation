@@ -33,11 +33,15 @@ export const styles = StyleSheet.create({
     },
     stack: {
         height:'100%',
-        alignItems:'center',
+        alignItems:'center'
+    },
+    pressable:{
+        marginTop:'2%',
+        marginBottom:'8%',
+        padding:10,
     },
     tile: {
         backgroundColor: "#635a48",
-        marginTop: '10%',
         borderRadius: 20,
         elevation: 10
     },

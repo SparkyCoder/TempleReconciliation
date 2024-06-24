@@ -18,13 +18,13 @@ return (
     }
 
     return (
-        <Pressable onPress={() => props.onClick()} >
+        <Pressable onPress={() => props.onClick()} style={styles.pressable}>
             {isVertical ? 
-            <Box style={[styles.tile, {height: 200, width: 250}]}>
+            <Box style={[styles.tile, {height: 200, width: 250, marginTop:'8%'}]}>
                 {getCenter()}
             </Box>
             :
-            <Box style={[styles.tile, {height: 200, width: 200}]}>
+            <Box style={[styles.tile, {height: 200, width: 200, marginTop:'2%'}]}>
                 {getCenter()}
             </Box>}
         </Pressable>

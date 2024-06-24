@@ -1,4 +1,4 @@
-import { Box, Center, HStack, ScrollView, VStack } from "@gluestack-ui/themed";
+import { Box, Center, HStack, ScrollView, Text, VStack } from "@gluestack-ui/themed";
 import { styles } from "../styles/styles";
 import Tile from "./Tile";
 import useDimensions from "../hooks/useDimensions";
@@ -19,10 +19,10 @@ const ContentArea = () => {
 
     const getTiles = () => {
         return (
-            <ScrollView style={styles.full}>
+            <>
                 <Tile title={'Donation'} subText={'捐助'} image={require('../../src/media/Donation.png')} onClick={() => console.log('Placeholder for Donations...')} />
                 <Tile title={'Audit Report'} subText={'报告'} image={require('../../src/media/Report.png')} isLoading={auditState.isLoad} onClick={() => onAuditReportClick()} />
-            </ScrollView>
+            </>
         )
     }
 
@@ -33,16 +33,21 @@ const ContentArea = () => {
                     <Loading state={auditState} title={'Loading report data...'} />
                     {isVertical ? 
                     <VStack space="md" style={styles.stack}>
-                        <Center>
-                            {getTiles()}
-                        </Center>
+                            <ScrollView style={{width:'100%'}}>
+                                <Center>
+                                    {getTiles()}
+                                    {getTiles()}
+                                    {getTiles()}
+                                </Center>
+                            </ScrollView>
                     </VStack>
                     :
-                    <Center>
                         <HStack space='lg' style={styles.stack}>
-                            {getTiles()}
+                            <ScrollView horizontal={true} style={{width:'100%'}}>
+                                {getTiles()}
+                            </ScrollView>
                         </HStack>
-                    </Center>} 
+                    } 
                 </Box>
             </Center>                         
         </Box>
