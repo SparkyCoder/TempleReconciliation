@@ -5,10 +5,24 @@ const dynamo = DynamoDBDocument.from(new DynamoDB());
 
 export const handler = async event => {
   try {
+    let expression = {};
+
+    switch (event.resource) {
+      case '/v1/users':
+        expression = {':PartitionKey': 'GMT#USER'};
+        break;
+      case '/v1/events':
+        expression = {':PartitionKey': 'GMT#EVENT'};
+        break;
+      case '/v1/payments':
+        expression = {':PartitionKey': 'GMT#PAYMENT'};
+        break;
+    }
+
     const params = {
       TableName: 'TempleReconciliation',
       KeyConditionExpression: 'PK = :PartitionKey',
-      ExpressionAttributeValues: {':PartitionKey': 'GMT#USER'},
+      ExpressionAttributeValues: expression,
     };
 
     let queryResults = await dynamo.query(params);

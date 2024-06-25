@@ -60,4 +60,15 @@ export const styles = StyleSheet.create({
        flex: 1, 
        flexWrap: 'wrap'
     },
+    form:{
+        marginLeft: '1%'
+    },
+    formSectionVertical: {
+        marginTop: '1%',
+        width: '75%'
+    },
+    formSectionHorizontal:{
+         marginTop: '1%',
+        width: '50%'
+    }
 })

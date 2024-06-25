@@ -1,10 +1,10 @@
 import axios from "axios";
 import { HandleAuditDataLoaded, HandleAuditReportDataError } from "../reducers/AuditReportReducer";
-import CONSTANTS from "../constants/Urls";
+import URLS from "../constants/Urls";
 
 const useAuditReport = (auditDispatch : any) => {    
     const getAuditData = () => {
-        axios.get(CONSTANTS.AuditReportUrl).then((response) => {
+        axios.get(URLS.AuditReportUrl).then((response) => {
             auditDispatch({ type: HandleAuditDataLoaded, payload: response.data })
           })
           .catch((error) => {

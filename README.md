@@ -39,6 +39,8 @@ Follow React Native's official documentation for setting up a developer environm
 ## Api Gateway Routes
 
 - GET /v1/users
+- GET /v1/events
+- GET /v1/payments
 
 ## Dynamo DB Examples
 
@@ -144,6 +146,29 @@ Follow React Native's official documentation for setting up a developer environm
       },
       "user": {
         "S": "e4d6e4d2-a0a9-47f1-bb32-7810dd39143b"
+      }
+    }
+  }
+}
+```
+
+### Payment:
+
+```
+{
+  "PK": {
+    "S": "GMT#PAYMENT"
+  },
+  "SK": {
+    "S": "611db7bc-547f-49f8-8e7e-c777fa26aaae"
+  },
+  "Data": {
+    "M": {
+      "label": {
+        "S": "Credit Card"
+      },
+      "value": {
+        "S": "CreditCard"
       }
     }
   }
