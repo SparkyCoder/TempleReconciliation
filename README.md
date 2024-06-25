@@ -56,7 +56,7 @@ Follow React Native's official documentation for setting up a developer environm
   },
   "Data": {
     "M": {
-      "name": {
+      "label": {
         "S": "New Years"
       },
       "time": {

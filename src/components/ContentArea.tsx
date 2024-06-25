@@ -2,7 +2,7 @@ import { Box, Center } from "@gluestack-ui/themed";
 import { styles } from "../styles/styles";
 import { useEffect, useReducer } from "react";
 import AuditReportReducer, { HandleAuditReportOnClick } from "../reducers/AuditReportReducer";
-import useAuditReport from "../hooks/useAuditReport";
+import useAuditReport from "../hooks/useDonations";
 import TileArea from "./TileArea";
 import Areas from "../constants/Areas";
 import AREAS from "../constants/Areas";
@@ -10,7 +10,9 @@ import DonationArea from "./DonationArea";
 
 const ContentArea = () => {
     const initialState = {
-        selectedArea: Areas.TileArea
+        selectedArea: Areas.TileArea,
+        payments:[],
+        events:[]
     }
 
     const [state, dispatch] = useReducer(AuditReportReducer, initialState)

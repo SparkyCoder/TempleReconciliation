@@ -1,25 +1,29 @@
 import { Box, Button, Center, ButtonText, ChevronDownIcon, HStack, Heading, Icon, Input, InputField, ScrollView, Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger, Text, VStack } from "@gluestack-ui/themed";
 import useDimensions from "../hooks/useDimensions";
 import Loading from "./Loading";
-import { HandleDonationCancelButtonOnClick } from "../reducers/AuditReportReducer";
+import { HandleDonationCancelButtonOnClick, HandleOnDonationAreaLoad } from "../reducers/AuditReportReducer";
 import { styles } from "../styles/styles";
 import { useEffect } from "react";
+import useDonations from "../hooks/useDonations";
 
 const DonationArea = ({state, dispatch} : any) => {
     const {isVertical} = useDimensions();
+    const {getEvents, getPayments} = useDonations(dispatch);
 
     useEffect(()=> {
-      //Get Events
-      //Get Payment Options
-      //Dispatch Loading
+      console.log('area load')
+      getEvents();
+      getPayments();
+      dispatch({ type: HandleOnDonationAreaLoad })
     }, [])
 
     const getDropDown = (items: any) => {
+      console.log(items)
       let selectItems = items.map(item => 
         <SelectItem
-        key={item.value}
-        label={item.label}
-        value={item.value}
+        key={item.data.id}
+        label={item.data.label}
+        value={item.data.id}
       />);
 
         return (
@@ -45,7 +49,7 @@ const DonationArea = ({state, dispatch} : any) => {
 
     return (
         <Box>
-                    <Loading state={state} title={'Loading...'} />
+                    <Loading isLoading={state.isGetPaymentsLoading || state.isGetEventsLoading} title={'Loading...'} />
                     <ScrollView>             
                         <Box style={styles.form}>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
@@ -95,11 +99,11 @@ const DonationArea = ({state, dispatch} : any) => {
                             </Box>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <Heading size="sm">Dharma Service 法會名稱</Heading>
-                                { getDropDown([{label: 'test', value: 'test'}]) }
+                                { getDropDown(state.events) }
                             </Box>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <Heading size="sm">Payment Option</Heading>
-                                { getDropDown([{label: 'test', value: 'test'}]) }
+                                { getDropDown(state.payments) }
                             </Box>
                         </Box>
                         <Box style={{marginTop:'2%', marginBottom:'2%', width: '100%'}}>

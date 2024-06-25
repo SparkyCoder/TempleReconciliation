@@ -1,20 +1,12 @@
-import { Box, Center, HStack, ScrollView, Text, VStack } from "@gluestack-ui/themed";
+import { Center, HStack, ScrollView, VStack } from "@gluestack-ui/themed";
 import { styles } from "../styles/styles";
 import Tile from "./Tile";
 import useDimensions from "../hooks/useDimensions";
-import { HandleAuditReportOnClick, HandleDonationTileOnClick } from "../reducers/AuditReportReducer";
+import { HandleDonationTileOnClick } from "../reducers/AuditReportReducer";
 import Loading from "./Loading";
-import useAuditReport from "../hooks/useAuditReport";
 
 const TileArea = ({state, dispatch} : any) => {
     const {isVertical} = useDimensions();
-
-    const {getAuditData} = useAuditReport(dispatch);
-
-    const onAuditReportClick = () => {
-        getAuditData();
-        dispatch({ type: HandleAuditReportOnClick });
-    }
 
     const getTiles = () => {
         return (

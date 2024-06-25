@@ -1,10 +1,10 @@
 import { Center, HStack, Modal, ModalBackdrop, ModalBody, ModalContent, Spinner, Text } from "@gluestack-ui/themed";
 
-const Loading = ({state, title} : any) => {
+const Loading = ({isLoading, title} : any) => {
     return (
         <Center>
           <Modal
-            isOpen={state.isLoading}
+            isOpen={isLoading}
             closeOnOverlayClick={false}
           >
             <ModalBackdrop />

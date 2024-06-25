@@ -1,5 +1,7 @@
 const URLS = {
-    AuditReportUrl: 'https://pokeapi.co/api/v2/pokemon/ditto' //Temporary example until C# APIs can be set up
+    Root: 'https://7h745af6v3.execute-api.us-east-2.amazonaws.com/develop',
+    GetEvents: '/v1/events',
+    GetPayments: '/v1/payments'
 }
 
 export default URLS;
