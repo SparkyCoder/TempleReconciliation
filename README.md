@@ -36,6 +36,10 @@ Follow React Native's official documentation for setting up a developer environm
 
 ![Architecture Diagram](https://github.com/SparkyCoder/TempleReconciliation/blob/main/Architecture.jpg)
 
+## Api Gateway Routes
+
+- GET /v1/users
+
 ## Dynamo DB Examples
 
 ### Events:
