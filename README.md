@@ -35,3 +35,113 @@ Follow React Native's official documentation for setting up a developer environm
 ## Architecture
 
 ![Architecture Diagram](https://github.com/SparkyCoder/TempleReconciliation/blob/main/Architecture.jpg)
+
+## Dynamo DB Examples
+
+### Events:
+
+```
+{
+  "PK": {
+    "S": "GMT#EVENT"
+  },
+  "SK": {
+    "S": "ef55fedd-b26e-4249-a53e-2114123a5e73"
+  },
+  "Data": {
+    "M": {
+      "name": {
+        "S": "New Years"
+      },
+      "time": {
+        "S": "1707523200"
+      }
+    }
+  }
+}
+```
+
+### Users:
+
+```
+{
+  "PK": {
+    "S": "GMT#USER"
+  },
+  "SK": {
+    "S": "e4d6e4d2-a0a9-47f1-bb32-7810dd39143b"
+  },
+  "Data": {
+    "M": {
+      "email": {
+        "S": "email@email.com"
+      },
+      "nameInChinese": {
+        "S": ""
+      },
+      "nameInEnglish": {
+        "S": "David Kobuszewski"
+      },
+      "phone": {
+        "S": "555-123-1234"
+      }
+    }
+  }
+}
+```
+
+### Donations:
+
+```
+{
+  "PK": {
+    "S": "GMT#DONATION"
+  },
+  "SK": {
+    "S": "1719262479"
+  },
+  "Data": {
+    "M": {
+      "donationItems": {
+        "L": [
+          {
+            "M": {
+              "amount": {
+                "N": "2"
+              },
+              "item": {
+                "S": "food"
+              },
+              "name": {
+                "S": "apples"
+              }
+            }
+          },
+          {
+            "M": {
+              "amount": {
+                "N": "1"
+              },
+              "item": {
+                "S": "store"
+              },
+              "name": {
+                "S": "new years plushy"
+              }
+            }
+          }
+        ]
+      },
+      "event": {
+        "S": "ef55fedd-b26e-4249-a53e-2114123a5e73"
+      },
+      "paymentOption": {
+        "S": "1"
+      },
+      "user": {
+        "S": "e4d6e4d2-a0a9-47f1-bb32-7810dd39143b"
+      }
+    }
+  }
+}
+```
