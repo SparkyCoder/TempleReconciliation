@@ -1,31 +1,36 @@
 import axios from "axios";
-import { HandleGetEventsComplete, HandleGetPaymentsComplete } from "../reducers/AuditReportReducer";
+import { HandleGetDonationItemsComplete, HandleGetEventsComplete, HandleGetPaymentsComplete } from "../reducers/ApplicationReducer";
 import URLS from "../constants/Urls";
 
-const useDonations = (auditDispatch : any) => {    
+const useDonations = (auditDispatch : any) => {  
     const getEvents = () => {
         axios.get(`${URLS.Root}${URLS.GetEvents}`).then((response) => {
-          console.log('events complete')
             auditDispatch({ type: HandleGetEventsComplete, payload: response.data })
           })
           .catch((error) => {
-            console.log('events error')
-            auditDispatch({ type: HandleAuditReportDataError, payload: error })
+            auditDispatch({ type: HandleGetRequestError, payload: error })
           });
     }
 
     const getPayments = () => {
       axios.get(`${URLS.Root}${URLS.GetPayments}`).then((response) => {
-        console.log('payments complete')
           auditDispatch({ type: HandleGetPaymentsComplete, payload: response.data })
         })
         .catch((error) => {
-          console.log('payments error')
-          auditDispatch({ type: HandleAuditReportDataError, payload: error })
+          auditDispatch({ type: HandleGetRequestError, payload: error })
+        });
+    }
+
+    const getDonations = () => {
+      axios.get(`${URLS.Root}${URLS.GetPayments}`).then((response) => { //////////////////NEED TO UPDATE ONCE IMPLEMENTED///////////
+          auditDispatch({ type: HandleGetDonationItemsComplete, payload: response.data })
+        })
+        .catch((error) => {
+          auditDispatch({ type: HandleGetRequestError, payload: error })
         });
   }
 
-    return {getEvents, getPayments}
+    return {getEvents, getPayments, getDonations};
 };
 
 export default useDonations;

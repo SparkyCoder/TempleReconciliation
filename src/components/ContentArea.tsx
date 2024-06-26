@@ -1,8 +1,7 @@
 import { Box, Center } from "@gluestack-ui/themed";
 import { styles } from "../styles/styles";
-import { useEffect, useReducer } from "react";
-import AuditReportReducer, { HandleAuditReportOnClick } from "../reducers/AuditReportReducer";
-import useAuditReport from "../hooks/useDonations";
+import { useReducer } from "react";
+import ApplicationReducer from "../reducers/ApplicationReducer";
 import TileArea from "./TileArea";
 import Areas from "../constants/Areas";
 import AREAS from "../constants/Areas";
@@ -12,10 +11,11 @@ const ContentArea = () => {
     const initialState = {
         selectedArea: Areas.TileArea,
         payments:[],
-        events:[]
+        events:[],
+        donationItems:[]
     }
 
-    const [state, dispatch] = useReducer(AuditReportReducer, initialState)
+    const [state, dispatch] = useReducer(ApplicationReducer, initialState)
 
     return (
         <Box style={[styles.full, styles.contentArea]}>
