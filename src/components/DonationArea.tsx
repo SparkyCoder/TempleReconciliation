@@ -107,7 +107,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                       size="lg"
                                       p="$3.5"
                                       variant='solid'
-                                      action="primary"
+                                      action="secondary"
                                       onTouchEnd={() => dispatch({ type: HandleOnDonationItemModalOpen })}
                                       >
                                      <ButtonIcon as={AddIcon} />
@@ -118,7 +118,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                        size="lg"
                                        p="$3.5"
                                        variant='solid'
-                                       action="primary"
+                                       action="secondary"
                                       onTouchEnd={() => dispatch({ type: HandleOnViewDonationItemsModalOpen })}
                                       >
                                      <ButtonIcon as={EditIcon} />
