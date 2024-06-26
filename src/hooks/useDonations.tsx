@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HandleGetDonationItemsComplete, HandleGetEventsComplete, HandleGetPaymentsComplete } from "../reducers/ApplicationReducer";
+import { HandleGetDonationItemsComplete, HandleGetEventsComplete, HandleGetPaymentsComplete, HandleGetRequestError } from "../reducers/ApplicationReducer";
 import URLS from "../constants/Urls";
 
 const useDonations = (auditDispatch : any) => {  
@@ -22,7 +22,7 @@ const useDonations = (auditDispatch : any) => {
     }
 
     const getDonations = () => {
-      axios.get(`${URLS.Root}${URLS.GetPayments}`).then((response) => { //////////////////NEED TO UPDATE ONCE IMPLEMENTED///////////
+      axios.get(`${URLS.Root}${URLS.GetDonationItems}`).then((response) => {
           auditDispatch({ type: HandleGetDonationItemsComplete, payload: response.data })
         })
         .catch((error) => {

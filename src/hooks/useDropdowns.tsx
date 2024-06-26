@@ -2,7 +2,7 @@ import { Box, Button, Center, ButtonText, ChevronDownIcon, HStack, Heading, Icon
 
 const useDropDowns = () => {  
     
-    const getDropDown = (items: any, selectedValue: any, setStateEvent: any, placeholderText: string) => {
+    const getDropDown = (items: any, selectedValue: any, setStateEvent: any, placeholderText: string, isInvalid: boolean) => {
         let selectItems = items.map(item => 
           <SelectItem
           key={item.id}
@@ -11,7 +11,7 @@ const useDropDowns = () => {
         />);
   
           return (
-          <Select value={selectedValue} onValueChange={(value =>  setStateEvent(value))}>
+          <Select isInvalid={isInvalid} value={selectedValue} onValueChange={(value =>  setStateEvent(value))}>
             <SelectTrigger variant="outline" size="md" >
               <SelectInput placeholder={placeholderText} />
               <SelectIcon mr="$3">

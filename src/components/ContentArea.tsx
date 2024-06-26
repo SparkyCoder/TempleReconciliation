@@ -6,16 +6,19 @@ import TileArea from "./TileArea";
 import Areas from "../constants/Areas";
 import AREAS from "../constants/Areas";
 import DonationArea from "./DonationArea";
+import useMessage from "../hooks/useToast";
 
 const ContentArea = () => {
-    const initialState = {
+    const {showError, showSuccess} = useMessage();
+    const [state, dispatch] = useReducer(ApplicationReducer, {
         selectedArea: Areas.TileArea,
         payments:[],
         events:[],
-        donationItems:[]
-    }
-
-    const [state, dispatch] = useReducer(ApplicationReducer, initialState)
+        donationItems:[],
+        addedDonationItems: [],
+        showError,
+        showSuccess
+    })
 
     return (
         <Box style={[styles.full, styles.contentArea]}>

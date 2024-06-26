@@ -17,6 +17,9 @@ export const handler = async event => {
       case '/v1/payments':
         expression = {':PartitionKey': 'GMT#PAYMENT'};
         break;
+      case '/v1/donations/items':
+        expression = {':PartitionKey': 'GMT#DONATION#ITEM'};
+        break;
     }
 
     const params = {

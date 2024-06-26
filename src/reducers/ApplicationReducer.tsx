@@ -9,6 +9,9 @@ export const HandleGetPaymentsComplete = 'HandleGetPaymentsComplete';
 export const HandleGetDonationItemsComplete = 'HandleGetDonationItemsComplete'
 export const HandleOnDonationItemModalClose = 'HandleOnDonationItemModalClose'
 export const HandleOnDonationItemModalOpen = 'HandleOnDonationItemModalOpen'
+export const HandleOnDonationItemUpdated = 'HandleOnDonationItemUpdated';
+export const HandleOnViewDonationItemsModalOpen = 'HandleOnViewDonationItemsModalOpen';
+export const HandleOnViewDonationItemsModalClosed = 'HandleOnViewDonationItemsModalClosed'
 
 const ApplicationReducer = (state: any, action: any) => {
     switch (action.type) {
@@ -19,7 +22,7 @@ const ApplicationReducer = (state: any, action: any) => {
       case HandleDonationCancelButtonOnClick: 
         return {...state, selectedArea: AREAS.TileArea}
       case HandleOnDonationAreaLoad:
-        return {...state, isGetPaymentsLoading:true, isGetEventsLoading:true, isGetDonationItemsLoading: true, isAddDonationItemModalOpen:false}
+        return {...state, isGetPaymentsLoading:true, isGetEventsLoading:true, isGetDonationItemsLoading: true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
       case HandleGetPaymentsComplete:
         return {...state, isGetPaymentsLoading:false, payments: action.payload}
       case HandleGetEventsComplete:
@@ -30,6 +33,12 @@ const ApplicationReducer = (state: any, action: any) => {
           return {...state, isAddDonationItemModalOpen:true}
       case HandleOnDonationItemModalClose:
           return {...state, isAddDonationItemModalOpen:false}
+      case HandleOnDonationItemUpdated: 
+          return {...state, addedDonationItems: action.payload, isAddDonationItemModalOpen:false}
+      case HandleOnViewDonationItemsModalOpen:
+          return {...state, isViewDonationItemsOpen:true}
+      case HandleOnViewDonationItemsModalClosed:
+          return {...state, isViewDonationItemsOpen:false}
       default:
         return state;
     }

@@ -67,6 +67,26 @@ Follow React Native's official documentation for setting up a developer environm
 }
 ```
 
+### Donation Items:
+
+```
+{
+  "PK": {
+    "S": "GMT#DONATION#ITEM"
+  },
+  "SK": {
+    "S": "9d502043-b461-43b3-8c2e-da0c78daadc2"
+  },
+  "Data": {
+    "M": {
+      "label": {
+        "S": "Other 其他"
+      }
+    }
+  }
+}
+```
+
 ### Users:
 
 ```

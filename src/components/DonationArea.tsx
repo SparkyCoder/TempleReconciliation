@@ -1,12 +1,13 @@
-import { Box, Button, Center, ButtonText, ChevronDownIcon, HStack, Heading, Icon, Input, InputField, ScrollView, Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger, ButtonIcon, AddIcon } from "@gluestack-ui/themed";
+import { Box, Button, Center, ButtonText, ChevronDownIcon, HStack, Heading, Icon, Input, InputField, ScrollView, Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger, ButtonIcon, AddIcon, EditIcon } from "@gluestack-ui/themed";
 import useDimensions from "../hooks/useDimensions";
 import Loading from "./Loading";
-import { HandleDonationCancelButtonOnClick, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen } from "../reducers/ApplicationReducer";
+import { HandleDonationCancelButtonOnClick, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
 import { styles } from "../styles/styles";
 import { useEffect, useState } from "react";
 import useDonations from "../hooks/useDonations";
-import DonationItemsModal from "./DonationItemsModal";
+import DonationItemsModal from "./AddDonationItemsModal";
 import useDropDowns from "../hooks/useDropdowns";
+import ViewDonationItemsModal from "./ViewDonationItemsModal";
 
 const DonationArea = ({state, dispatch} : any) => {
     const {isVertical} = useDimensions();
@@ -28,12 +29,15 @@ const DonationArea = ({state, dispatch} : any) => {
       dispatch({ type: HandleOnDonationAreaLoad })
     }, [])
 
-    
+    useEffect(() => {
+      console.log(state.addedDonationItems)
+    }, [state])
 
     return (
         <Box>
                     <Loading isLoading={state.isGetPaymentsLoading || state.isGetEventsLoading || state.isGetDonationItemsLoading} title={'Loading...'} />
                     <DonationItemsModal state={state} dispatch={dispatch} />
+                    <ViewDonationItemsModal state={state} dispatch={dispatch} />
                     <ScrollView>             
                         <Box style={styles.form}>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
@@ -95,16 +99,31 @@ const DonationArea = ({state, dispatch} : any) => {
                                 { getDropDown(state.payments, paymentOption, setPaymentOption, 'Select Payment Type') }
                             </Box>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
-                                <Heading size="sm">Add Donation Item(s)</Heading>
+                                <HStack space="lg" >
+                                <Heading size="sm" style={{alignSelf:"center"}}>Add Donation Item(s)</Heading>
                                 <Button
-                                      size="md"
-                                      variant="outline"
+                                      w='$1' 
+                                      borderRadius="$2xl"
+                                      size="lg"
+                                      p="$3.5"
+                                      variant='solid'
                                       action="primary"
                                       onTouchEnd={() => dispatch({ type: HandleOnDonationItemModalOpen })}
                                       >
-                                     <ButtonText>Add Donation </ButtonText>
                                      <ButtonIcon as={AddIcon} />
                                   </Button>
+                                  <Button
+                                       w='$1' 
+                                       borderRadius="$2xl"
+                                       size="lg"
+                                       p="$3.5"
+                                       variant='solid'
+                                       action="primary"
+                                      onTouchEnd={() => dispatch({ type: HandleOnViewDonationItemsModalOpen })}
+                                      >
+                                     <ButtonIcon as={EditIcon} />
+                                  </Button>
+                                </HStack>
                             </Box>
                         </Box>
                         <Box style={{marginTop:'2%', marginBottom:'2%', width: '100%'}}>
