@@ -1,29 +1,18 @@
 import { Box, Button, ButtonText, CloseIcon, Heading, Icon, Input, InputField, InputSlot, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader } from "@gluestack-ui/themed";
 import { HandleOnDonationItemUpdated, HandleOnDonationItemModalClose } from "../reducers/ApplicationReducer";
 import useDropDowns from "../hooks/useDropdowns";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const DonationItemsModal = ({state, dispatch}: any) => {
     const {getDropDown} = useDropDowns();
-    const [selectedDonationItem, setSelectedDonationItem] = useState('');
-    const [nameOfItem, setNameOfItem] = useState('');
-    const [numberOfItems, setNumberOfItems] = useState(0);
+    const [selectedDonationItem, setSelectedDonationItem] = useState();
+    const [nameOfItem, setNameOfItem] = useState();
+    const [numberOfItems, setNumberOfItems] = useState();
 
     const isFormValid = () => {
-        let isNumberofItemsValid = (numberOfItems !== 0);
-        if(!isNumberofItemsValid){
-            state.showError('Error', 'Please enter an amount.')
-        }
-        
-        let isDonationItemValid = (selectedDonationItem !== '');
-        if(!isDonationItemValid){
-            state.showError('Error', 'Please select a donation type.')
-        }
-
-        let isNameOfItemValid = (nameOfItem !== '')
-        if(!isNameOfItemValid){
-            state.showError('Error', 'Please enter an item name.')
-        }
+        let isNumberofItemsValid = state.validate('# of Items', numberOfItems)
+        let isDonationItemValid = state.validate('Donation Item Type', selectedDonationItem)
+        let isNameOfItemValid = state.validate ('Name of Item', nameOfItem)
 
         return (isNumberofItemsValid && isDonationItemValid && isNameOfItemValid );
     }
@@ -36,9 +25,9 @@ const DonationItemsModal = ({state, dispatch}: any) => {
             updatedList.push(newItem);
             dispatch({ type: HandleOnDonationItemUpdated, payload: updatedList })
             state.showSuccess('Success', 'Item added.')
-            setNameOfItem('');
-            setNumberOfItems(0);
-            setSelectedDonationItem('');
+            setNameOfItem(undefined);
+            setNumberOfItems(undefined);
+            setSelectedDonationItem(undefined);
         }
     }
     
@@ -56,7 +45,7 @@ const DonationItemsModal = ({state, dispatch}: any) => {
           </ModalHeader>
           <ModalBody>
             <Box  style={{marginTop:'2%'}}>
-            {getDropDown(state.donationItems, '', setSelectedDonationItem, 'Donation Item Type')}
+            {getDropDown(state.donationItems, '', setSelectedDonationItem, 'Donation Item Type', false)}
             </Box>
           <Input
             variant="outline"

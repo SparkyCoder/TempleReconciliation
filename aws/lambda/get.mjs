@@ -20,6 +20,9 @@ export const handler = async event => {
       case '/v1/donations/items':
         expression = {':PartitionKey': 'GMT#DONATION#ITEM'};
         break;
+      case '/v1/donations/pins':
+        expression = {':PartitionKey': 'GMT#FRONTDESK#PIN'};
+        break;
     }
 
     const params = {

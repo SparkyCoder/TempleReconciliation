@@ -1,13 +1,14 @@
 import axios from "axios";
-import { HandleGetDonationItemsComplete, HandleGetEventsComplete, HandleGetPaymentsComplete, HandleGetRequestError } from "../reducers/ApplicationReducer";
+import { HandleGetDonationItemsComplete, HandleGetEventsComplete, HandleGetFrontDeskPinsComplete, HandleGetPaymentsComplete, HandleGetRequestError } from "../reducers/ApplicationReducer";
 import URLS from "../constants/Urls";
 
-const useDonations = (auditDispatch : any) => {  
+const useDonations = (state: any, auditDispatch : any) => {  
     const getEvents = () => {
         axios.get(`${URLS.Root}${URLS.GetEvents}`).then((response) => {
             auditDispatch({ type: HandleGetEventsComplete, payload: response.data })
           })
           .catch((error) => {
+            state.showError('Error', 'Could not retrieve events.')
             auditDispatch({ type: HandleGetRequestError, payload: error })
           });
     }
@@ -17,6 +18,7 @@ const useDonations = (auditDispatch : any) => {
           auditDispatch({ type: HandleGetPaymentsComplete, payload: response.data })
         })
         .catch((error) => {
+          state.showError('Error', 'Could not retrieve payment types.')
           auditDispatch({ type: HandleGetRequestError, payload: error })
         });
     }
@@ -26,11 +28,22 @@ const useDonations = (auditDispatch : any) => {
           auditDispatch({ type: HandleGetDonationItemsComplete, payload: response.data })
         })
         .catch((error) => {
+          state.showError('Error', 'Could not retrieve donation item types.')
           auditDispatch({ type: HandleGetRequestError, payload: error })
         });
   }
 
-    return {getEvents, getPayments, getDonations};
+  const getFrontDeskPins = () => {
+    axios.get(`${URLS.Root}${URLS.GetFrontDeskPins}`).then((response) => {
+        auditDispatch({ type: HandleGetFrontDeskPinsComplete, payload: response.data })
+      })
+      .catch((error) => {
+        state.showError('Error', 'Could not retrieve front desk pins.')
+        auditDispatch({ type: HandleGetRequestError, payload: error })
+      });
+}
+
+    return {getEvents, getPayments, getDonations, getFrontDeskPins};
 };
 
 export default useDonations;

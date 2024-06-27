@@ -12,23 +12,28 @@ export const HandleOnDonationItemModalOpen = 'HandleOnDonationItemModalOpen'
 export const HandleOnDonationItemUpdated = 'HandleOnDonationItemUpdated';
 export const HandleOnViewDonationItemsModalOpen = 'HandleOnViewDonationItemsModalOpen';
 export const HandleOnViewDonationItemsModalClosed = 'HandleOnViewDonationItemsModalClosed'
+export const HandleDonationSubmitted = 'HandleDonationSubmitted';
+export const HandleGetFrontDeskPinsComplete = 'HandleGetFrontDeskPinsComplete';
+export const HandlePostDonationComplete = 'HandlePostDonationComplete';
 
 const ApplicationReducer = (state: any, action: any) => {
     switch (action.type) {
       case HandleGetRequestError:
-      return { ...state, isLoading: false, error: action.payload };
+      return { ...state, isGetPaymentsLoading:false, isGetEventsLoading:false, isGetDonationItemsLoading: false, isGetFrontDeskPinLoadings:false, error: action.payload };
       case HandleDonationTileOnClick:
         return {...state, selectedArea: AREAS.DonationArea} 
       case HandleDonationCancelButtonOnClick: 
         return {...state, selectedArea: AREAS.TileArea}
       case HandleOnDonationAreaLoad:
-        return {...state, isGetPaymentsLoading:true, isGetEventsLoading:true, isGetDonationItemsLoading: true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
+        return {...state, donation:{}, isGetPaymentsLoading:true, isGetEventsLoading:true, isGetDonationItemsLoading: true, isGetFrontDeskPinLoadings:true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
       case HandleGetPaymentsComplete:
         return {...state, isGetPaymentsLoading:false, payments: action.payload}
       case HandleGetEventsComplete:
           return {...state, isGetEventsLoading:false, events: action.payload}
       case HandleGetDonationItemsComplete:
           return {...state, isGetDonationItemsLoading:false, donationItems: action.payload}
+      case HandleGetFrontDeskPinsComplete:
+        return {...state, isGetFrontDeskPinLoadings:false, frontDeskPins: action.payload}
       case HandleOnDonationItemModalOpen:
           return {...state, isAddDonationItemModalOpen:true}
       case HandleOnDonationItemModalClose:
@@ -39,6 +44,10 @@ const ApplicationReducer = (state: any, action: any) => {
           return {...state, isViewDonationItemsOpen:true}
       case HandleOnViewDonationItemsModalClosed:
           return {...state, isViewDonationItemsOpen:false}
+      case HandleDonationSubmitted:
+          return {...state, isViewDonationItemsOpen:false, isAddDonationItemModalOpen:false, isPaymentModalOpen:true, donation: action.payload}
+      case HandlePostDonationComplete:
+          return {...state, isPaymentModalOpen:false, selectedArea: AREAS.TileArea}
       default:
         return state;
     }

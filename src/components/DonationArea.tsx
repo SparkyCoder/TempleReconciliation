@@ -1,18 +1,19 @@
 import { Box, Button, Center, ButtonText, ChevronDownIcon, HStack, Heading, Icon, Input, InputField, ScrollView, Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger, ButtonIcon, AddIcon, EditIcon } from "@gluestack-ui/themed";
 import useDimensions from "../hooks/useDimensions";
 import Loading from "./Loading";
-import { HandleDonationCancelButtonOnClick, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
+import { HandleDonationCancelButtonOnClick, HandleDonationSubmitted, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnPaymentModalOpen, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
 import { styles } from "../styles/styles";
 import { useEffect, useState } from "react";
 import useDonations from "../hooks/useDonations";
 import DonationItemsModal from "./AddDonationItemsModal";
 import useDropDowns from "../hooks/useDropdowns";
 import ViewDonationItemsModal from "./ViewDonationItemsModal";
+import PaymentsModal from "./PaymentModal";
 
 const DonationArea = ({state, dispatch} : any) => {
     const {isVertical} = useDimensions();
     const {getDropDown} = useDropDowns();
-    const {getEvents, getPayments, getDonations} = useDonations(dispatch);
+    const {getEvents, getPayments, getDonations, getFrontDeskPins} = useDonations(state, dispatch);
     const [chineseName, setChineseName] = useState<string>();
     const [englishName, setEnglishName] = useState<string>();
     const [phone, setPhone] = useState<string>();
@@ -26,18 +27,35 @@ const DonationArea = ({state, dispatch} : any) => {
       getEvents();
       getPayments();
       getDonations();
+      getFrontDeskPins();
       dispatch({ type: HandleOnDonationAreaLoad })
     }, [])
 
-    useEffect(() => {
-      console.log(state.addedDonationItems)
-    }, [state])
+    const onSubmit = () => {
+      let isEnglishNameValid = state.validate('English Name', englishName);
+      let isPhoneValid = state.validate('Phone', phone);
+      let isEmailValid = state.validate('Email', email);
+      
+      if(isEnglishNameValid && isPhoneValid && isEmailValid){
+        dispatch({ type: HandleDonationSubmitted, payload: {
+          chineseName,
+          englishName,
+          phone,
+          email,
+          address,
+          service: dharmaService,
+          payment: paymentOption,
+          donations: state.addedDonationItems
+        }})
+      }
+    }
 
     return (
         <Box>
-                    <Loading isLoading={state.isGetPaymentsLoading || state.isGetEventsLoading || state.isGetDonationItemsLoading} title={'Loading...'} />
+                    <Loading isLoading={state.isGetFrontDeskPinLoadings || state.isGetPaymentsLoading || state.isGetEventsLoading || state.isGetDonationItemsLoading} title={'Loading...'} />
                     <DonationItemsModal state={state} dispatch={dispatch} />
                     <ViewDonationItemsModal state={state} dispatch={dispatch} />
+                    <PaymentsModal state={state} dispatch={dispatch} />
                     <ScrollView>             
                         <Box style={styles.form}>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
@@ -66,7 +84,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                     variant="outline"
                                     size="md"
                                     >
-                                    <InputField placeholder="Phone 電話"
+                                    <InputField keyboardType="phone-pad" placeholder="Phone 電話"
                                     onChangeText={(value) => setPhone(value)} />
                                 </Input>
                             </Box>
@@ -76,7 +94,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                     variant="outline"
                                     size="md"
                                     >
-                                    <InputField placeholder="Email 電子郵件"
+                                    <InputField keyboardType="email-address" placeholder="Email 電子郵件"
                                     onChangeText={(value) => setEmail(value)} />
                                 </Input>
                             </Box>
@@ -134,7 +152,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                       size="md"
                                       variant="solid"
                                       action="primary"
-                                      onTouchEnd={() => console.log('submit')}
+                                      onTouchEnd={() => onSubmit()}
                                       >
                                       <ButtonText>Submit</ButtonText>
                                   </Button>

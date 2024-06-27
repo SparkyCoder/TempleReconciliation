@@ -7,17 +7,22 @@ import Areas from "../constants/Areas";
 import AREAS from "../constants/Areas";
 import DonationArea from "./DonationArea";
 import useMessage from "../hooks/useToast";
+import useValidation from "../hooks/useValidation";
 
 const ContentArea = () => {
     const {showError, showSuccess} = useMessage();
+    const {validate} = useValidation();
+
     const [state, dispatch] = useReducer(ApplicationReducer, {
         selectedArea: Areas.TileArea,
         payments:[],
         events:[],
         donationItems:[],
         addedDonationItems: [],
+        frontDeskPins:[],
         showError,
-        showSuccess
+        showSuccess,
+        validate
     })
 
     return (

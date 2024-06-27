@@ -38,9 +38,11 @@ Follow React Native's official documentation for setting up a developer environm
 
 ## Api Gateway Routes
 
-- GET /v1/users
-- GET /v1/events
-- GET /v1/payments
+- GET `/v1/users`
+- GET `/v1/events`
+- GET `/v1/payments`
+- GET `/v1/donations/items`
+- GET `/v1/donations/pins`
 
 ## Dynamo DB Examples
 
@@ -83,6 +85,22 @@ Follow React Native's official documentation for setting up a developer environm
         "S": "Other 其他"
       }
     }
+  }
+}
+```
+
+### Front Desk Pins:
+
+```
+{
+  "PK": {
+    "S": "GMT#FRONTDESK#PIN"
+  },
+  "SK": {
+    "S": "edda4105-71dc-411c-9afd-3a883936bf00"
+  },
+  "Data": {
+    "S": "744b93f9950fc38dad705556931ea48193b99dcb191cc9bd77097f65fbe2f0b8"
   }
 }
 ```
