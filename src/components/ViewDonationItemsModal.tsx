@@ -9,7 +9,7 @@ const ViewDonationItemsModal = ({state, dispatch}: any) => {
 
     const listItems = () => {
         return state.addedDonationItems.map((item) => {
-            return (<Box style={{margin:'2%'}}>
+            return (<Box key={item.name} style={{margin:'2%'}}>
                 <HStack>
                 <Text style={{alignSelf:'center', width:'75%'}} key={item.name}>{`${item.amount} ${item.name}  `}</Text>
                 <Button  w='$1' 
