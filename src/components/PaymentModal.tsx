@@ -1,6 +1,7 @@
 import { Box, Center, Heading, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalContent } from "@gluestack-ui/themed";
 import { sha256 } from 'js-sha256';
-import { HandlePostDonationComplete } from "../reducers/ApplicationReducer";
+import uuid from 'react-native-uuid';
+import { HandlePostDonationComplete, HandleReceiptCreated } from "../reducers/ApplicationReducer";
 import { useEffect, useState } from "react";
 
 const PaymentsModal = ({state, dispatch}: any) => {   
@@ -9,6 +10,14 @@ const PaymentsModal = ({state, dispatch}: any) => {
     useEffect(() => {
         onPinChange();
     },[currentPin])
+
+    useEffect(() => {
+        if(state.donation.hasPaid){
+            const onComplete = () => dispatch({type: HandleReceiptCreated });
+            
+            state.createReceiptPdf(state, onComplete);
+        }
+    }, [state.donation])
 
     const onPinChange = () => {
         if(!currentPin) return;
@@ -23,7 +32,7 @@ const PaymentsModal = ({state, dispatch}: any) => {
             state.showSuccess('Success', 'Donation Saved!')
             //Call POST to save donation in AWS
             ///Just for testing
-            dispatch({type: HandlePostDonationComplete, payload: matchingPin[0].data.frontDeskAttendee });
+            dispatch({type: HandlePostDonationComplete, payload: {attendee: matchingPin[0].data.frontDeskAttendee, id: uuid.v4() }});
             /////////
         }
     } 

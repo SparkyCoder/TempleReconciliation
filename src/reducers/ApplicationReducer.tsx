@@ -15,6 +15,7 @@ export const HandleOnViewDonationItemsModalClosed = 'HandleOnViewDonationItemsMo
 export const HandleDonationSubmitted = 'HandleDonationSubmitted';
 export const HandleGetFrontDeskPinsComplete = 'HandleGetFrontDeskPinsComplete';
 export const HandlePostDonationComplete = 'HandlePostDonationComplete';
+export const HandleReceiptCreated = '';
 
 const ApplicationReducer = (state: any, action: any) => {
     switch (action.type) {
@@ -47,7 +48,9 @@ const ApplicationReducer = (state: any, action: any) => {
       case HandleDonationSubmitted:
           return {...state, isViewDonationItemsOpen:false, isAddDonationItemModalOpen:false, isPaymentModalOpen:true, donation: action.payload}
       case HandlePostDonationComplete:
-          return {...state, isPaymentModalOpen:false, selectedArea: AREAS.TileArea, donation: {...state.donation, frontDeskAttendee: action.payload}}
+          return {...state, donation: {...state.donation, frontDeskAttendee: action.payload.attendee, id: action.payload.id, hasPaid: true}}
+      case HandleReceiptCreated:
+          return {...state, isPaymentModalOpen:false, selectedArea: AREAS.TileArea, donation: {}}
       default:
         return state;
     }

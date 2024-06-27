@@ -8,10 +8,14 @@ import AREAS from "../constants/Areas";
 import DonationArea from "./DonationArea";
 import useMessage from "../hooks/useToast";
 import useValidation from "../hooks/useValidation";
+import useReceipt from "../hooks/useReceipt";
+import useSelect from "../hooks/useSelect";
 
 const ContentArea = () => {
     const {showError, showSuccess} = useMessage();
+    const {select} = useSelect();
     const {validate} = useValidation();
+    const {createReceiptPdf} = useReceipt()
 
     const [state, dispatch] = useReducer(ApplicationReducer, {
         selectedArea: Areas.TileArea,
@@ -20,9 +24,12 @@ const ContentArea = () => {
         donationItems:[],
         addedDonationItems: [],
         frontDeskPins:[],
+        donation:{},
         showError,
         showSuccess,
-        validate
+        validate,
+        createReceiptPdf,
+        select
     })
 
     return (
