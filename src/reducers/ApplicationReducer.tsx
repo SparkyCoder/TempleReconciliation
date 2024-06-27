@@ -47,7 +47,7 @@ const ApplicationReducer = (state: any, action: any) => {
       case HandleDonationSubmitted:
           return {...state, isViewDonationItemsOpen:false, isAddDonationItemModalOpen:false, isPaymentModalOpen:true, donation: action.payload}
       case HandlePostDonationComplete:
-          return {...state, isPaymentModalOpen:false, selectedArea: AREAS.TileArea}
+          return {...state, isPaymentModalOpen:false, selectedArea: AREAS.TileArea, donation: {...state.donation, frontDeskAttendee: action.payload}}
       default:
         return state;
     }

@@ -100,7 +100,14 @@ Follow React Native's official documentation for setting up a developer environm
     "S": "edda4105-71dc-411c-9afd-3a883936bf00"
   },
   "Data": {
-    "S": "744b93f9950fc38dad705556931ea48193b99dcb191cc9bd77097f65fbe2f0b8"
+    "M": {
+      "frontDeskAttendee": {
+        "S": "Gloria Chu 莊杏珠"
+      },
+      "pin": {
+        "S": "744b93f9950fc38dad705556931ea48193b99dcb191cc9bd77097f65fbe2f0b8"
+      }
+    }
   }
 }
 ```

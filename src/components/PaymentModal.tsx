@@ -13,14 +13,17 @@ const PaymentsModal = ({state, dispatch}: any) => {
     const onPinChange = () => {
         if(!currentPin) return;
 
-        let matchingPin = state.frontDeskPins.filter(frontDeskPin => sha256(currentPin) === frontDeskPin.data);
+        let matchingPin = state.frontDeskPins.filter(frontDeskPin => sha256(currentPin) === frontDeskPin.data.pin);
         
-        if(matchingPin.length > 0){ 
+        if(matchingPin.length > 1){
+            state.showError('Warning', 'This pin matches more than one front desk attendee. Please make sure pins are unique.')
+        }
+        else if(matchingPin.length === 1){ 
             state.showSuccess('Success', 'Pin Matched')
             state.showSuccess('Success', 'Donation Saved!')
             //Call POST to save donation in AWS
             ///Just for testing
-            dispatch({type: HandlePostDonationComplete });
+            dispatch({type: HandlePostDonationComplete, payload: matchingPin[0].data.frontDeskAttendee });
             /////////
         }
     } 

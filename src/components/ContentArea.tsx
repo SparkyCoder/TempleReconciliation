@@ -1,6 +1,6 @@
 import { Box, Center } from "@gluestack-ui/themed";
 import { styles } from "../styles/styles";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import ApplicationReducer from "../reducers/ApplicationReducer";
 import TileArea from "./TileArea";
 import Areas from "../constants/Areas";
