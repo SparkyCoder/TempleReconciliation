@@ -1,9 +1,6 @@
-import { useEffect, useState } from "react";
 import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import FileViewer from "react-native-file-viewer";
-import jsxToString from 'jsx-to-string';
 import useMessage from "./useToast";
-import { Box, Center, Text } from "@gluestack-ui/themed";
 
 const useReceipt = () => {
     const {showError} = useMessage();
@@ -27,6 +24,7 @@ const useReceipt = () => {
     }
 
     const openReceiptPdf = (filePath: string, onComplete: any) => {
+        console.log(filePath)
         FileViewer.open(filePath)
         .then(() => {
            onComplete();
@@ -38,8 +36,6 @@ const useReceipt = () => {
 
     const createReceiptHtml = (state: any) => {
         const date = new Date()
-        let random = Math.random() * 999999;
-
         return `
         <html>
           <head>
@@ -112,12 +108,35 @@ const useReceipt = () => {
                  <td>${state.donation.frontDeskAttendee ?? 'N/A'}</td>
               </tr>
             </table>
+            <div>${createDonationItemList(state)}</div>
             <footer>
               <p>Thank you for your donation to Guang Ming Temple.</p>
             </footer>
           </body>
         </html>
       `
+    }
+
+    const createDonationItemList = (state: any) => {
+        return state.addedDonationItems.map((item:any, index:number) => {
+            return `
+            <br /><br /><br />
+            <h1>Donated Item #${index+1}</h1>
+            <table>
+               <tr>
+                <th>Name</th>
+                 <td>${item.name ?? 'N/A'}</td>
+              </tr>
+               <tr>
+                <th>Type</th>
+                 <td>${state.select(state.donationItems, item.type) ?? 'N/A'}</td>
+              </tr>
+               <tr>
+                <th>Quantity</th>
+                 <td>${item.amount ?? 'N/A'}</td>
+              </tr>
+            </table>`
+        });
     }
 
     return {createReceiptPdf}

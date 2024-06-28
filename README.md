@@ -21,6 +21,8 @@ Follow React Native's official documentation for setting up a developer environm
 ## Helpful Links
 
 [Gluestack UI Components](https://gluestack.io/ui/docs/home/overview/all-components)
+[react-native-html-to-pdf](https://github.com/christopherdro/react-native-html-to-pdf)
+[react-native-file-viewer](https://github.com/vinzscam/react-native-file-viewer)
 
 ## PR Approval
 

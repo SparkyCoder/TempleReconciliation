@@ -35,8 +35,12 @@ const DonationArea = ({state, dispatch} : any) => {
       let isEnglishNameValid = state.validate('English Name', englishName);
       let isPhoneValid = state.validate('Phone', phone);
       let isEmailValid = state.validate('Email', email);
+      let isDonationItemValid = state.addedDonationItems.length > 0;
+
+      if(!isDonationItemValid)
+        state.showError('Error', 'At least one Donation Item is requred. 至少需要一件捐赠物品')
       
-      if(isEnglishNameValid && isPhoneValid && isEmailValid){
+      if(isEnglishNameValid && isPhoneValid && isEmailValid && isDonationItemValid){
         dispatch({ type: HandleDonationSubmitted, payload: {
           chineseName,
           englishName,
@@ -113,12 +117,14 @@ const DonationArea = ({state, dispatch} : any) => {
                                 { getDropDown(state.events, dharmaService, setDharmaService, 'Select Dharma Service') }
                             </Box>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
-                                <Heading size="sm">Payment Option</Heading>
+                                <Heading size="sm">Payment Option 付款方式</Heading>
                                 { getDropDown(state.payments, paymentOption, setPaymentOption, 'Select Payment Type') }
                             </Box>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <HStack space="lg" >
-                                <Heading size="sm" style={{alignSelf:"center"}}>Add Donation Item(s)</Heading>
+                                <Heading size="sm" style={{alignSelf:"center"}}>Add Donation Item 添加一项捐赠物品</Heading>
+                                </HStack>
+                                <HStack space="lg">
                                 <Button
                                       w='$1' 
                                       borderRadius="$2xl"
@@ -141,6 +147,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                       >
                                      <ButtonIcon as={EditIcon} />
                                   </Button>
+                                  <Heading style={{alignSelf:"center"}} size="sm">({state.addedDonationItems.length}) Item(s) 项目</Heading>
                                 </HStack>
                             </Box>
                         </Box>
