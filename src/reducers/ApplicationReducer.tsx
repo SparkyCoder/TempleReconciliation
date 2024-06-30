@@ -6,6 +6,7 @@ export const HandleDonationCancelButtonOnClick = "HandleDonationCancelButtonOnCl
 export const HandleOnDonationAreaLoad = 'HandleOnDonationAreaLoad';
 export const HandleGetEventsComplete = 'HandleGetEventsComplete';
 export const HandleGetPaymentsComplete = 'HandleGetPaymentsComplete';
+export const HandleGetUsersComplete = 'HandleGetUsersComplete';
 export const HandleGetDonationItemsComplete = 'HandleGetDonationItemsComplete'
 export const HandleOnDonationItemModalClose = 'HandleOnDonationItemModalClose'
 export const HandleOnDonationItemModalOpen = 'HandleOnDonationItemModalOpen'
@@ -15,7 +16,7 @@ export const HandleOnViewDonationItemsModalClosed = 'HandleOnViewDonationItemsMo
 export const HandleDonationSubmitted = 'HandleDonationSubmitted';
 export const HandleGetFrontDeskPinsComplete = 'HandleGetFrontDeskPinsComplete';
 export const HandlePostDonationComplete = 'HandlePostDonationComplete';
-export const HandleReceiptCreated = '';
+export const HandleReceiptCreated = 'HandleReceiptCreated';
 
 const ApplicationReducer = (state: any, action: any) => {
     switch (action.type) {
@@ -26,13 +27,15 @@ const ApplicationReducer = (state: any, action: any) => {
       case HandleDonationCancelButtonOnClick: 
         return {...state, selectedArea: AREAS.TileArea}
       case HandleOnDonationAreaLoad:
-        return {...state, donation:{}, isGetPaymentsLoading:true, isGetEventsLoading:true, isGetDonationItemsLoading: true, isGetFrontDeskPinLoadings:true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
+        return {...state, donation:{}, isGetUsersLoading:true, isGetPaymentsLoading:true, isGetEventsLoading:true, isGetDonationItemsLoading: true, isGetFrontDeskPinLoadings:true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
       case HandleGetPaymentsComplete:
         return {...state, isGetPaymentsLoading:false, payments: action.payload}
       case HandleGetEventsComplete:
           return {...state, isGetEventsLoading:false, events: action.payload}
       case HandleGetDonationItemsComplete:
           return {...state, isGetDonationItemsLoading:false, donationItems: action.payload}
+      case HandleGetUsersComplete:
+          return {...state, isGetUsersLoading: false, users: action.payload}
       case HandleGetFrontDeskPinsComplete:
         return {...state, isGetFrontDeskPinLoadings:false, frontDeskPins: action.payload}
       case HandleOnDonationItemModalOpen:

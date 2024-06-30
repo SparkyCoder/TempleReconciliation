@@ -33,6 +33,16 @@ const useDonations = (state: any, auditDispatch : any) => {
         });
   }
 
+  const getUsers = () => {
+    axios.get(`${URLS.Root}${URLS.GetUsers}`).then((response) => {
+        auditDispatch({ type: HandleGetDonationItemsComplete, payload: response.data })
+      })
+      .catch((error) => {
+        state.showError('Error', 'Could not retrieve users.')
+        auditDispatch({ type: HandleGetRequestError, payload: error })
+      });
+}
+
   const getFrontDeskPins = () => {
     axios.get(`${URLS.Root}${URLS.GetFrontDeskPins}`).then((response) => {
         auditDispatch({ type: HandleGetFrontDeskPinsComplete, payload: response.data })
@@ -43,7 +53,7 @@ const useDonations = (state: any, auditDispatch : any) => {
       });
 }
 
-    return {getEvents, getPayments, getDonations, getFrontDeskPins};
+    return {getEvents, getPayments, getDonations, getFrontDeskPins, getUsers};
 };
 
 export default useDonations;

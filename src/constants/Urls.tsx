@@ -3,7 +3,8 @@ const URLS = {
     GetEvents: '/v1/events',
     GetPayments: '/v1/payments',
     GetDonationItems: '/v1/donations/items',
-    GetFrontDeskPins: '/v1/donations/pins'
+    GetFrontDeskPins: '/v1/donations/pins',
+    GetUsers: '/v1/users'
 }
 
 export default URLS;

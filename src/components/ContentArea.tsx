@@ -10,6 +10,7 @@ import useMessage from "../hooks/useToast";
 import useValidation from "../hooks/useValidation";
 import useReceipt from "../hooks/useReceipt";
 import useSelect from "../hooks/useSelect";
+import Loading from "./Loading";
 
 const ContentArea = () => {
     const {showError, showSuccess} = useMessage();

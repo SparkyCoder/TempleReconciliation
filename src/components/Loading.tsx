@@ -1,4 +1,4 @@
-import { Center, HStack, Modal, ModalBackdrop, ModalBody, ModalContent, Spinner, Text } from "@gluestack-ui/themed";
+import { Box, Center, Modal, ModalBackdrop, ModalBody, ModalContent, Spinner, Text } from "@gluestack-ui/themed";
 
 const Loading = ({isLoading, title} : any) => {
     return (
@@ -9,14 +9,13 @@ const Loading = ({isLoading, title} : any) => {
           >
             <ModalBackdrop />
                     <ModalBody>
+                      <ModalContent style={{margin:'10%'}}>
                         <Center>
-                        <HStack space="sm">
-                            <Spinner />
-                            <Text size="md">{title}</Text>
-                        </HStack>
+                        <Spinner />
+                        <Text size="md">{title}</Text>
                         </Center>
+                      </ModalContent>
                 </ModalBody>
-            
           </Modal>
         </Center>
       )

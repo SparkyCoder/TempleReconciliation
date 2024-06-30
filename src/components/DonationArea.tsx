@@ -13,7 +13,7 @@ import PaymentsModal from "./PaymentModal";
 const DonationArea = ({state, dispatch} : any) => {
     const {isVertical} = useDimensions();
     const {getDropDown} = useDropDowns();
-    const {getEvents, getPayments, getDonations, getFrontDeskPins} = useDonations(state, dispatch);
+    const {getEvents, getPayments, getDonations, getFrontDeskPins, getUsers} = useDonations(state, dispatch);
     const [chineseName, setChineseName] = useState<string>();
     const [englishName, setEnglishName] = useState<string>();
     const [phone, setPhone] = useState<string>();
@@ -24,6 +24,7 @@ const DonationArea = ({state, dispatch} : any) => {
 
 
     useEffect(()=> {
+      getUsers();
       getEvents();
       getPayments();
       getDonations();
@@ -35,12 +36,13 @@ const DonationArea = ({state, dispatch} : any) => {
       let isEnglishNameValid = state.validate('English Name', englishName);
       let isPhoneValid = state.validate('Phone', phone);
       let isEmailValid = state.validate('Email', email);
+      let isPaymentValid = state.validate('Payment Option', paymentOption)
       let isDonationItemValid = state.addedDonationItems.length > 0;
 
       if(!isDonationItemValid)
         state.showError('Error', 'At least one Donation Item is requred. 至少需要一件捐赠物品')
       
-      if(isEnglishNameValid && isPhoneValid && isEmailValid && isDonationItemValid){
+      if(isEnglishNameValid && isPhoneValid && isEmailValid && isDonationItemValid && isPaymentValid){
         dispatch({ type: HandleDonationSubmitted, payload: {
           chineseName,
           englishName,
@@ -62,6 +64,16 @@ const DonationArea = ({state, dispatch} : any) => {
                     <PaymentsModal state={state} dispatch={dispatch} />
                     <ScrollView>             
                         <Box style={styles.form}>
+                        <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
+                                <Heading size="sm">Phone 電話</Heading>
+                                <Input
+                                    variant="outline"
+                                    size="md"
+                                    >
+                                    <InputField keyboardType="phone-pad" placeholder="Phone 電話"
+                                    onChangeText={(value) => setPhone(value)} />
+                                </Input>
+                            </Box>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <Heading size="sm">Name in Chinese 捐款人中文名字</Heading>
                                 <Input
@@ -80,16 +92,6 @@ const DonationArea = ({state, dispatch} : any) => {
                                     >
                                     <InputField placeholder="Name in English 捐款人英文姓名"
                                     onChangeText={(value) => setEnglishName(value)} /> 
-                                </Input>
-                            </Box>
-                            <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
-                                <Heading size="sm">Phone 電話</Heading>
-                                <Input
-                                    variant="outline"
-                                    size="md"
-                                    >
-                                    <InputField keyboardType="phone-pad" placeholder="Phone 電話"
-                                    onChangeText={(value) => setPhone(value)} />
                                 </Input>
                             </Box>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
