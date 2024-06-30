@@ -1,5 +1,6 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
 import useMessage from './useToast';
+import Storage from '../constants/Storage';
 
 const useStorage = () => {  
     const {showError} = useMessage();
@@ -21,7 +22,13 @@ const useStorage = () => {
         }
       };
 
-    return {saveData, getData};
+      const clearAllData = async () => {
+        await saveData(Storage.Events, null);
+        await saveData(Storage.Payments, null);
+        await saveData(Storage.Users, null);
+      };
+
+    return {saveData, getData, clearAllData};
 };
 
 export default useStorage;

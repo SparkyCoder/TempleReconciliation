@@ -13,7 +13,7 @@
     "@gluestack-style/react": "^1.0.56",
     "@gluestack-ui/config": "^1.1.18",
     "@gluestack-ui/themed": "^1.1.30",
-    "@react-native-async-storage/async-storage": "^1.23.1",
+    "@react-native-community/async-storage": "^1.12.1",
     "axios": "^1.7.2",
     "js-sha256": "^0.11.0",
     "react": "18.2.0",
