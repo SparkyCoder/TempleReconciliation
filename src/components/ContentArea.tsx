@@ -1,6 +1,6 @@
 import { Box, Center } from "@gluestack-ui/themed";
 import { styles } from "../styles/styles";
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 import ApplicationReducer from "../reducers/ApplicationReducer";
 import TileArea from "./TileArea";
 import Areas from "../constants/Areas";
@@ -23,8 +23,8 @@ const ContentArea = () => {
     const [state, dispatch] = useReducer(ApplicationReducer, {
         selectedArea: Areas.TileArea,
         payments:[],
-        events:[],
-        donationItems:[],
+        donationTypes:[],
+        donationItems: [],
         addedDonationItems: [],
         frontDeskPins:[],
         donation:{},

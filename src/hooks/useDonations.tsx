@@ -1,55 +1,27 @@
 import axios from "axios";
-import { HandleGetDonationItemsComplete, HandleGetEventsComplete, HandleGetFrontDeskPinsComplete, HandleGetPaymentsComplete, HandleGetRequestError, HandleGetUsersComplete } from "../reducers/ApplicationReducer";
+import { HandleGetDonationTypesComplete, HandleGetFrontDeskPinsComplete, HandleGetPaymentsComplete, HandleGetRequestError, HandleGetUsersComplete } from "../reducers/ApplicationReducer";
 import URLS from "../constants/Urls";
-import useStorage from "./useStorage";
 import Storage from "../constants/Storage";
 
 const useDonations = (state: any, auditDispatch : any) => {  
-    const getEvents = async () => {
-        let events = await state.getData(Storage.Events)
 
-        if(events){
-          auditDispatch({ type: HandleGetEventsComplete, payload: events })
+  const getDonationTypes = async () => {
+    let donationTypes = await state.getData(Storage.DonationTypes)
+
+        if(donationTypes){
+          auditDispatch({ type: HandleGetDonationTypesComplete, payload: donationTypes })
           return;
         }
 
-        axios.get(`${URLS.Root}${URLS.GetEvents}`).then( async (response) => {
-            await state.saveData(Storage.Events, response.data);
-            auditDispatch({ type: HandleGetEventsComplete, payload: response.data })
-          })
-          .catch((error) => {
-            state.showError('Error', 'Could not retrieve events.')
-            auditDispatch({ type: HandleGetRequestError, payload: error })
-          });
-    }
-
-    const getPayments = async () => {
-      let payments = await state.getData(Storage.Payments)
-
-        if(payments){
-          auditDispatch({ type: HandleGetPaymentsComplete, payload: payments })
-          return;
-        }
-
-      axios.get(`${URLS.Root}${URLS.GetPayments}`).then(async (response) => {
-          await state.saveData(Storage.Payments, response.data);
-          auditDispatch({ type: HandleGetPaymentsComplete, payload: response.data })
-        })
-        .catch((error) => {
-          state.showError('Error', 'Could not retrieve payment types.')
-          auditDispatch({ type: HandleGetRequestError, payload: error })
-        });
-    }
-
-    const getDonations = () => {
-      axios.get(`${URLS.Root}${URLS.GetDonationItems}`).then((response) => {
-          auditDispatch({ type: HandleGetDonationItemsComplete, payload: response.data })
-        })
-        .catch((error) => {
-          state.showError('Error', 'Could not retrieve donation item types.')
-          auditDispatch({ type: HandleGetRequestError, payload: error })
-        });
-  }
+    axios.get(`${URLS.Root}${URLS.GetDonationTypes}`).then(async (response) => {
+        await state.saveData(Storage.DonationTypes, response.data);
+        auditDispatch({ type: HandleGetDonationTypesComplete, payload: response.data })
+      })
+      .catch((error) => {
+        state.showError('Error', 'Could not retrieve donation types.')
+        auditDispatch({ type: HandleGetRequestError, payload: error })
+      });
+}
 
   const getUsers = async () => {
     let users = await state.getData(Storage.Users)
@@ -79,7 +51,25 @@ const useDonations = (state: any, auditDispatch : any) => {
       });
 }
 
-    return {getEvents, getPayments, getDonations, getFrontDeskPins, getUsers};
+const getPayments = async () => {
+  let payments = await state.getData(Storage.Payments)
+
+    if(payments){
+      auditDispatch({ type: HandleGetPaymentsComplete, payload: payments })
+      return;
+    }
+
+  axios.get(`${URLS.Root}${URLS.GetPayments}`).then(async (response) => {
+      await state.saveData(Storage.Payments, response.data);
+      auditDispatch({ type: HandleGetPaymentsComplete, payload: response.data })
+    })
+    .catch((error) => {
+      state.showError('Error', 'Could not retrieve payment types.')
+      auditDispatch({ type: HandleGetRequestError, payload: error })
+    });
+}
+
+    return {getDonationTypes, getPayments, getFrontDeskPins, getUsers};
 };
 
 export default useDonations;

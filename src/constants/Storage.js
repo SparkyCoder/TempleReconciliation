@@ -1,7 +1,7 @@
 const Storage = {
   Users: 'UsersLocalData',
   Payments: 'PaymentsLocalData',
-  Events: 'EventsLocalData',
+  DonationTypes: 'DonationTypes',
 };
 
 export default Storage;

@@ -1,13 +1,12 @@
-import { Box, Button, Center, ButtonText, ChevronDownIcon, HStack, Heading, Icon, Input, InputField, ScrollView, Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger, ButtonIcon, AddIcon } from "@gluestack-ui/themed";
+import { ChevronDownIcon, Icon, Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger, ButtonIcon, AddIcon } from "@gluestack-ui/themed";
 
 const useDropDowns = () => {  
-    
     const getDropDown = (items: any, selectedValue: any, setStateEvent: any, placeholderText: string, isInvalid: boolean) => {
-        let selectItems = items.map(item => 
+      let selectItems = items.map(item => 
           <SelectItem
-          key={item.id}
-          label={item.data.label}
-          value={item.id}
+          key={item.label}
+          label={item.label}
+          value={item.label}
         />);
   
           return (

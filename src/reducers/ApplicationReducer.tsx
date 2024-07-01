@@ -4,10 +4,9 @@ export const HandleGetRequestError = "HandleGetRequestError";
 export const HandleDonationTileOnClick = "HandleDonationTileOnClick";
 export const HandleDonationCancelButtonOnClick = "HandleDonationCancelButtonOnClick";
 export const HandleOnDonationAreaLoad = 'HandleOnDonationAreaLoad';
-export const HandleGetEventsComplete = 'HandleGetEventsComplete';
 export const HandleGetPaymentsComplete = 'HandleGetPaymentsComplete';
 export const HandleGetUsersComplete = 'HandleGetUsersComplete';
-export const HandleGetDonationItemsComplete = 'HandleGetDonationItemsComplete'
+export const HandleGetDonationTypesComplete = 'HandleGetDonationTypesComplete'
 export const HandleOnDonationItemModalClose = 'HandleOnDonationItemModalClose'
 export const HandleOnDonationItemModalOpen = 'HandleOnDonationItemModalOpen'
 export const HandleOnDonationItemUpdated = 'HandleOnDonationItemUpdated';
@@ -21,19 +20,17 @@ export const HandleReceiptCreated = 'HandleReceiptCreated';
 const ApplicationReducer = (state: any, action: any) => {
     switch (action.type) {
       case HandleGetRequestError:
-      return { ...state, isGetPaymentsLoading:false, isGetEventsLoading:false, isGetDonationItemsLoading: false, isGetFrontDeskPinLoadings:false, error: action.payload };
+      return { ...state, isGetPaymentsLoading:false, isGetDonationTypesLoading:false, isGetFrontDeskPinLoadings:false, error: action.payload };
       case HandleDonationTileOnClick:
         return {...state, selectedArea: AREAS.DonationArea} 
       case HandleDonationCancelButtonOnClick: 
         return {...state, selectedArea: AREAS.TileArea}
       case HandleOnDonationAreaLoad:
-        return {...state, donation:{}, isGetUsersLoading:true, isGetPaymentsLoading:true, isGetEventsLoading:true, isGetDonationItemsLoading: true, isGetFrontDeskPinLoadings:true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
+        return {...state, donation:{}, isGetUsersLoading:true, isGetPaymentsLoading:true, isGetDonationTypesLoading:true, isGetFrontDeskPinLoadings:true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
       case HandleGetPaymentsComplete:
         return {...state, isGetPaymentsLoading:false, payments: action.payload}
-      case HandleGetEventsComplete:
-          return {...state, isGetEventsLoading:false, events: action.payload}
-      case HandleGetDonationItemsComplete:
-          return {...state, isGetDonationItemsLoading:false, donationItems: action.payload}
+      case HandleGetDonationTypesComplete:
+          return {...state, isGetDonationTypesLoading:false, donationTypes: action.payload}
       case HandleGetUsersComplete:
           return {...state, isGetUsersLoading: false, users: action.payload}
       case HandleGetFrontDeskPinsComplete:

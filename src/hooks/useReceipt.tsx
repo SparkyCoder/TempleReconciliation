@@ -24,7 +24,6 @@ const useReceipt = () => {
     }
 
     const openReceiptPdf = (filePath: string, onComplete: any) => {
-        console.log(filePath)
         FileViewer.open(filePath)
         .then(() => {
            onComplete();
@@ -97,11 +96,11 @@ const useReceipt = () => {
               </tr>
               <tr>
                 <th>Dharma Service</th>
-                <td>${state.select(state.events, state.donation.service) ?? 'N/A'}</td>
+                <td>${state.donation.service ?? 'N/A'}</td>
               </tr>
               <tr>
                 <th>Payment Type</th>
-                 <td>${state.select(state.payments, state.donation.payment) ?? 'N/A'}</td>
+                 <td>${state.donation.payment ?? 'N/A'}</td>
               </tr>
               <tr>
                 <th>Attendee</th>
@@ -118,6 +117,8 @@ const useReceipt = () => {
     }
 
     const createDonationItemList = (state: any) => {
+      console.log('added donation item: ',state.addedDonationItems);
+      console.log('added donation item: ',state.addedDonationItems);
         return state.addedDonationItems.map((item:any, index:number) => {
             return `
             <br /><br /><br />
@@ -129,8 +130,12 @@ const useReceipt = () => {
               </tr>
                <tr>
                 <th>Type</th>
-                 <td>${state.select(state.donationItems, item.type) ?? 'N/A'}</td>
+                 <td>${item.type ?? 'N/A'}</td>
               </tr>
+              ${item.subType ? ` <tr>
+                <th>Sub-Type</th>
+                 <td>${item.subType ?? 'N/A'}</td>
+              </tr>` : ''}
                <tr>
                 <th>Quantity</th>
                  <td>${item.amount ?? 'N/A'}</td>

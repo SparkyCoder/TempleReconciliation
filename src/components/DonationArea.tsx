@@ -14,60 +14,65 @@ import React from "react";
 const DonationArea = ({state, dispatch} : any) => {
     const {isVertical} = useDimensions();
     const {getDropDown} = useDropDowns();
-    const {getEvents, getPayments, getDonations, getFrontDeskPins, getUsers} = useDonations(state, dispatch);
+    const {getPayments, getDonationTypes, getFrontDeskPins, getUsers} = useDonations(state, dispatch);
     const [chineseName, setChineseName] = useState<string>();
     const [englishName, setEnglishName] = useState<string>();
     const [phone, setPhone] = useState<string>();
     const [email, setEmail] = useState<string>();
     const [address, setAddress] = useState<string>();
-    const [dharmaService, setDharmaService] = useState<string>();
+    const [donationType, setDonationType] = useState<string>();
+    const [donationItems, setDonationItems] = useState<[]>([]);
     const [paymentOption, setPaymentOption] = useState<string>();
 
 
     useEffect(()=> {
+      getDonationTypes();
       getUsers();
-      getEvents();
       getPayments();
-      getDonations();
       getFrontDeskPins();
       dispatch({ type: HandleOnDonationAreaLoad })
     }, [])
 
     const onSubmit = () => {
-      let isEnglishNameValid = state.validate('English Name', englishName);
-      let isPhoneValid = state.validate('Phone', phone);
-      let isEmailValid = state.validate('Email', email);
+      let isEnglishNameValid = state.validate('English Name', englishName); 
       let isPaymentValid = state.validate('Payment Option', paymentOption)
       let isDonationItemValid = state.addedDonationItems.length > 0;
 
       if(!isDonationItemValid)
         state.showError('Error', 'At least one Donation Item is requred. 至少需要一件捐赠物品')
       
-      if(isEnglishNameValid && isPhoneValid && isEmailValid && isDonationItemValid && isPaymentValid){
+      if(isEnglishNameValid && isDonationItemValid && isPaymentValid){
         dispatch({ type: HandleDonationSubmitted, payload: {
+          donationType,
           chineseName,
           englishName,
           phone,
           email,
           address,
-          service: dharmaService,
           payment: paymentOption,
           donations: state.addedDonationItems
         }})
       }
     }
 
+    const onDonationTypeSelected = (value:string) => {
+      setDonationType(value);
+
+      let selectedDonation = state.select(state.donationTypes, value);
+      setDonationItems(selectedDonation.items ?? []);
+    }
+
     return (
         <Box>
-                    <Loading isLoading={state.isGetFrontDeskPinLoadings || state.isGetPaymentsLoading || state.isGetEventsLoading || state.isGetDonationItemsLoading} title={'Loading...'} />
-                    <DonationItemsModal state={state} dispatch={dispatch} />
+                    <Loading isLoading={state.isGetFrontDeskPinLoadings || state.isGetPaymentsLoading || state.isGetDonationTypesLoading} title={'Loading...'} />
+                    <DonationItemsModal state={state} dispatch={dispatch} items={donationItems} />
                     <ViewDonationItemsModal state={state} dispatch={dispatch} />
                     <PaymentsModal state={state} dispatch={dispatch} />
                     <ScrollView>             
                         <Box style={styles.form}>
                         <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
-                                <Heading size="sm">Dharma Service 法會名稱</Heading>
-                                { getDropDown(state.events, dharmaService, setDharmaService, 'Select Dharma Service') }
+                                <Heading size="sm">Donation Type 捐赠类型</Heading>
+                                { getDropDown(state.donationTypes, donationType, onDonationTypeSelected, 'Select Donation Type 捐赠类型') }
                             </Box>
                         <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <Heading size="sm">Phone 電話</Heading>
@@ -119,7 +124,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                     onChangeText={(value) => setAddress(value)} />
                                 </Input>
                             </Box>
-                            <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
+                            {donationItems.length > 0 && <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <HStack space="lg" >
                                 <Heading size="sm" style={{alignSelf:"center"}}>Add Donation Item 添加一项捐赠物品</Heading>
                                 </HStack>
@@ -148,7 +153,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                   </Button>
                                   <Heading style={{alignSelf:"center"}} size="sm">({state.addedDonationItems.length}) Item(s) 项目</Heading>
                                 </HStack>
-                            </Box>
+                            </Box>}
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <Heading size="sm">Payment Option 付款方式</Heading>
                                 { getDropDown(state.payments, paymentOption, setPaymentOption, 'Select Payment Type') }
