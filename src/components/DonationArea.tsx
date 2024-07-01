@@ -1,7 +1,7 @@
-import { Box, Button, Center, ButtonText, ChevronDownIcon, HStack, Heading, Icon, Input, InputField, ScrollView, Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger, ButtonIcon, AddIcon, EditIcon } from "@gluestack-ui/themed";
+import { Box, Button, Center, ButtonText, HStack, Heading, Icon, Input, InputField, ScrollView, ButtonIcon, AddIcon, EditIcon } from "@gluestack-ui/themed";
 import useDimensions from "../hooks/useDimensions";
 import Loading from "./Loading";
-import { HandleDonationCancelButtonOnClick, HandleDonationSubmitted, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnPaymentModalOpen, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
+import { HandleDonationCancelButtonOnClick, HandleDonationSubmitted, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
 import { styles } from "../styles/styles";
 import { useEffect, useState } from "react";
 import useDonations from "../hooks/useDonations";
@@ -51,7 +51,7 @@ const DonationArea = ({state, dispatch} : any) => {
                         <Box style={styles.form}>
                         <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <Heading size="sm">Donation Type 捐赠类型</Heading>
-                                { getDropDown(state.donationTypes, form.donationType, (value:string) => setForm({...form, donationType:value}, false), 'Select Donation Type 捐赠类型') }
+                                { getDropDown(state.donationTypes, form.donationType, (value:string) => setForm({...form, donationType:value}), 'Select Donation Type 捐赠类型', false) }
                             </Box>
                         <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <Heading size="sm">Phone 電話</Heading>

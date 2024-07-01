@@ -2,9 +2,10 @@ import { Button, ButtonText, CloseIcon, Heading, Icon, Modal, ModalBackdrop, Mod
 import { HandleOnDonationItemUpdated, HandleOnDonationItemModalClose } from "../reducers/ApplicationReducer";
 import React, { useState } from "react";
 import DefaultForm from "./forms/default";
+import { DefaultItem } from "../interfaces/defaultForm";
 
 const DonationItemsModal = ({state, dispatch, type}: any) => {
-  const [details, setDetails] = useState<object>({});
+  const [details, setDetails] = useState<object>();
 
     const onItemAdd = () => {
             let updatedList = state.addedDonationItems;
@@ -31,7 +32,7 @@ const DonationItemsModal = ({state, dispatch, type}: any) => {
             </ModalCloseButton>
           </ModalHeader>
           <ModalBody>
-            {(type === "Gift Shop") && <DefaultForm state={state} type={type} details={details} setDetails={setDetails} />}
+            {(type === "Gift Shop") && <DefaultForm state={state} type={type} details={details as DefaultItem} setDetails={setDetails} />}
           </ModalBody>
           <ModalFooter>
             <Button

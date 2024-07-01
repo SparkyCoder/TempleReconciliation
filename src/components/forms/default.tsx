@@ -1,8 +1,9 @@
 import { Box, Input, InputField, InputSlot } from "@gluestack-ui/themed";
 import React, { useEffect, useState } from "react";
 import useDropDowns from "../../hooks/useDropdowns";
+import { DefaultFormProps } from "../../interfaces/defaultForm";
 
-const DefaultForm = ({state, type, details, setDetails}: {state:any, type:string, details:object, setDetails:any}) => {
+const DefaultForm = ({state, type, details, setDetails}: DefaultFormProps) => {
     const {getDropDown} = useDropDowns();
     const [items, setItems] = useState<[]>([]);
 
@@ -30,7 +31,7 @@ const DefaultForm = ({state, type, details, setDetails}: {state:any, type:string
             style={{marginTop:'2%'}}
           >
             <InputSlot />
-            <InputField keyboardType="number-pad"  placeholder="# of Items" value={details.amount} onChangeText={(value:number) => setDetails({...details, amount: value})} />
+            <InputField keyboardType="number-pad"  placeholder="# of Items" value={details.amount} onChangeText={(value:string) => setDetails({...details, amount: value})} />
           </Input>
     </Box>);
 };
