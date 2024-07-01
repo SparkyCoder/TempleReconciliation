@@ -95,10 +95,6 @@ const useReceipt = () => {
                 <td>${state.donation.address ?? 'N/A'}</td>
               </tr>
               <tr>
-                <th>Dharma Service</th>
-                <td>${state.donation.service ?? 'N/A'}</td>
-              </tr>
-              <tr>
                 <th>Payment Type</th>
                  <td>${state.donation.payment ?? 'N/A'}</td>
               </tr>
