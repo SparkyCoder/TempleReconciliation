@@ -10,13 +10,15 @@ import useMessage from "../hooks/useToast";
 import useValidation from "../hooks/useValidation";
 import useReceipt from "../hooks/useReceipt";
 import useSelect from "../hooks/useSelect";
-import Loading from "./Loading";
+import useStorage from "../hooks/useStorage";
 
 const ContentArea = () => {
     const {showError, showSuccess} = useMessage();
     const {select} = useSelect();
     const {validate} = useValidation();
     const {createReceiptPdf} = useReceipt()
+    const {saveData, getData} = useStorage();
+
 
     const [state, dispatch] = useReducer(ApplicationReducer, {
         selectedArea: Areas.TileArea,
@@ -30,7 +32,9 @@ const ContentArea = () => {
         showSuccess,
         validate,
         createReceiptPdf,
-        select
+        select,
+        saveData,
+        getData
     })
 
     return (

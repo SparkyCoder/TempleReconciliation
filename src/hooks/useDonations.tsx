@@ -5,10 +5,8 @@ import useStorage from "./useStorage";
 import Storage from "../constants/Storage";
 
 const useDonations = (state: any, auditDispatch : any) => {  
-    const {saveData, getData} = useStorage();
-
     const getEvents = async () => {
-        let events = await getData(Storage.Events)
+        let events = await state.getData(Storage.Events)
 
         if(events){
           auditDispatch({ type: HandleGetEventsComplete, payload: events })
@@ -16,7 +14,7 @@ const useDonations = (state: any, auditDispatch : any) => {
         }
 
         axios.get(`${URLS.Root}${URLS.GetEvents}`).then( async (response) => {
-            await saveData(Storage.Events, response.data);
+            await state.saveData(Storage.Events, response.data);
             auditDispatch({ type: HandleGetEventsComplete, payload: response.data })
           })
           .catch((error) => {
@@ -26,7 +24,7 @@ const useDonations = (state: any, auditDispatch : any) => {
     }
 
     const getPayments = async () => {
-      let payments = await getData(Storage.Payments)
+      let payments = await state.getData(Storage.Payments)
 
         if(payments){
           auditDispatch({ type: HandleGetPaymentsComplete, payload: payments })
@@ -34,7 +32,7 @@ const useDonations = (state: any, auditDispatch : any) => {
         }
 
       axios.get(`${URLS.Root}${URLS.GetPayments}`).then(async (response) => {
-          await saveData(Storage.Payments, response.data);
+          await state.saveData(Storage.Payments, response.data);
           auditDispatch({ type: HandleGetPaymentsComplete, payload: response.data })
         })
         .catch((error) => {
@@ -54,7 +52,7 @@ const useDonations = (state: any, auditDispatch : any) => {
   }
 
   const getUsers = async () => {
-    let users = await getData(Storage.Users)
+    let users = await state.getData(Storage.Users)
 
         if(users){
           auditDispatch({ type: HandleGetUsersComplete, payload: users })
@@ -62,7 +60,7 @@ const useDonations = (state: any, auditDispatch : any) => {
         }
 
     axios.get(`${URLS.Root}${URLS.GetUsers}`).then(async(response) => {
-        await saveData(Storage.Users, response.data);
+        await state.saveData(Storage.Users, response.data);
         auditDispatch({ type: HandleGetUsersComplete, payload: response.data })
       })
       .catch((error) => {

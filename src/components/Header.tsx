@@ -1,17 +1,19 @@
-import { Box, Center, HStack, Image, VStack } from '@gluestack-ui/themed';
+import { Box, Center, HStack, Image, Pressable, VStack } from '@gluestack-ui/themed';
 import React from 'react';
 import { styles } from '../styles/styles';
 import useDimensions from '../hooks/useDimensions';
+import useStorage from '../hooks/useStorage';
 
-function App(): React.JSX.Element {
-    const {isVertical} = useDimensions();
+const Header = () => {
+  const {clearAllData} = useStorage();
+  const {isVertical} = useDimensions();
 
   return (
-  <Box style={styles.header}>
+    <Pressable onPress={() => clearAllData()} style={styles.header}>
     <Center>
         {isVertical ? 
         <Box style={styles.full}>
-            <Image alt='Logo' style={styles.autoScaledImage} source={require('../../src/media/Logo.gif')} />
+          <Image alt='Logo' style={styles.autoScaledImage} source={require('../../src/media/Logo.gif')} />
         </Box> :
         <HStack style={styles.full}>
             <Image alt='Logo' style={styles.autoScaledImage} source={require('../../src/media/Logo.gif')} />
@@ -20,8 +22,8 @@ function App(): React.JSX.Element {
         </HStack>
         }
     </Center>
-  </Box>
-  );
+    </Pressable>
+    );
 }
 
-export default App;
+export default Header;

@@ -9,6 +9,7 @@ import DonationItemsModal from "./AddDonationItemsModal";
 import useDropDowns from "../hooks/useDropdowns";
 import ViewDonationItemsModal from "./ViewDonationItemsModal";
 import PaymentsModal from "./PaymentModal";
+import React from "react";
 
 const DonationArea = ({state, dispatch} : any) => {
     const {isVertical} = useDimensions();
@@ -65,6 +66,10 @@ const DonationArea = ({state, dispatch} : any) => {
                     <ScrollView>             
                         <Box style={styles.form}>
                         <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
+                                <Heading size="sm">Dharma Service 法會名稱</Heading>
+                                { getDropDown(state.events, dharmaService, setDharmaService, 'Select Dharma Service') }
+                            </Box>
+                        <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <Heading size="sm">Phone 電話</Heading>
                                 <Input
                                     variant="outline"
@@ -115,14 +120,6 @@ const DonationArea = ({state, dispatch} : any) => {
                                 </Input>
                             </Box>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
-                                <Heading size="sm">Dharma Service 法會名稱</Heading>
-                                { getDropDown(state.events, dharmaService, setDharmaService, 'Select Dharma Service') }
-                            </Box>
-                            <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
-                                <Heading size="sm">Payment Option 付款方式</Heading>
-                                { getDropDown(state.payments, paymentOption, setPaymentOption, 'Select Payment Type') }
-                            </Box>
-                            <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <HStack space="lg" >
                                 <Heading size="sm" style={{alignSelf:"center"}}>Add Donation Item 添加一项捐赠物品</Heading>
                                 </HStack>
@@ -151,6 +148,10 @@ const DonationArea = ({state, dispatch} : any) => {
                                   </Button>
                                   <Heading style={{alignSelf:"center"}} size="sm">({state.addedDonationItems.length}) Item(s) 项目</Heading>
                                 </HStack>
+                            </Box>
+                            <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
+                                <Heading size="sm">Payment Option 付款方式</Heading>
+                                { getDropDown(state.payments, paymentOption, setPaymentOption, 'Select Payment Type') }
                             </Box>
                         </Box>
                         <Box style={{marginTop:'2%', marginBottom:'2%', width: '100%'}}>
