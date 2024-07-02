@@ -53,7 +53,7 @@ const ApplicationReducer = (state: any, action: any) => {
       case HandleOnPaymentModalClosed:
           return {...state, isPaymentModalOpen:false}
       case HandlePostDonationComplete:
-          return {...state, donation: {...state.donation, frontDeskAttendee: action.payload.attendee, id: action.payload.id, hasPaid: true}}
+          return {...state, donation: {...state.donation, frontDeskAttendee: action.payload.attendee, id: action.payload.id, hasPaid: true, referenceNumber:action.payload.referenceNumber}}
       case HandleReceiptCreated:
           return {...state, isPaymentModalOpen:false, selectedArea: AREAS.TileArea, donation: {}}
       case HandleDisclaimerModalOpened:

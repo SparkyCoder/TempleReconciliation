@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 const PaymentsModal = ({state, dispatch}: any) => {   
     const [currentPin, setCurrentPin] = useState();
+    const [referenceNumber, setReferenceNumber] = useState();
 
     useEffect(() => {
         onPinChange();
@@ -32,7 +33,7 @@ const PaymentsModal = ({state, dispatch}: any) => {
             state.showSuccess('Success', 'Donation Saved!')
             //Call POST to save donation in AWS
             ///Just for testing
-            dispatch({type: HandlePostDonationComplete, payload: {attendee: matchingPin[0].frontDeskAttendee, id: uuid.v4() }});
+            dispatch({type: HandlePostDonationComplete, payload: {attendee: matchingPin[0].frontDeskAttendee, id: uuid.v4(), referenceNumber: referenceNumber }});
             /////////
         }
     } 
@@ -57,6 +58,14 @@ const PaymentsModal = ({state, dispatch}: any) => {
                         variant="outline"
                         size="md"
                         style={{marginTop:'15%'}}
+                        >
+                        <InputField keyboardType="default" placeholder="Reference Number"
+                        onChangeText={(value) => setReferenceNumber(value)} />
+                    </Input>
+                    <Input
+                        variant="outline"
+                        size="md"
+                        style={{marginTop:'2%'}}
                         >
                         <InputField keyboardType="number-pad" placeholder="ENTER PIN"
                         onChangeText={(value) => setCurrentPin(value)} />

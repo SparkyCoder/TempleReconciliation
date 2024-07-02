@@ -99,6 +99,10 @@ const useReceipt = () => {
                  <td>${state.donation.payment ?? 'N/A'}</td>
               </tr>
               <tr>
+                <th>ReferenceNumber</th>
+                 <td>${state.donation.referenceNumber ?? 'N/A'}</td>
+              </tr>
+              <tr>
                 <th>Attendee</th>
                  <td>${state.donation.frontDeskAttendee ?? 'N/A'}</td>
               </tr>
@@ -113,9 +117,8 @@ const useReceipt = () => {
     }
 
     const createDonationItemList = (state: any) => {
-      console.log('added donation item: ',state.addedDonationItems);
-      console.log('added donation item: ',state.addedDonationItems);
         return state.addedDonationItems.map((item:any, index:number) => {
+          console.log(item)
             return `
             <br /><br /><br />
             <h1>Donated Item #${index+1}</h1>
