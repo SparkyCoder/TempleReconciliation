@@ -1,7 +1,7 @@
-import { Box, Center, Heading, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalContent } from "@gluestack-ui/themed";
+import { Box, Center, CloseIcon, Heading, Icon, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalHeader } from "@gluestack-ui/themed";
 import { sha256 } from 'js-sha256';
 import uuid from 'react-native-uuid';
-import { HandlePostDonationComplete, HandleReceiptCreated } from "../reducers/ApplicationReducer";
+import { HandleOnPaymentModalClosed, HandlePostDonationComplete, HandleReceiptCreated } from "../reducers/ApplicationReducer";
 import { useEffect, useState } from "react";
 
 const PaymentsModal = ({state, dispatch}: any) => {   
@@ -39,9 +39,14 @@ const PaymentsModal = ({state, dispatch}: any) => {
 
     return (<Modal 
     isOpen={state.isPaymentModalOpen}
-    closeOnOverlayClick={false}>
+    onClose={() => dispatch({type: HandleOnPaymentModalClosed})}>
         <ModalBackdrop />
         <ModalContent>
+        <ModalHeader>
+            <ModalCloseButton>
+              <Icon as={CloseIcon} />
+            </ModalCloseButton>
+          </ModalHeader>
           <ModalBody>
             <Center>
                 <Box>

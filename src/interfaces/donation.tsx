@@ -5,5 +5,6 @@ export interface Donation {
     englishName: string,
     email: string,
     address: string,
-    payment: string
+    payment: string,
+    dataDisclaimer: boolean
 }

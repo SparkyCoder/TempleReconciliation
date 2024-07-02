@@ -1,7 +1,7 @@
-import { Box, Button, Center, ButtonText, HStack, Heading, Icon, Input, InputField, ScrollView, ButtonIcon, AddIcon, EditIcon } from "@gluestack-ui/themed";
+import { Box, Button, Center, ButtonText, HStack, Heading, Icon, Input, InputField, ScrollView, ButtonIcon, AddIcon, EditIcon, Checkbox, CheckboxIndicator, CheckboxIcon, CheckIcon, CheckboxLabel, VStack, Text } from "@gluestack-ui/themed";
 import useDimensions from "../hooks/useDimensions";
 import Loading from "./Loading";
-import { HandleDonationCancelButtonOnClick, HandleDonationSubmitted, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
+import { HandleDisclaimerModalClosed, HandleDisclaimerModalOpened, HandleDonationCancelButtonOnClick, HandleDonationSubmitted, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnDonationItemUpdated, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
 import { styles } from "../styles/styles";
 import { useEffect, useState } from "react";
 import useDonations from "../hooks/useDonations";
@@ -11,13 +11,15 @@ import ViewDonationItemsModal from "./ViewDonationItemsModal";
 import PaymentsModal from "./PaymentModal";
 import React from "react";
 import { Donation } from "../interfaces/donation";
+import DisclaimerModal from "./DisclaimerModal";
+import Disclaimers from "../constants/Disclaimers";
 
 const DonationArea = ({state, dispatch} : any) => {
     const {isVertical} = useDimensions();
     const {getDropDown} = useDropDowns();
     const {getPayments, getDonationTypes, getFrontDeskPins, getUsers} = useDonations(state, dispatch);
 
-    const defaultForm: Donation = {address: '', chineseName: '', donationType:'', email:'', englishName:'', payment:'', phone:''};
+    const defaultForm: Donation = {address: '', chineseName: '', donationType:'', email:'', englishName:'', payment:'', phone:'', dataDisclaimer:false};
     const [form, setForm] = useState<Donation>(defaultForm);
 
     useEffect(()=> {
@@ -31,12 +33,12 @@ const DonationArea = ({state, dispatch} : any) => {
     const onSubmit = () => {
       let isEnglishNameValid = state.validate('English Name', form.englishName); 
       let isPaymentValid = state.validate('Payment Option', form.payment)
+      let isDiscaimerChecked = state.validate('Data Disclaimer', form.dataDisclaimer)
       let isDonationItemValid = state.addedDonationItems.length > 0;
-
       if(!isDonationItemValid)
         state.showError('Error', 'At least one Donation Item is requred. 至少需要一件捐赠物品')
       
-      if(isEnglishNameValid && isDonationItemValid && isPaymentValid){
+      if(isEnglishNameValid && isDonationItemValid && isPaymentValid && isDiscaimerChecked){
         dispatch({ type: HandleDonationSubmitted, payload: form })
       }
     }
@@ -44,9 +46,10 @@ const DonationArea = ({state, dispatch} : any) => {
     return (
         <Box>
                     <Loading isLoading={state.isGetFrontDeskPinLoadings || state.isGetPaymentsLoading || state.isGetDonationTypesLoading} title={'Loading...'} />
-                    <DonationItemsModal state={state} dispatch={dispatch} type={form.donationType ?? ''} />
+                    <DonationItemsModal state={state} dispatch={dispatch} donationType={form.donationType ?? ''} />
                     <ViewDonationItemsModal state={state} dispatch={dispatch} />
                     <PaymentsModal state={state} dispatch={dispatch} />
+                    <DisclaimerModal state={state} dispatch={dispatch} text={'Test'} />
                     <ScrollView>             
                         <Box style={styles.form}>
                         <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
@@ -103,11 +106,11 @@ const DonationArea = ({state, dispatch} : any) => {
                                     onChangeText={(value:string) => setForm({...form, address:value})} />
                                 </Input>
                             </Box>
-                            <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
+                            {form.donationType !== '' && <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <HStack space="lg" >
                                 <Heading size="sm" style={{alignSelf:"center"}}>Add Donation Item 添加一项捐赠物品</Heading>
                                 </HStack>
-                                <HStack space="lg">
+                                <HStack space="lg" style={{marginTop:'2%'}}>
                                 <Button
                                       w='$1' 
                                       borderRadius="$2xl"
@@ -132,6 +135,24 @@ const DonationArea = ({state, dispatch} : any) => {
                                   </Button>
                                   <Heading style={{alignSelf:"center"}} size="sm">({state.addedDonationItems.length}) Item(s) 项目</Heading>
                                 </HStack>
+                            </Box>}
+                            <Box style={[isVertical ? styles.formSectionVertical : styles.formSectionHorizontal, {marginTop:'6%'}]}>
+                              <HStack>
+                              <Checkbox aria-label="Data Disclaimer" size="md" onTouchEnd={() => setForm({ ...form, dataDisclaimer: !form.dataDisclaimer })} value={form.dataDisclaimer.toString()}>
+                                <CheckboxIndicator mr="$2">
+                                  <CheckboxIcon as={CheckIcon}/>
+                                </CheckboxIndicator> 
+                                <CheckboxLabel>I agree to the </CheckboxLabel>                             
+                              </Checkbox>
+                                  <Button 
+                                      size="md"
+                                      variant="link"
+                                      action="primary"
+                                      onTouchEnd={() =>  dispatch({ type: HandleDisclaimerModalOpened, payload: {title: Disclaimers.DataTitle, text: Disclaimers.DataMessage} })}
+                                      >
+                                      <ButtonText>Data Disclaimer</ButtonText>
+                                  </Button>
+                              </HStack>
                             </Box>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <Heading size="sm">Payment Option 付款方式</Heading>

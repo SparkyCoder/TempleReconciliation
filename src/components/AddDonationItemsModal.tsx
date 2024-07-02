@@ -1,22 +1,38 @@
-import { Button, ButtonText, CloseIcon, Heading, Icon, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader } from "@gluestack-ui/themed";
+import { Box, Button, ButtonText, CloseIcon, Heading, Icon, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader } from "@gluestack-ui/themed";
 import { HandleOnDonationItemUpdated, HandleOnDonationItemModalClose } from "../reducers/ApplicationReducer";
-import React, { useState } from "react";
-import DefaultForm from "./forms/default";
-import { DefaultItem } from "../interfaces/defaultForm";
+import React, { useEffect, useState } from "react";
+import useDropDowns from "../hooks/useDropdowns";
+import useForms from "../hooks/useForms";
 
-const DonationItemsModal = ({state, dispatch, type}: any) => {
-  const [details, setDetails] = useState<object>();
+const DonationItemsModal = ({state, dispatch, donationType}: any) => {
+  const {getDropDown} = useDropDowns();
+  const {renderForm} = useForms();
+  const [items, setItems] = useState<[]>([]);
+  const [type, setType] = useState<string>('')
+  const [details, setDetails] = useState<object>({});
 
-    const onItemAdd = () => {
-            let updatedList = state.addedDonationItems;
-            updatedList.push(details);
+  useEffect(() => {
+    let selectedDonation = state.select(state.donationTypes, donationType);
+    setItems(selectedDonation.items ?? []);
+  }, [donationType])
 
-            dispatch({ type: HandleOnDonationItemUpdated, payload: updatedList })
-            state.showSuccess('Success', 'Item added.')
+  const onItemAdd = () => {
+          let updatedList = state.addedDonationItems;
+          updatedList.push(details);
+
+          dispatch({ type: HandleOnDonationItemUpdated, payload: updatedList })
+          state.showSuccess('Success', 'Item added.')
+          clear();
     }
 
     const onClose = () => {
+      clear();
       dispatch({ type: HandleOnDonationItemModalClose });
+    }
+
+    const clear = () => {
+      setDetails({});
+      setType('');
     }
     
     return (<Modal
@@ -32,7 +48,10 @@ const DonationItemsModal = ({state, dispatch, type}: any) => {
             </ModalCloseButton>
           </ModalHeader>
           <ModalBody>
-            {(type === "Gift Shop") && <DefaultForm state={state} type={type} details={details as DefaultItem} setDetails={setDetails} />}
+            <Box  style={{marginTop:'2%'}}>
+              {getDropDown(items, '', setType, 'Donation Item', false)}
+            </Box>
+            {renderForm({state, type, details, setDetails, items})}
           </ModalBody>
           <ModalFooter>
             <Button
@@ -40,7 +59,7 @@ const DonationItemsModal = ({state, dispatch, type}: any) => {
               size="sm"
               action="secondary"
               mr="$3"
-              onPress={() => {dispatch({ type: HandleOnDonationItemModalClose })}}
+              onPress={() => onClose()}
             >
               <ButtonText>Cancel</ButtonText>
             </Button>

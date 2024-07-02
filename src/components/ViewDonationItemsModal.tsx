@@ -1,24 +1,25 @@
 import { Box, Button, ButtonIcon, ButtonText, CloseIcon, HStack, Heading, Icon, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, Text, TrashIcon } from "@gluestack-ui/themed";
 import {  HandleOnDonationItemUpdated, HandleOnViewDonationItemsModalClosed } from "../reducers/ApplicationReducer";
+import uuid from 'react-native-uuid';
 
 const ViewDonationItemsModal = ({state, dispatch}: any) => {    
-    const onDelete = (name: string, amount: number) => {
-        let updatedList = state.addedDonationItems.filter(item => item.name !== name && item.amount !== amount);
-        dispatch({ type: HandleOnDonationItemUpdated, payload: updatedList })
+    const onDelete = (type: string, name:string, amount: string) => {
+       let updatedList = state.addedDonationItems.filter(item => item.type !== type && item.name !== name && item.amount !== amount);
+      dispatch({ type: HandleOnDonationItemUpdated, payload: updatedList })
     }
 
     const listItems = () => {
         return state.addedDonationItems.map((item) => {
-            return (<Box key={item.name} style={{margin:'2%'}}>
+            return (<Box key={uuid.v4()} style={{margin:'2%'}}>
                 <HStack>
-                <Text style={{alignSelf:'center', width:'75%'}} key={item.name}>{`${item.amount} ${item.name}  `}</Text>
+                <Text style={{alignSelf:'center', width:'75%'}} key={uuid.v4()}>{`${item.amount ?? ''} ${item.type ?? ''} ${item.name ?? ''}  `}</Text>
                 <Button  w='$1' 
                   borderRadius="$2xl"
                   size="lg"
                   p="$3.5"
                   variant={'solid'}
                   action="primary"
-                  onPress={() => {onDelete(item.name, item.amount)}}
+                  onPress={() => {onDelete(item.type, item.name, item.amount)}}
                 >
                   <ButtonIcon size='xl' as={TrashIcon} />
                 </Button>

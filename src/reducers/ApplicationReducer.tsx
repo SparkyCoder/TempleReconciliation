@@ -16,6 +16,9 @@ export const HandleDonationSubmitted = 'HandleDonationSubmitted';
 export const HandleGetFrontDeskPinsComplete = 'HandleGetFrontDeskPinsComplete';
 export const HandlePostDonationComplete = 'HandlePostDonationComplete';
 export const HandleReceiptCreated = 'HandleReceiptCreated';
+export const HandleDisclaimerModalOpened = 'HandleDisclaimerModalOpened';
+export const HandleDisclaimerModalClosed = 'HandleDisclaimerModalClosed';
+export const HandleOnPaymentModalClosed = 'HandleOnPaymentModalClosed';
 
 const ApplicationReducer = (state: any, action: any) => {
     switch (action.type) {
@@ -26,7 +29,7 @@ const ApplicationReducer = (state: any, action: any) => {
       case HandleDonationCancelButtonOnClick: 
         return {...state, selectedArea: AREAS.TileArea}
       case HandleOnDonationAreaLoad:
-        return {...state, donation:{}, isGetUsersLoading:true, isGetPaymentsLoading:true, isGetDonationTypesLoading:true, isGetFrontDeskPinLoadings:true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
+        return {...state, donation:{}, isDisclaimerModalOpen:false, isGetUsersLoading:true, isGetPaymentsLoading:true, isGetDonationTypesLoading:true, isGetFrontDeskPinLoadings:true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
       case HandleGetPaymentsComplete:
         return {...state, isGetPaymentsLoading:false, payments: action.payload}
       case HandleGetDonationTypesComplete:
@@ -47,10 +50,16 @@ const ApplicationReducer = (state: any, action: any) => {
           return {...state, isViewDonationItemsOpen:false}
       case HandleDonationSubmitted:
           return {...state, isViewDonationItemsOpen:false, isAddDonationItemModalOpen:false, isPaymentModalOpen:true, donation: action.payload}
+      case HandleOnPaymentModalClosed:
+          return {...state, isPaymentModalOpen:false}
       case HandlePostDonationComplete:
           return {...state, donation: {...state.donation, frontDeskAttendee: action.payload.attendee, id: action.payload.id, hasPaid: true}}
       case HandleReceiptCreated:
           return {...state, isPaymentModalOpen:false, selectedArea: AREAS.TileArea, donation: {}}
+      case HandleDisclaimerModalOpened:
+          return {...state, isDisclaimerModalOpen: true, disclaimerText: action.payload.text, disclaimerTitle: action.payload.title}
+      case HandleDisclaimerModalClosed:
+          return {...state, isDisclaimerModalOpen: false, disclaimerText: '', disclaimerTitle: ''}
       default:
         return state;
     }
