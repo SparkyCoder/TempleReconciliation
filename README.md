@@ -45,6 +45,14 @@ Follow React Native's official documentation for setting up a developer environm
 - GET `/v1/donations/types`
 - GET `/v1/donations/pins`
 
+## DB Cost Estimate:
+
+- 100,000 read and write units per month
+- 2 Gig storage size
+- On Demand payment structure
+
+![Cost Estimate](https://github.com/SparkyCoder/TempleReconciliation/blob/main/Estimate.jpg)
+
 ## Dynamo DB Examples
 
 ### Donation Types:
