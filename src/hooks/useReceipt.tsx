@@ -3,13 +3,14 @@ import FileViewer from "react-native-file-viewer";
 import useMessage from "./useToast";
 import { State } from '../interfaces/state';
 import { ClassItem, DefaultItem, OneTimeTabletItem, OthersItem } from '../interfaces/forms';
+import Storage from '../constants/Storage';
 
 const useReceipt = () => {
     const {showError} = useMessage();
 
     const createReceiptPdf = async (state: State, onComplete: () => void) => {
         try{
-        const jsxString = createReceiptHtml(state);
+        const jsxString = await createReceiptHtml(state);
         const timestamp = new Date().getTime();
         let options = {
             html: jsxString,
@@ -41,7 +42,8 @@ const useReceipt = () => {
         });
     }
 
-    const createReceiptHtml = (state: State) => {
+    const createReceiptHtml = async (state: State) => {
+      let invoiceNumber =  await getReceiptNumber(state);
         const date = new Date()
         return `
         <html>
@@ -74,7 +76,7 @@ const useReceipt = () => {
           </head>
           <body>
             <header>
-              <h1>Receipt for Donation ${state.donation.id}</h1>
+              <h1>Receipt for Donation ${invoiceNumber}</h1>
             </header>
             <h1>Donation Details</h1>
             <table>
@@ -103,20 +105,24 @@ const useReceipt = () => {
                 <td>${state?.donation?.email ?? 'N/A'}</td>
               </tr>` : ''}
               ${state?.donation?.street ? `<tr>
-                <th>Address</th>
+                <th>Street</th>
                 <td>${state?.donation?.street ?? 'N/A'}</td>
               </tr>` : ''}
               ${state?.donation?.city ? `<tr>
-                <th>Address</th>
+                <th>City</th>
                 <td>${state?.donation?.city ?? 'N/A'}</td>
               </tr>` : ''}
               ${state?.donation?.state ? `<tr>
-                <th>Address</th>
+                <th>State</th>
                 <td>${state?.donation?.state ?? 'N/A'}</td>
               </tr>` : ''}
               ${state?.donation?.zipCode ? `<tr>
-                <th>Address</th>
+                <th>Zip Code</th>
                 <td>${state?.donation?.zipCode ?? 'N/A'}</td>
+              </tr>` : ''}
+              ${state?.donation ? `<tr>
+                <th>Agreed to Disclaimer</th>
+                 <td>${state?.donation?.dataDisclaimer ?? 'N/A'}</td>
               </tr>` : ''}
               ${state?.donation?.payment ? `<tr>
                 <th>Payment Type</th>
@@ -180,6 +186,20 @@ const useReceipt = () => {
               </tr>` : ''}
             </table>`
         });
+    }
+
+    const padNumber: (number: number) => string = (number) => {
+      let padLength = 8;
+      let paddedNumber = String(number).padStart(padLength, '0');
+      return paddedNumber;
+    }
+
+    const getReceiptNumber = async (state: State) => {
+      let receiptNumber = await state.getData<number>(Storage.ReceiptNumber) ?? 1;
+      let nextReceiptNumber = receiptNumber + 1;
+
+      state.saveData(Storage.ReceiptNumber, nextReceiptNumber);
+      return padNumber(receiptNumber);
     }
 
     return {createReceiptPdf}

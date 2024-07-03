@@ -24,7 +24,7 @@ export interface State {
     donationTypes: Array<string>,
     users: Array<User>
     frontDeskPins: Array<Pin>,
-    donation: Donation | {},
+    donation: Donation,
     addedDonationItems: Array<ClassItem> | Array<OthersItem> | Array<DefaultItem> | Array<OneTimeTabletItem>,
     disclaimerTitle: string,
     disclaimerText: string,
@@ -33,7 +33,7 @@ export interface State {
     showSuccess: (title: string, message: string) => void,
     validate: (Name: string, Value: string) => boolean,
     createReceiptPdf: (state: State, onComplete: () => void) => void,
-    select: (list: Array<DropDownList> | undefined, label: string) => DropDownList | {},
+    select: (list: Array<DropDownList> | undefined, label: string) => DropDownList,
     saveData: (key: string, value: any) => void,
-    getData: (key:string) => void
+    getData:<T>(key:string) => Promise<T>
 }

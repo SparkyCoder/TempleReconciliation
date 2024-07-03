@@ -17,11 +17,20 @@ const PaymentsModal = ({state, dispatch}: DefaultProps) => {
 
     useEffect(() => {
         if(state.donation.hasPaid){
-            const onComplete = () => dispatch({type: HandleReceiptCreated });
-            
-            state.createReceiptPdf(state, onComplete);
+            onPaid();
         }
     }, [state.donation])
+
+    const onPaid = () => {
+        try{
+        const onComplete = () => dispatch({type: HandleReceiptCreated });
+        state.createReceiptPdf(state, onComplete);
+        }
+        catch(error){
+            state.showError('Error creating receipt', ' ');
+            onClose();
+        }
+    }
 
     const onPinChange = () => {
         if(!currentPin) return;
@@ -40,9 +49,13 @@ const PaymentsModal = ({state, dispatch}: DefaultProps) => {
         }
     } 
 
+    const onClose = () => {
+        dispatch({type: HandleOnPaymentModalClosed});
+    }
+
     return (<Modal 
     isOpen={state.isPaymentModalOpen}
-    onClose={() => dispatch({type: HandleOnPaymentModalClosed})}>
+    onClose={() => onClose()}>
         <ModalBackdrop />
         <ModalContent>
         <ModalHeader>

@@ -14,5 +14,5 @@ export interface Donation {
     frontDeskAttendee: string,
     id: string,
     hasPaid: boolean,
-    referenceNumber: string
+    referenceNumber: string,
 }

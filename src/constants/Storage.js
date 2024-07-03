@@ -3,6 +3,7 @@ const Storage = {
   Payments: 'PaymentsLocalData',
   DonationTypes: 'DonationTypes',
   Pins: 'LocalPins',
+  ReceiptNumber: 'LocalReceiptNumber',
 };
 
 export default Storage;

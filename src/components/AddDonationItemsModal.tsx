@@ -31,6 +31,11 @@ const DonationItemsModal = ({state, dispatch, donationType}: any) => {
       dispatch({ type: HandleOnDonationItemModalClose });
     }
 
+    const setTypes = (value: string) => {
+      setType(value);
+      setDetails({...details, type: value})
+    }
+
     const clear = () => {
       setDetails({});
       setType('');
@@ -50,7 +55,7 @@ const DonationItemsModal = ({state, dispatch, donationType}: any) => {
           </ModalHeader>
           <ModalBody>
             <Box  style={{marginTop:'2%'}}>
-              {getDropDown(items, '', setType, 'Donation Item', false)}
+              {getDropDown(items, '', setTypes, 'Donation Item', false)}
             </Box>
             {renderForm({state, type, details, setDetails, items})}
           </ModalBody>

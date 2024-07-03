@@ -4,7 +4,8 @@ import Storage from '../constants/Storage';
 
 const useStorage = () => {  
     const {showError} = useMessage();
-    const saveData = async (key:string, value: any) => {
+
+    const saveData: (key:string, value: any) => void = async (key, value) => {
         try {
           const jsonValue = JSON.stringify(value);
           await AsyncStorage.setItem(key, jsonValue);
@@ -13,7 +14,7 @@ const useStorage = () => {
         }
       };
 
-      const getData = async (key:string) => {
+      const getData:<T>(key:string) => Promise<T> | null = async (key) => {
         try {
           const jsonValue = await AsyncStorage.getItem(key);
           return jsonValue != null ? JSON.parse(jsonValue) : null;
