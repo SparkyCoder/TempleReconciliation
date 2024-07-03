@@ -1,9 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useMessage from './useToast';
+import Storage from '../constants/Storage';
 
 const useStorage = () => {  
     const {showError} = useMessage();
-    const saveData = async (key:string, value: any) => {
+
+    const saveData: (key:string, value: any) => void = async (key, value) => {
         try {
           const jsonValue = JSON.stringify(value);
           await AsyncStorage.setItem(key, jsonValue);
@@ -12,7 +14,7 @@ const useStorage = () => {
         }
       };
 
-      const getData = async (key:string) => {
+      const getData:<T>(key:string) => Promise<T> | null = async (key) => {
         try {
           const jsonValue = await AsyncStorage.getItem(key);
           return jsonValue != null ? JSON.parse(jsonValue) : null;
@@ -21,7 +23,14 @@ const useStorage = () => {
         }
       };
 
-    return {saveData, getData};
+      const clearAllData = async () => {
+        await saveData(Storage.Users, null);
+        await saveData(Storage.Payments, null);
+        await saveData(Storage.DonationTypes, null);
+        await saveData(Storage.Pins, null);
+      };
+
+    return {saveData, getData, clearAllData};
 };
 
 export default useStorage;

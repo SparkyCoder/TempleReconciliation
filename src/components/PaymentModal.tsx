@@ -1,11 +1,15 @@
-import { Box, Center, Heading, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalContent } from "@gluestack-ui/themed";
+import { Box, Center, CloseIcon, Heading, Icon, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalHeader } from "@gluestack-ui/themed";
 import { sha256 } from 'js-sha256';
 import uuid from 'react-native-uuid';
-import { HandlePostDonationComplete, HandleReceiptCreated } from "../reducers/ApplicationReducer";
+import { HandleOnPaymentModalClosed, HandlePostDonationComplete, HandleReceiptCreated } from "../reducers/ApplicationReducer";
 import { useEffect, useState } from "react";
+import React from "react";
+import { DefaultProps } from "../interfaces/state";
+import Payments from "../constants/Payments";
 
-const PaymentsModal = ({state, dispatch}: any) => {   
-    const [currentPin, setCurrentPin] = useState();
+const PaymentsModal = ({state, dispatch}: DefaultProps) => {   
+    const [currentPin, setCurrentPin] = useState<string>();
+    const [referenceNumber, setReferenceNumber] = useState<string>();
 
     useEffect(() => {
         onPinChange();
@@ -13,16 +17,24 @@ const PaymentsModal = ({state, dispatch}: any) => {
 
     useEffect(() => {
         if(state.donation.hasPaid){
-            const onComplete = () => dispatch({type: HandleReceiptCreated });
-            
-            state.createReceiptPdf(state, onComplete);
+            onPaid();
         }
     }, [state.donation])
 
+    const onPaid = () => {
+        try{
+        const onComplete = () => dispatch({type: HandleReceiptCreated });
+        state.createReceiptPdf(state, onComplete);
+        }
+        catch(error){
+            state.showError('Error creating receipt', ' ');
+            onClose();
+        }
+    }
+
     const onPinChange = () => {
         if(!currentPin) return;
-
-        let matchingPin = state.frontDeskPins.filter(frontDeskPin => sha256(currentPin) === frontDeskPin.data.pin);
+        let matchingPin = state.frontDeskPins.filter((frontDeskPin) => sha256(currentPin) === frontDeskPin.pin);
         
         if(matchingPin.length > 1){
             state.showError('Warning', 'This pin matches more than one front desk attendee. Please make sure pins are unique.')
@@ -32,26 +44,44 @@ const PaymentsModal = ({state, dispatch}: any) => {
             state.showSuccess('Success', 'Donation Saved!')
             //Call POST to save donation in AWS
             ///Just for testing
-            dispatch({type: HandlePostDonationComplete, payload: {attendee: matchingPin[0].data.frontDeskAttendee, id: uuid.v4() }});
+            dispatch({type: HandlePostDonationComplete, payload: {attendee: matchingPin[0].frontDeskAttendee, id: uuid.v4(), referenceNumber: referenceNumber }});
             /////////
         }
     } 
 
+    const onClose = () => {
+        dispatch({type: HandleOnPaymentModalClosed});
+    }
+
     return (<Modal 
     isOpen={state.isPaymentModalOpen}
-    closeOnOverlayClick={false}>
+    onClose={() => onClose()}>
         <ModalBackdrop />
         <ModalContent>
+        <ModalHeader>
+            <ModalCloseButton>
+              <Icon as={CloseIcon} />
+            </ModalCloseButton>
+          </ModalHeader>
           <ModalBody>
             <Center>
                 <Box>
                     <Center>
                     <Heading style={{marginTop:'5%'}}>Thank You!</Heading>
                     <Heading style={{marginTop:'15%'}}>Please return the tablet back to the front desk to complete payment</Heading>
+                    <Box style={{marginTop:'15%'}} ></Box>
+                    {!state.donation?.payment?.includes(Payments.Cash) &&
                     <Input
                         variant="outline"
                         size="md"
-                        style={{marginTop:'15%'}}
+                        >
+                        <InputField keyboardType="default" placeholder="Reference Number"
+                        onChangeText={(value) => setReferenceNumber(value)} />
+                    </Input>}
+                    <Input
+                        variant="outline"
+                        size="md"
+                        style={{marginTop:'2%'}}
                         >
                         <InputField keyboardType="number-pad" placeholder="ENTER PIN"
                         onChangeText={(value) => setCurrentPin(value)} />

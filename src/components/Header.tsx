@@ -1,17 +1,36 @@
-import { Box, Center, HStack, Image, VStack } from '@gluestack-ui/themed';
-import React from 'react';
+import { Box, Center, HStack, Image, Pressable } from '@gluestack-ui/themed';
+import React, { useEffect, useState } from 'react';
 import { styles } from '../styles/styles';
 import useDimensions from '../hooks/useDimensions';
+import useStorage from '../hooks/useStorage';
+import { DefaultProps } from '../interfaces/state';
 
-function App(): React.JSX.Element {
-    const {isVertical} = useDimensions();
+const Header = ({state} : DefaultProps) => {
+  const {clearAllData} = useStorage();
+  const {isVertical} = useDimensions();
+  const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    resetCache()
+  },[count])
+
+  const resetCache = () => {
+    if(count < 3) return;
+    state.showSuccess('Cache Cleared', 'All local storage has been reset')
+    clearAllData()
+    setCount(0);
+  }
+
+  const onPress = () => {
+    setCount(count+1);
+  }
 
   return (
-  <Box style={styles.header}>
+    <Pressable onPress={() => onPress()} style={styles.header}>
     <Center>
         {isVertical ? 
         <Box style={styles.full}>
-            <Image alt='Logo' style={styles.autoScaledImage} source={require('../../src/media/Logo.gif')} />
+          <Image alt='Logo' style={styles.autoScaledImage} source={require('../../src/media/Logo.gif')} />
         </Box> :
         <HStack style={styles.full}>
             <Image alt='Logo' style={styles.autoScaledImage} source={require('../../src/media/Logo.gif')} />
@@ -20,8 +39,8 @@ function App(): React.JSX.Element {
         </HStack>
         }
     </Center>
-  </Box>
-  );
+    </Pressable>
+    );
 }
 
-export default App;
+export default Header;

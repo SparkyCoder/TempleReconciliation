@@ -41,50 +41,112 @@ Follow React Native's official documentation for setting up a developer environm
 ## Api Gateway Routes
 
 - GET `/v1/users`
-- GET `/v1/events`
 - GET `/v1/payments`
-- GET `/v1/donations/items`
+- GET `/v1/donations/types`
 - GET `/v1/donations/pins`
+
+## DB Cost Estimate:
+
+- 100,000 read and write units per month
+- 2 Gig storage size
+- On Demand payment structure
+
+![Cost Estimate](https://github.com/SparkyCoder/TempleReconciliation/blob/main/Estimate.jpg)
 
 ## Dynamo DB Examples
 
-### Events:
+### Donation Types:
 
 ```
 {
   "PK": {
-    "S": "GMT#EVENT"
+    "S": "GMT#DONATION#TYPE"
   },
   "SK": {
-    "S": "ef55fedd-b26e-4249-a53e-2114123a5e73"
+    "S": "311038f1-7724-4e33-b703-5238c5d8b272"
   },
   "Data": {
     "M": {
-      "label": {
-        "S": "New Years"
+      "items": {
+        "L": [
+          {
+            "M": {
+              "label": {
+                "S": "Food"
+              }
+            }
+          },
+          {
+            "M": {
+              "label": {
+                "S": "Flower"
+              }
+            }
+          },
+          {
+            "M": {
+              "label": {
+                "S": "Fruit"
+              }
+            }
+          },
+          {
+            "M": {
+              "label": {
+                "S": "Fund Raising"
+              }
+            }
+          },
+          {
+            "M": {
+              "items": {
+                "L": [
+                  {
+                    "M": {
+                      "label": {
+                        "S": "Social Education Class"
+                      }
+                    }
+                  },
+                  {
+                    "M": {
+                      "label": {
+                        "S": "Chinese School"
+                      }
+                    }
+                  }
+                ]
+              },
+              "label": {
+                "S": "Classes"
+              }
+            }
+          },
+          {
+            "M": {
+              "label": {
+                "S": "Dharma Protector"
+              }
+            }
+          },
+          {
+            "M": {
+              "label": {
+                "S": "General Donation"
+              }
+            }
+          },
+          {
+            "M": {
+              "label": {
+                "S": "Other"
+              }
+            }
+          }
+        ]
       },
-      "time": {
-        "S": "1707523200"
-      }
-    }
-  }
-}
-```
-
-### Donation Items:
-
-```
-{
-  "PK": {
-    "S": "GMT#DONATION#ITEM"
-  },
-  "SK": {
-    "S": "9d502043-b461-43b3-8c2e-da0c78daadc2"
-  },
-  "Data": {
-    "M": {
       "label": {
-        "S": "Other 其他"
+        "S": "General Donation"
       }
     }
   }

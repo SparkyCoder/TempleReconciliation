@@ -1,10 +1,11 @@
-const useSelect = () => {
-    const select = (list: any, id: string) => {
-        list ??= [];
-        id ??= '';
-        let foundListItem = list.filter((item: any) => item.id === id);
+import * as dropdown from "../interfaces/dropdown";
 
-        return foundListItem.length > 0 ? foundListItem[0].data.label : ''
+const useSelect = () => {
+    const select = (list: Array<dropdown.DropDownList> | undefined, label: string): dropdown.DropDownList | [] => {
+        list ??= [];
+        label ??= '';
+        let foundListItem = list.filter((item: any) => item.label === label);
+        return foundListItem.length > 0 ? foundListItem[0] : []
     }
 
     return {select}

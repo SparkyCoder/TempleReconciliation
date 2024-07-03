@@ -1,39 +1,49 @@
-import { Box, Button, ButtonText, CloseIcon, Heading, Icon, Input, InputField, InputSlot, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader } from "@gluestack-ui/themed";
+import { Box, Button, ButtonText, CloseIcon, Heading, Icon, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader } from "@gluestack-ui/themed";
 import { HandleOnDonationItemUpdated, HandleOnDonationItemModalClose } from "../reducers/ApplicationReducer";
+import React, { useEffect, useState } from "react";
 import useDropDowns from "../hooks/useDropdowns";
-import React, { useState } from "react";
+import useForms from "../hooks/useForms";
+import { ClassItem, DefaultItem, OneTimeTabletItem, OthersItem } from "../interfaces/forms";
 
-const DonationItemsModal = ({state, dispatch}: any) => {
-    const {getDropDown} = useDropDowns();
-    const [selectedDonationItem, setSelectedDonationItem] = useState();
-    const [nameOfItem, setNameOfItem] = useState();
-    const [numberOfItems, setNumberOfItems] = useState();
+const DonationItemsModal = ({state, dispatch, donationType}: any) => {
+  const {getDropDown} = useDropDowns();
+  const {renderForm} = useForms();
+  const [items, setItems] = useState<Array<string>>([]);
+  const [type, setType] = useState<string>('');
+  const [details, setDetails] = useState<ClassItem | OthersItem | DefaultItem | OneTimeTabletItem | {}>({});
 
-    const isFormValid = () => {
-        let isNumberofItemsValid = state.validate('# of Items', numberOfItems)
-        let isDonationItemValid = state.validate('Donation Item Type', selectedDonationItem)
-        let isNameOfItemValid = state.validate ('Name of Item', nameOfItem)
+  useEffect(() => {
+    let selectedDonation = state.select(state.donationTypes, donationType);
+    setItems(selectedDonation.items ?? []);
+  }, [donationType])
 
-        return (isNumberofItemsValid && isDonationItemValid && isNameOfItemValid );
+  const onItemAdd = () => {
+          let updatedList = state.addedDonationItems;
+          updatedList.push(details);
+
+          dispatch({ type: HandleOnDonationItemUpdated, payload: updatedList })
+          state.showSuccess('Success', 'Item added.')
+          clear();
     }
 
-    const onItemAdd = (newItem: any) => {
-        let isValid = isFormValid();
+    const onClose = () => {
+      clear();
+      dispatch({ type: HandleOnDonationItemModalClose });
+    }
 
-        if(isValid){
-            let updatedList = state.addedDonationItems;
-            updatedList.push(newItem);
-            dispatch({ type: HandleOnDonationItemUpdated, payload: updatedList })
-            state.showSuccess('Success', 'Item added.')
-            setNameOfItem(undefined);
-            setNumberOfItems(undefined);
-            setSelectedDonationItem(undefined);
-        }
+    const setTypes = (value: string) => {
+      setType(value);
+      setDetails({...details, type: value})
+    }
+
+    const clear = () => {
+      setDetails({});
+      setType('');
     }
     
     return (<Modal
         isOpen={state.isAddDonationItemModalOpen}
-        onClose={() => {dispatch({ type: HandleOnDonationItemModalClose })}}
+        onClose={() => onClose()}
         >
         <ModalBackdrop />
         <ModalContent>
@@ -45,33 +55,17 @@ const DonationItemsModal = ({state, dispatch}: any) => {
           </ModalHeader>
           <ModalBody>
             <Box  style={{marginTop:'2%'}}>
-            {getDropDown(state.donationItems, '', setSelectedDonationItem, 'Donation Item Type', false)}
+              {getDropDown(items, '', setTypes, 'Donation Item', false)}
             </Box>
-          <Input
-            variant="outline"
-            size="xl"
-            style={{marginTop:'2%'}}
-          >
-            <InputSlot />
-            <InputField placeholder="Name of Item" value={nameOfItem} onChangeText={(value) => setNameOfItem(value)} />
-          </Input>
-          <Input
-            variant="outline"
-            size="xl"
-            style={{marginTop:'2%'}}
-          >
-            <InputSlot />
-            <InputField keyboardType="number-pad"  placeholder="# of Items" value={numberOfItems} onChangeText={(value) => setNumberOfItems(value)} />
-          </Input>
+            {renderForm({state, type, details, setDetails, items})}
           </ModalBody>
           <ModalFooter>
             <Button
-            
               variant="outline"
               size="sm"
               action="secondary"
               mr="$3"
-              onPress={() => {dispatch({ type: HandleOnDonationItemModalClose })}}
+              onPress={() => onClose()}
             >
               <ButtonText>Cancel</ButtonText>
             </Button>
@@ -79,7 +73,7 @@ const DonationItemsModal = ({state, dispatch}: any) => {
               size="sm"
               action="positive"
               borderWidth="$0"
-              onPress={() => onItemAdd({type: selectedDonationItem, name: nameOfItem, amount: numberOfItems})}
+              onPress={() => onItemAdd()}
             >
               <ButtonText>Add</ButtonText>
             </Button>

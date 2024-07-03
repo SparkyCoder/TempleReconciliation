@@ -10,19 +10,24 @@ import useMessage from "../hooks/useToast";
 import useValidation from "../hooks/useValidation";
 import useReceipt from "../hooks/useReceipt";
 import useSelect from "../hooks/useSelect";
-import Loading from "./Loading";
+import useStorage from "../hooks/useStorage";
+import React from "react";
+import Header from "./Header";
 
 const ContentArea = () => {
     const {showError, showSuccess} = useMessage();
     const {select} = useSelect();
     const {validate} = useValidation();
     const {createReceiptPdf} = useReceipt()
+    const {saveData, getData} = useStorage();
+
 
     const [state, dispatch] = useReducer(ApplicationReducer, {
         selectedArea: Areas.TileArea,
+        resetCacheCount: 0,
         payments:[],
-        events:[],
-        donationItems:[],
+        donationTypes:[],
+        donationItems: [],
         addedDonationItems: [],
         frontDeskPins:[],
         donation:{},
@@ -30,10 +35,14 @@ const ContentArea = () => {
         showSuccess,
         validate,
         createReceiptPdf,
-        select
+        select,
+        saveData,
+        getData
     })
 
     return (
+        <>
+        <Header state={state} dispatch={dispatch}/>
         <Box style={[styles.full, styles.contentArea]}>
             <Center>
                 <Box style={styles.subContentArea}>
@@ -42,6 +51,7 @@ const ContentArea = () => {
                 </Box>
             </Center>                         
         </Box>
+        </>
     );
 };
 

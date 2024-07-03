@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
         marginLeft: '1%'
     },
     formSectionVertical: {
-        marginTop: '1%',
+        marginTop: '3%',
         width: '75%'
     },
     formSectionHorizontal:{
