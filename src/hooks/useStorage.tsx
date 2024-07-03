@@ -26,6 +26,7 @@ const useStorage = () => {
         await saveData(Storage.Users, null);
         await saveData(Storage.Payments, null);
         await saveData(Storage.DonationTypes, null);
+        await saveData(Storage.Pins, null);
       };
 
     return {saveData, getData, clearAllData};

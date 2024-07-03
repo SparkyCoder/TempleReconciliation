@@ -50,7 +50,7 @@ const useAxios = (state: any, auditDispatch : any) => {
         }
 
     axios.get(`${URLS.Root}${URLS.GetFrontDeskPins}`).then(async (response) => {
-        await state.saveData(Storage.Users, response.data);
+        await state.saveData(Storage.Pins, response.data);
         auditDispatch({ type: HandleGetFrontDeskPinsComplete, payload: response.data })
       })
       .catch((error) => {
