@@ -45,7 +45,7 @@ const useAxios = (state: any, auditDispatch : any) => {
     let pins = await state.getData(Storage.Pins)
 
         if(pins){
-          auditDispatch({ type: HandleGetUsersComplete, payload: pins })
+          auditDispatch({ type: HandleGetFrontDeskPinsComplete, payload: pins })
           return;
         }
 
