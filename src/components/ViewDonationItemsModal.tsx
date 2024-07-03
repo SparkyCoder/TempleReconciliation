@@ -1,18 +1,20 @@
 import { Box, Button, ButtonIcon, ButtonText, CloseIcon, HStack, Heading, Icon, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, Text, TrashIcon } from "@gluestack-ui/themed";
 import {  HandleOnDonationItemUpdated, HandleOnViewDonationItemsModalClosed } from "../reducers/ApplicationReducer";
 import uuid from 'react-native-uuid';
+import React from "react";
+import { ClassItem, DefaultItem, OneTimeTabletItem, OthersItem } from "../interfaces/forms";
 
 const ViewDonationItemsModal = ({state, dispatch}: any) => {    
     const onDelete = (type: string, name:string, amount: string) => {
-       let updatedList = state.addedDonationItems.filter(item => item.type !== type && item.name !== name && item.amount !== amount);
+       let updatedList = state.addedDonationItems.filter((item: ClassItem | OthersItem | DefaultItem | OneTimeTabletItem) => item.type !== type && item.name !== name && item.amount !== amount);
       dispatch({ type: HandleOnDonationItemUpdated, payload: updatedList })
     }
 
     const listItems = () => {
-        return state.addedDonationItems.map((item) => {
-            return (<Box key={uuid.v4()} style={{margin:'2%'}}>
+        return state.addedDonationItems.map((item: ClassItem | OthersItem | DefaultItem | OneTimeTabletItem) => {
+            return (<Box key={uuid.v4().toString()} style={{margin:'2%'}}>
                 <HStack>
-                <Text style={{alignSelf:'center', width:'75%'}} key={uuid.v4()}>{`${item.amount ?? ''} ${item.type ?? ''} ${item.name ?? ''}  `}</Text>
+                <Text style={{alignSelf:'center', width:'75%'}} key={uuid.v4().toString()}>{`${item.amount ?? ''} ${item.type ?? ''} ${item.name ?? ''}  `}</Text>
                 <Button  w='$1' 
                   borderRadius="$2xl"
                   size="lg"

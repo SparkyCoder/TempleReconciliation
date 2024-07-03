@@ -2,9 +2,17 @@ export interface Donation {
     donationType: string,
     phone: string,
     chineseName: string,
-    englishName: string,
+    firstName: string,
+    lastName: string,
     email: string,
-    address: string,
+    street: string,
+    city: string,
+    state: string,
+    zipCode: string,
     payment: string,
-    dataDisclaimer: boolean
+    dataDisclaimer: boolean,
+    frontDeskAttendee: string,
+    id: string,
+    hasPaid: boolean,
+    referenceNumber: string
 }

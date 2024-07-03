@@ -3,7 +3,7 @@ import { HandleGetDonationTypesComplete, HandleGetFrontDeskPinsComplete, HandleG
 import URLS from "../constants/Urls";
 import Storage from "../constants/Storage";
 
-const useDonations = (state: any, auditDispatch : any) => {  
+const useAxios = (state: any, auditDispatch : any) => {  
 
   const getDonationTypes = async () => {
     let donationTypes = await state.getData(Storage.DonationTypes)
@@ -41,8 +41,16 @@ const useDonations = (state: any, auditDispatch : any) => {
       });
 }
 
-  const getFrontDeskPins = () => {
-    axios.get(`${URLS.Root}${URLS.GetFrontDeskPins}`).then((response) => {
+  const getFrontDeskPins = async () => {
+    let pins = await state.getData(Storage.Pins)
+
+        if(pins){
+          auditDispatch({ type: HandleGetUsersComplete, payload: pins })
+          return;
+        }
+
+    axios.get(`${URLS.Root}${URLS.GetFrontDeskPins}`).then(async (response) => {
+        await state.saveData(Storage.Users, response.data);
         auditDispatch({ type: HandleGetFrontDeskPinsComplete, payload: response.data })
       })
       .catch((error) => {
@@ -72,4 +80,4 @@ const getPayments = async () => {
     return {getDonationTypes, getPayments, getFrontDeskPins, getUsers};
 };
 
-export default useDonations;
+export default useAxios;

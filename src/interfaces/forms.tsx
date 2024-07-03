@@ -1,7 +1,11 @@
-export interface DefaultItem {
+import { DropDownList } from "./dropdown"
+
+export interface FormProps {
+    state:any, 
     type:string, 
-    name:string, 
-    amount:string, 
+    details:object, 
+    setDetails:any,
+    items: Array<DropDownList>
 }
 
 export interface ClassItem {
@@ -10,32 +14,16 @@ export interface ClassItem {
     amount:string, 
 }
 
-export interface OneTimeTabletItem {
-    type:string, 
-    name:string, 
-    relationship:string, 
-    relative:string,
-    date:string
-}
-
-export interface OthersItem {
-    remarks:string, 
-}
-
-export interface FormProps {
-    state:any, 
-    type:string, 
-    details:object, 
-    setDetails:any,
-    items: []
-}
-
 export interface ClassFormProps {
     state:any, 
     type:string, 
     details:ClassItem, 
     setDetails:any,
-    items: []
+    items: Array<DropDownList>
+}
+
+export interface OthersItem {
+    remarks:string, 
 }
 
 export interface OthersFormProps {
@@ -43,11 +31,25 @@ export interface OthersFormProps {
     setDetails:any,
 }
 
+export interface DefaultItem {
+    type:string, 
+    name:string, 
+    amount:string, 
+}
+
 export interface DefaultFormProps {
     state:any, 
     type:string, 
     details:DefaultItem, 
     setDetails:any
+}
+
+export interface OneTimeTabletItem {
+    type:string, 
+    name:string, 
+    relationship:string, 
+    relative:string,
+    date:string
 }
 
 export interface OneTimeTabletFormProps {

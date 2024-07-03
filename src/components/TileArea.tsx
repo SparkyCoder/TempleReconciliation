@@ -4,6 +4,7 @@ import Tile from "./Tile";
 import useDimensions from "../hooks/useDimensions";
 import { HandleDonationTileOnClick } from "../reducers/ApplicationReducer";
 import Loading from "./Loading";
+import React from "react";
 
 const TileArea = ({state, dispatch} : any) => {
     const {isVertical} = useDimensions();

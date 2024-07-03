@@ -1,7 +1,7 @@
 import useMessage from "./useToast";
 
 const useValidation = () => {
-    const {showError, showSuccess} = useMessage();
+    const {showError} = useMessage();
     
 const validate = (name: any, value: any) => {
     if(!value || value === '' || value === 0 || value === 'false' || value === false){

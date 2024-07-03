@@ -1,4 +1,5 @@
 import AREAS from "../constants/Areas";
+import { State } from "../interfaces/state";
 
 export const HandleGetRequestError = "HandleGetRequestError";
 export const HandleDonationTileOnClick = "HandleDonationTileOnClick";
@@ -20,7 +21,7 @@ export const HandleDisclaimerModalOpened = 'HandleDisclaimerModalOpened';
 export const HandleDisclaimerModalClosed = 'HandleDisclaimerModalClosed';
 export const HandleOnPaymentModalClosed = 'HandleOnPaymentModalClosed';
 
-const ApplicationReducer = (state: any, action: any) => {
+const ApplicationReducer = (state: State, action: any) => {
     switch (action.type) {
       case HandleGetRequestError:
       return { ...state, isGetPaymentsLoading:false, isGetDonationTypesLoading:false, isGetFrontDeskPinLoadings:false, error: action.payload };

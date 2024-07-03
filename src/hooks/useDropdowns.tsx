@@ -1,7 +1,10 @@
 import { ChevronDownIcon, Icon, Select, SelectBackdrop, SelectContent, SelectDragIndicator, SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectItem, SelectPortal, SelectTrigger, ButtonIcon, AddIcon } from "@gluestack-ui/themed";
+import { DropDownList } from "../interfaces/dropdown";
 
 const useDropDowns = () => {  
-    const getDropDown = (items: any, selectedValue: any, setStateEvent: any, placeholderText: string, isInvalid: boolean) => {
+    const getDropDown = (items: DropDownList | undefined, selectedValue: any, setStateEvent: any, placeholderText: string, isInvalid: boolean) => {
+      items ??= [];
+      
       let selectItems = items.map(item => 
           <SelectItem
           key={item.label}

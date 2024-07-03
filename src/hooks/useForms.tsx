@@ -7,6 +7,7 @@ import OneTimeTabletForm from "../components/forms/OneTimeTabletForm";
 
 const useForms = () => {
     const renderForm = ({state, type, details, setDetails, items} : FormProps) => {
+        console.log(JSON.stringify(items))
         if(type === 'Classes'){
             return <ClassesForm state={state} type={type} details={details as ClassItem} setDetails={setDetails} items={items} />
         }

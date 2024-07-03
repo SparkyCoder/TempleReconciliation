@@ -3,13 +3,14 @@ import { HandleOnDonationItemUpdated, HandleOnDonationItemModalClose } from "../
 import React, { useEffect, useState } from "react";
 import useDropDowns from "../hooks/useDropdowns";
 import useForms from "../hooks/useForms";
+import { ClassItem, DefaultItem, OneTimeTabletItem, OthersItem } from "../interfaces/forms";
 
 const DonationItemsModal = ({state, dispatch, donationType}: any) => {
   const {getDropDown} = useDropDowns();
   const {renderForm} = useForms();
-  const [items, setItems] = useState<[]>([]);
-  const [type, setType] = useState<string>('')
-  const [details, setDetails] = useState<object>({});
+  const [items, setItems] = useState<Array<string>>([]);
+  const [type, setType] = useState<string>('');
+  const [details, setDetails] = useState<ClassItem | OthersItem | DefaultItem | OneTimeTabletItem | {}>({});
 
   useEffect(() => {
     let selectedDonation = state.select(state.donationTypes, donationType);

@@ -1,15 +1,32 @@
-import { Box, Center, HStack, Image, Pressable, VStack } from '@gluestack-ui/themed';
-import React from 'react';
+import { Box, Center, HStack, Image, Pressable } from '@gluestack-ui/themed';
+import React, { useEffect, useState } from 'react';
 import { styles } from '../styles/styles';
 import useDimensions from '../hooks/useDimensions';
 import useStorage from '../hooks/useStorage';
+import { DefaultProps } from '../interfaces/state';
 
-const Header = () => {
+const Header = ({state} : DefaultProps) => {
   const {clearAllData} = useStorage();
   const {isVertical} = useDimensions();
+  const [count, setCount] = useState<number>(0);
+
+  useEffect(() => {
+    resetCache()
+  },[count])
+
+  const resetCache = () => {
+    if(count < 3) return;
+    state.showSuccess('Cache Cleared', 'All local storage has been reset')
+    clearAllData()
+    setCount(0);
+  }
+
+  const onPress = () => {
+    setCount(count+1);
+  }
 
   return (
-    <Pressable onPress={() => clearAllData()} style={styles.header}>
+    <Pressable onPress={() => onPress()} style={styles.header}>
     <Center>
         {isVertical ? 
         <Box style={styles.full}>

@@ -1,10 +1,10 @@
 import { Box, Button, Center, ButtonText, HStack, Heading, Icon, Input, InputField, ScrollView, ButtonIcon, AddIcon, EditIcon, Checkbox, CheckboxIndicator, CheckboxIcon, CheckIcon, CheckboxLabel, VStack, Text } from "@gluestack-ui/themed";
 import useDimensions from "../hooks/useDimensions";
 import Loading from "./Loading";
-import { HandleDisclaimerModalClosed, HandleDisclaimerModalOpened, HandleDonationCancelButtonOnClick, HandleDonationSubmitted, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnDonationItemUpdated, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
+import { HandleDisclaimerModalOpened, HandleDonationCancelButtonOnClick, HandleDonationSubmitted, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnDonationItemUpdated, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
 import { styles } from "../styles/styles";
 import { useEffect, useState } from "react";
-import useDonations from "../hooks/useDonations";
+import useAxios from "../hooks/useAxios";
 import DonationItemsModal from "./AddDonationItemsModal";
 import useDropDowns from "../hooks/useDropdowns";
 import ViewDonationItemsModal from "./ViewDonationItemsModal";
@@ -17,9 +17,26 @@ import Disclaimers from "../constants/Disclaimers";
 const DonationArea = ({state, dispatch} : any) => {
     const {isVertical} = useDimensions();
     const {getDropDown} = useDropDowns();
-    const {getPayments, getDonationTypes, getFrontDeskPins, getUsers} = useDonations(state, dispatch);
+    const {getPayments, getDonationTypes, getFrontDeskPins, getUsers} = useAxios(state, dispatch);
 
-    const defaultForm: Donation = {address: '', chineseName: '', donationType:'', email:'', englishName:'', payment:'', phone:'', dataDisclaimer:false};
+    const defaultForm: Donation = {
+      street: '', 
+      city: '',
+      state: '',
+      zipCode: '',
+      chineseName: '', 
+      donationType: '', 
+      email: '', 
+      firstName: '',
+      lastName: '',
+      payment: '', 
+      phone: '', 
+      dataDisclaimer: false,
+      frontDeskAttendee: "",
+      id: "",
+      hasPaid: false,
+      referenceNumber: ""
+    };
     const [form, setForm] = useState<Donation>(defaultForm);
 
     useEffect(()=> {
@@ -31,14 +48,16 @@ const DonationArea = ({state, dispatch} : any) => {
     }, [])
 
     const onSubmit = () => {
-      let isEnglishNameValid = state.validate('English Name', form.englishName); 
-      let isPaymentValid = state.validate('Payment Option', form.payment)
+      let isDonationTypeValid = state.validate('Donation Type', form.donationType);
+      let isEnglishNameValid = state.validate('First Name', form.firstName) && state.validate('Last Name', form.lastName); 
       let isDiscaimerChecked = state.validate('Data Disclaimer', form.dataDisclaimer)
       let isDonationItemValid = state.addedDonationItems.length > 0;
       if(!isDonationItemValid)
         state.showError('Error', 'At least one Donation Item is requred. 至少需要一件捐赠物品')
+
+      let isPaymentValid = state.validate('Payment Option', form.payment)
       
-      if(isEnglishNameValid && isDonationItemValid && isPaymentValid && isDiscaimerChecked){
+      if(isDonationTypeValid && isEnglishNameValid && isDonationItemValid && isPaymentValid && isDiscaimerChecked){
         dispatch({ type: HandleDonationSubmitted, payload: form })
       }
     }
@@ -82,8 +101,15 @@ const DonationArea = ({state, dispatch} : any) => {
                                     variant="outline"
                                     size="md"
                                     >
-                                    <InputField placeholder="Name in English 捐款人英文姓名"
-                                    onChangeText={(value:string) => setForm({...form, englishName:value})} /> 
+                                    <InputField placeholder="First Name"
+                                    onChangeText={(value:string) => setForm({...form, firstName:value})} /> 
+                                </Input>
+                                <Input
+                                    variant="outline"
+                                    size="md"
+                                    >
+                                    <InputField placeholder="Last Name"
+                                    onChangeText={(value:string) => setForm({...form, lastName:value})} /> 
                                 </Input>
                             </Box>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
@@ -101,9 +127,34 @@ const DonationArea = ({state, dispatch} : any) => {
                                 <Input
                                     variant="outline"
                                     size="md"
+                                    style={{marginTop:'2%'}}
                                     >
-                                    <InputField placeholder="Address 地址"
-                                    onChangeText={(value:string) => setForm({...form, address:value})} />
+                                    <InputField placeholder="Street"
+                                    onChangeText={(value:string) => setForm({...form, street:value})} />
+                                </Input>
+                                <Input
+                                    variant="outline"
+                                    size="md"
+                                    style={{marginTop:'2%'}}
+                                    >
+                                    <InputField placeholder="City"
+                                    onChangeText={(value:string) => setForm({...form, city:value})} />
+                                </Input>
+                                <Input
+                                    variant="outline"
+                                    size="md"
+                                    style={{marginTop:'2%'}}
+                                    >
+                                    <InputField placeholder="State"
+                                    onChangeText={(value:string) => setForm({...form, state:value})} />
+                                </Input>
+                                <Input
+                                    variant="outline"
+                                    size="md"
+                                    style={{marginTop:'2%'}}
+                                    >
+                                    <InputField keyboardType="number-pad" placeholder="Zip Code"
+                                    onChangeText={(value:string) => setForm({...form, zipCode:value})} />
                                 </Input>
                             </Box>
                             {form.donationType !== '' && <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>

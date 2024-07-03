@@ -1,6 +1,6 @@
 import { Box, Center } from "@gluestack-ui/themed";
 import { styles } from "../styles/styles";
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import ApplicationReducer from "../reducers/ApplicationReducer";
 import TileArea from "./TileArea";
 import Areas from "../constants/Areas";
@@ -11,6 +11,8 @@ import useValidation from "../hooks/useValidation";
 import useReceipt from "../hooks/useReceipt";
 import useSelect from "../hooks/useSelect";
 import useStorage from "../hooks/useStorage";
+import React from "react";
+import Header from "./Header";
 
 const ContentArea = () => {
     const {showError, showSuccess} = useMessage();
@@ -22,6 +24,7 @@ const ContentArea = () => {
 
     const [state, dispatch] = useReducer(ApplicationReducer, {
         selectedArea: Areas.TileArea,
+        resetCacheCount: 0,
         payments:[],
         donationTypes:[],
         donationItems: [],
@@ -38,6 +41,8 @@ const ContentArea = () => {
     })
 
     return (
+        <>
+        <Header state={state} dispatch={dispatch}/>
         <Box style={[styles.full, styles.contentArea]}>
             <Center>
                 <Box style={styles.subContentArea}>
@@ -46,6 +51,7 @@ const ContentArea = () => {
                 </Box>
             </Center>                         
         </Box>
+        </>
     );
 };
 

@@ -32,7 +32,7 @@ const DisclaimerModal = ({state, dispatch}: any) => {
               mr="$3"
               onPress={() => onClose()}
             >
-              <ButtonText>Done</ButtonText>
+              <ButtonText>Close</ButtonText>
             </Button>
           </ModalFooter>
         </ModalContent>
