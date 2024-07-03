@@ -26,13 +26,14 @@ Follow React Native's official documentation for setting up a developer environm
 
 ## PR Approval
 
-- Ensure there is no business logic in views. Only HTML elements and click events.
-- All business logic is contained within custom hooks.
-- State is managed within React's useReducer hook.
-- Components are broken down into seperate basic functional components.
-- Ensure views are supported by unit tests.
-- Please test that changes work on your local device before committing to repo.
-- Add a verbose and helpful commit messages.
+- Typescript interfaces for all objects and functions.
+- Views are made up individual functional components.
+- Business logic is contained within custom hooks.
+- Global state is maintained within a Reducer.
+- Local state is maintained only within the functional component.
+- Unit Tests for each view
+- Commit messages are detailed
+- Changes are fully tested and working before checking in.
 
 ## Architecture
 
