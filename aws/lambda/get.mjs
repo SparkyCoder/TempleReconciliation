@@ -11,14 +11,11 @@ export const handler = async event => {
       case '/v1/users':
         expression = {':PartitionKey': 'GMT#USER'};
         break;
-      case '/v1/events':
-        expression = {':PartitionKey': 'GMT#EVENT'};
-        break;
       case '/v1/payments':
         expression = {':PartitionKey': 'GMT#PAYMENT'};
         break;
-      case '/v1/donations/items':
-        expression = {':PartitionKey': 'GMT#DONATION#ITEM'};
+      case '/v1/donations/types':
+        expression = {':PartitionKey': 'GMT#DONATION#TYPE'};
         break;
       case '/v1/donations/pins':
         expression = {':PartitionKey': 'GMT#FRONTDESK#PIN'};
@@ -34,12 +31,7 @@ export const handler = async event => {
     let queryResults = await dynamo.query(params);
     let queryItems = (queryResults.Items ??= []);
 
-    const results = queryItems.map(item => {
-      return {
-        id: item.SK,
-        data: item.Data,
-      };
-    });
+    const results = queryItems.map(item => item.Data);
 
     return {
       statusCode: 200,
