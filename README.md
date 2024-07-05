@@ -45,6 +45,7 @@ Follow React Native's official documentation for setting up a developer environm
 - GET `/v1/payments`
 - GET `/v1/donations/types`
 - GET `/v1/donations/pins`
+- POST `/v1/donations`
 
 ## DB Cost Estimate:
 
