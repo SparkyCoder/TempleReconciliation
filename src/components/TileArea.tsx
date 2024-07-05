@@ -26,14 +26,12 @@ const TileArea = ({state, dispatch} : any) => {
                             <ScrollView style={styles.scrollview}>
                                 <Center>
                                     {getTiles()}
-                                    {getTiles()}
                                 </Center>
                             </ScrollView>
                     </VStack>
                     :                    
                         <HStack space='lg' style={styles.stack}>
                             <ScrollView horizontal={true} style={styles.scrollview}>
-                                {getTiles()}
                                 {getTiles()}
                             </ScrollView>
                         </HStack>
