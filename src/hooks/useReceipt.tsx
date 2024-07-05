@@ -14,7 +14,7 @@ const useReceipt = () => {
         const timestamp = new Date().getTime();
         let options = {
             html: jsxString,
-            fileName: `Donation-Receipt-${state?.donation?.firstName ?? ''}-${state?.donation?.lastName ?? ''}-${timestamp}`,
+            fileName: state?.donation?.fileName ?? `Donation-Receipt-${state?.donation?.firstName ?? ''}-${state?.donation?.lastName ?? ''}-${state?.donation?.id ?? timestamp}`,
             directory: 'Documents',
           };
       
@@ -82,7 +82,7 @@ const useReceipt = () => {
             <table>
               <tr>
                 <th>Donation Date</th>
-                <td>${date}</td> 
+                <td>${state?.donation?.id}</td> 
               </tr>
               ${state?.donation?.chineseName ? `<tr>
                 <th>Chinese Name</th>
@@ -135,6 +135,10 @@ const useReceipt = () => {
               ${state?.donation?.frontDeskAttendee ? `<tr>
                 <th>Attendee</th>
                  <td>${state?.donation?.frontDeskAttendee ?? 'N/A'}</td>
+              </tr>` : ''}
+              ${state?.donation?.fileName ? `<tr>
+                <th>File Name</th>
+                 <td>${state?.donation?.fileName ?? 'N/A'}</td>
               </tr>` : ''}
             </table>
             <div>${createDonationItemList(state)}</div>

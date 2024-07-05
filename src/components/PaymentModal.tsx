@@ -44,7 +44,9 @@ const PaymentsModal = ({state, dispatch}: DefaultProps) => {
         }
         else if(matchingPin.length === 1){ 
             dispatch({type: HandlePostDonationLoading});
-            const donation: Donation = {...state.donation, frontDeskAttendee: matchingPin[0].frontDeskAttendee, id: uuid.v4().toString(), hasPaid: true, referenceNumber: referenceNumber ?? '', items: state.addedDonationItems};
+            const id = new Date().getTime().toString();
+            let fileName = `Donation-Receipt-${state?.donation?.firstName ?? ''}-${state?.donation?.lastName ?? ''}-${id}.pdf`;
+            const donation: Donation = {...state.donation, frontDeskAttendee: matchingPin[0].frontDeskAttendee, id: uuid.v4().toString(), fileName: fileName, hasPaid: true, referenceNumber: referenceNumber ?? '', items: state.addedDonationItems};
             postDonation(donation);
         }
     } 

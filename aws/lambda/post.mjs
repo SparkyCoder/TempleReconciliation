@@ -55,11 +55,13 @@ export const handler = async event => {
     }));
 
     const donation = {
-      date: date.toString(),
-      dataDisclaimer: json.dataDisclaimer,
-      payment: json.payment,
-      referenceNumber: json.referenceNumber,
-      frontDeskAttendee: json.frontDeskAttendee,
+      id: json.id ?? notAvailable,
+      fileName: json.fileName ?? notAvailable,
+      date: date.toString() ?? notAvailable,
+      dataDisclaimer: json.dataDisclaimer ?? notAvailable,
+      payment: json.payment ?? notAvailable,
+      referenceNumber: json.referenceNumber ?? notAvailable,
+      frontDeskAttendee: json.frontDeskAttendee ?? notAvailable,
       user: user,
       items: items,
     };

@@ -17,5 +17,6 @@ export interface Donation {
     id: string,
     hasPaid: boolean,
     referenceNumber: string,
+    fileName: string,
     item: Array<ClassItem> | Array<OthersItem> | Array<DefaultItem> | Array<OneTimeTabletItem>
 }
