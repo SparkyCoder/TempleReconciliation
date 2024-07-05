@@ -37,7 +37,8 @@ const ContentArea = () => {
         createReceiptPdf,
         select,
         saveData,
-        getData
+        getData,
+        post
     })
 
     return (

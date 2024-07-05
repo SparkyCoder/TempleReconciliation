@@ -14,6 +14,7 @@ export interface State {
     isGetPaymentsLoading: boolean,
     isGetDonationTypesLoading: boolean,
     isGetFrontDeskPinLoadings: boolean,
+    isPostDonationLoading: boolean,
     isDisclaimerModalOpen: boolean,
     isGetUsersLoading: boolean,
     isAddDonationItemModalOpen: boolean,
@@ -35,5 +36,6 @@ export interface State {
     createReceiptPdf: (state: State, onComplete: () => void) => void,
     select: (list: Array<DropDownList> | undefined, label: string) => DropDownList,
     saveData: (key: string, value: any) => void,
-    getData:<T>(key:string) => Promise<T>
+    getData:<T>(key:string) => Promise<T>,
+    postDonation: (donation: Donation) => void
 }

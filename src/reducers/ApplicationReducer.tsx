@@ -15,11 +15,12 @@ export const HandleOnViewDonationItemsModalOpen = 'HandleOnViewDonationItemsModa
 export const HandleOnViewDonationItemsModalClosed = 'HandleOnViewDonationItemsModalClosed'
 export const HandleDonationSubmitted = 'HandleDonationSubmitted';
 export const HandleGetFrontDeskPinsComplete = 'HandleGetFrontDeskPinsComplete';
-export const HandlePostDonationComplete = 'HandlePostDonationComplete';
 export const HandleReceiptCreated = 'HandleReceiptCreated';
 export const HandleDisclaimerModalOpened = 'HandleDisclaimerModalOpened';
 export const HandleDisclaimerModalClosed = 'HandleDisclaimerModalClosed';
 export const HandleOnPaymentModalClosed = 'HandleOnPaymentModalClosed';
+export const HandlePostDonationLoading = 'HandlePostDonationLoading'
+export const HandlePostDonationComplete = 'HandlePostDonationComplete';
 
 const ApplicationReducer = (state: State, action: any) => {
     switch (action.type) {
@@ -53,14 +54,17 @@ const ApplicationReducer = (state: State, action: any) => {
           return {...state, isViewDonationItemsOpen:false, isAddDonationItemModalOpen:false, isPaymentModalOpen:true, donation: action.payload}
       case HandleOnPaymentModalClosed:
           return {...state, isPaymentModalOpen:false}
-      case HandlePostDonationComplete:
-          return {...state, donation: {...state.donation, frontDeskAttendee: action.payload.attendee, id: action.payload.id, hasPaid: true, referenceNumber:action.payload.referenceNumber}}
       case HandleReceiptCreated:
           return {...state, isPaymentModalOpen:false, selectedArea: AREAS.TileArea, donation: {}}
       case HandleDisclaimerModalOpened:
           return {...state, isDisclaimerModalOpen: true, disclaimerText: action.payload.text, disclaimerTitle: action.payload.title}
       case HandleDisclaimerModalClosed:
           return {...state, isDisclaimerModalOpen: false, disclaimerText: '', disclaimerTitle: ''}
+      case HandlePostDonationLoading:
+          return {...state, isPostDonationLoading: true}
+      case HandlePostDonationComplete:
+          return {...state, isPostDonationLoading: false, donation: action.payload}
+
       default:
         return state;
     }

@@ -20,22 +20,23 @@ const DonationArea = ({state, dispatch} : any) => {
     const {getPayments, getDonationTypes, getFrontDeskPins, getUsers} = useAxios(state, dispatch);
 
     const defaultForm: Donation = {
-      street: '', 
+      street: '',
       city: '',
       state: '',
       zipCode: '',
-      chineseName: '', 
-      donationType: '', 
-      email: '', 
+      chineseName: '',
+      donationType: '',
+      email: '',
       firstName: '',
       lastName: '',
-      payment: '', 
-      phone: '', 
+      payment: '',
+      phone: '',
       dataDisclaimer: false,
       frontDeskAttendee: "",
       id: "",
       hasPaid: false,
-      referenceNumber: ""
+      referenceNumber: "",
+      item: []
     };
     const [form, setForm] = useState<Donation>(defaultForm);
 
@@ -64,7 +65,7 @@ const DonationArea = ({state, dispatch} : any) => {
 
     return (
         <Box>
-                    <Loading isLoading={state.isGetFrontDeskPinLoadings || state.isGetPaymentsLoading || state.isGetDonationTypesLoading} title={'Loading...'} />
+                    <Loading isLoading={state.isPostDonationLoading || state.isGetFrontDeskPinLoadings || state.isGetPaymentsLoading || state.isGetDonationTypesLoading} title={'Loading...'} />
                     <DonationItemsModal state={state} dispatch={dispatch} donationType={form.donationType ?? ''} />
                     <ViewDonationItemsModal state={state} dispatch={dispatch} />
                     <PaymentsModal state={state} dispatch={dispatch} />

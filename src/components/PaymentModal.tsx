@@ -1,15 +1,18 @@
 import { Box, Center, CloseIcon, Heading, Icon, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalHeader } from "@gluestack-ui/themed";
 import { sha256 } from 'js-sha256';
 import uuid from 'react-native-uuid';
-import { HandleOnPaymentModalClosed, HandlePostDonationComplete, HandleReceiptCreated } from "../reducers/ApplicationReducer";
+import { HandleOnPaymentModalClosed, HandlePostDonationComplete, HandlePostDonationLoading, HandleReceiptCreated } from "../reducers/ApplicationReducer";
 import { useEffect, useState } from "react";
 import React from "react";
 import { DefaultProps } from "../interfaces/state";
 import Payments from "../constants/Payments";
+import useAxios from "../hooks/useAxios";
+import { Donation } from "../interfaces/donation";
 
 const PaymentsModal = ({state, dispatch}: DefaultProps) => {   
     const [currentPin, setCurrentPin] = useState<string>();
     const [referenceNumber, setReferenceNumber] = useState<string>();
+    const {postDonation} = useAxios(state, dispatch);
 
     useEffect(() => {
         onPinChange();
@@ -40,12 +43,9 @@ const PaymentsModal = ({state, dispatch}: DefaultProps) => {
             state.showError('Warning', 'This pin matches more than one front desk attendee. Please make sure pins are unique.')
         }
         else if(matchingPin.length === 1){ 
-            state.showSuccess('Success', 'Pin Matched')
-            state.showSuccess('Success', 'Donation Saved!')
-            //Call POST to save donation in AWS
-            ///Just for testing
-            dispatch({type: HandlePostDonationComplete, payload: {attendee: matchingPin[0].frontDeskAttendee, id: uuid.v4(), referenceNumber: referenceNumber }});
-            /////////
+            dispatch({type: HandlePostDonationLoading});
+            const donation: Donation = {...state.donation, frontDeskAttendee: matchingPin[0].frontDeskAttendee, id: uuid.v4().toString(), hasPaid: true, referenceNumber: referenceNumber ?? '', items: state.addedDonationItems};
+            postDonation(donation);
         }
     } 
 

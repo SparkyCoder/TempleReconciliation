@@ -1,7 +1,8 @@
 import axios from "axios";
-import { HandleGetDonationTypesComplete, HandleGetFrontDeskPinsComplete, HandleGetPaymentsComplete, HandleGetRequestError, HandleGetUsersComplete } from "../reducers/ApplicationReducer";
+import { HandleGetDonationTypesComplete, HandleGetFrontDeskPinsComplete, HandleGetPaymentsComplete, HandleGetRequestError, HandleGetUsersComplete, HandlePostDonationComplete } from "../reducers/ApplicationReducer";
 import URLS from "../constants/Urls";
 import Storage from "../constants/Storage";
+import { Donation } from "../interfaces/donation";
 
 const useAxios = (state: any, auditDispatch : any) => {  
 
@@ -77,7 +78,17 @@ const getPayments = async () => {
     });
 }
 
-    return {getDonationTypes, getPayments, getFrontDeskPins, getUsers};
+const postDonation = async (donation: Donation) => {
+  axios.post(`${URLS.Root}${URLS.PostDonation}`, donation).then(async () => {
+      auditDispatch({ type: HandlePostDonationComplete, payload: donation })
+    })
+    .catch((error) => {
+      state.showError('Error', 'Could not save donation.')
+      auditDispatch({ type: HandleGetRequestError, payload: error })
+    });
+}
+
+    return {getDonationTypes, getPayments, getFrontDeskPins, getUsers, postDonation};
 };
 
 export default useAxios;
