@@ -11,11 +11,19 @@ const Header = ({state} : DefaultProps) => {
   const [count, setCount] = useState<number>(0);
 
   useEffect(() => {
-    resetCache()
+    if(count === 1){
+      startResetCountdown();
+    }
+    else if(count>=10){
+      resetCache()
+    }
   },[count])
 
+  const startResetCountdown = () => {
+    setTimeout(() => setCount(0), 10000);
+  }
+
   const resetCache = () => {
-    if(count < 3) return;
     state.showSuccess('Cache Cleared', 'All local storage has been reset')
     clearAllData()
     setCount(0);
