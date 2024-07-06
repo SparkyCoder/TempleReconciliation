@@ -16,10 +16,10 @@ import Header from "./Header";
 
 const ContentArea = () => {
     const {showError, showSuccess} = useMessage();
-    const {select} = useSelect();
+    const {select, selectPhone} = useSelect();
     const {validate} = useValidation();
     const {createReceiptPdf} = useReceipt()
-    const {saveData, getData} = useStorage();
+    const {saveData, getData, clearAllData, clearUsers} = useStorage();
 
 
     const [state, dispatch] = useReducer(ApplicationReducer, {
@@ -36,8 +36,11 @@ const ContentArea = () => {
         validate,
         createReceiptPdf,
         select,
+        selectPhone,
         saveData,
-        getData
+        getData,
+        clearAllData,
+        clearUsers
     })
 
     return (

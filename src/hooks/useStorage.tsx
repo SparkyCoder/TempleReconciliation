@@ -24,13 +24,17 @@ const useStorage = () => {
       };
 
       const clearAllData = async () => {
-        await saveData(Storage.Users, null);
-        await saveData(Storage.Payments, null);
-        await saveData(Storage.DonationTypes, null);
-        await saveData(Storage.Pins, null);
+        clearUsers();
+        await AsyncStorage.removeItem(Storage.Payments);
+        await AsyncStorage.removeItem(Storage.DonationTypes);
+        await AsyncStorage.removeItem(Storage.Pins);
       };
 
-    return {saveData, getData, clearAllData};
+      const clearUsers = async () => {
+        await AsyncStorage.removeItem(Storage.Users);
+      }
+
+    return {saveData, getData, clearAllData, clearUsers};
 };
 
 export default useStorage;

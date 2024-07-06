@@ -35,7 +35,10 @@ export interface State {
     validate: (Name: string, Value: string) => boolean,
     createReceiptPdf: (state: State, onComplete: () => void) => void,
     select: (list: Array<DropDownList> | undefined, label: string) => DropDownList,
+    selectPhone: (users: Array<User>, number: string) => User,
     saveData: (key: string, value: any) => void,
     getData:<T>(key:string) => Promise<T>,
-    postDonation: (donation: Donation) => void
+    postDonation: (donation: Donation) => void,
+    clearAllDdata: () => void,
+    clearUsers: () => void
 }

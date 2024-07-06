@@ -1,9 +1,10 @@
 export interface User{
-    englishName: string,
+    firstName: string,
+    lastName: string,
     chineseName: string,
     email: string,
     phone: string,
-    address: string,
+    street: string,
     city: string,
     state: string,
     zipCode: string

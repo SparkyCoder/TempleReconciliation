@@ -25,7 +25,7 @@ export const HandlePostDonationComplete = 'HandlePostDonationComplete';
 const ApplicationReducer = (state: State, action: any) => {
     switch (action.type) {
       case HandleGetRequestError:
-      return { ...state, isGetPaymentsLoading:false, isGetDonationTypesLoading:false, isGetFrontDeskPinLoadings:false, error: action.payload };
+      return { ...state, isGetPaymentsLoading:false, isPostDonationLoading:false, isDisclaimerModalOpen:false, isGetDonationTypesLoading:false, isGetFrontDeskPinLoadings:false, error: action.payload, isViewDonationItemsOpen:false, isPaymentModalOpen:false };
       case HandleDonationTileOnClick:
         return {...state, selectedArea: AREAS.DonationArea} 
       case HandleDonationCancelButtonOnClick: 

@@ -23,11 +23,7 @@ export const handler = async event => {
       return {
         statusCode: 400,
         headers: {
-          'Access-Control-Allow-Headers':
-            'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
           'Access-Control-Allow-Method': 'OPTIONS,POST',
-          'Access-Control-Allow-Origin': 'https://www.amp2-portal.com',
-          'Access-Control-Allow-Credentials': true,
         },
         body: JSON.stringify('Bad Request'),
       };
@@ -37,7 +33,7 @@ export const handler = async event => {
       firstName: json.firstName,
       lastName: json.lastName,
       phone: json.phone ?? notAvailable,
-      email: json.email ?? notAvailable,
+      email: json.email.replace(/\D/g, '') ?? notAvailable,
       street: json.street ?? notAvailable,
       city: json.city ?? notAvailable,
       state: json.state ?? notAvailable,
@@ -72,7 +68,7 @@ export const handler = async event => {
         Item: {
           PK: 'GMT#USER',
           SK: epoch,
-          Details: user,
+          Data: user,
         },
       };
 

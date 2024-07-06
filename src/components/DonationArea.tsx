@@ -13,8 +13,9 @@ import React from "react";
 import { Donation } from "../interfaces/donation";
 import DisclaimerModal from "./DisclaimerModal";
 import Disclaimers from "../constants/Disclaimers";
+import { DefaultProps } from "../interfaces/state";
 
-const DonationArea = ({state, dispatch} : any) => {
+const DonationArea = ({state, dispatch} : DefaultProps) => {
     const {isVertical} = useDimensions();
     const {getDropDown} = useDropDowns();
     const {getPayments, getDonationTypes, getFrontDeskPins, getUsers} = useAxios(state, dispatch);
@@ -36,7 +37,8 @@ const DonationArea = ({state, dispatch} : any) => {
       id: "",
       hasPaid: false,
       referenceNumber: "",
-      item: []
+      item: [],
+      fileName: ""
     };
     const [form, setForm] = useState<Donation>(defaultForm);
 
@@ -51,7 +53,7 @@ const DonationArea = ({state, dispatch} : any) => {
     const onSubmit = () => {
       let isDonationTypeValid = state.validate('Donation Type', form.donationType);
       let isEnglishNameValid = state.validate('First Name', form.firstName) && state.validate('Last Name', form.lastName); 
-      let isDiscaimerChecked = state.validate('Data Disclaimer', form.dataDisclaimer)
+      let isDiscaimerChecked = state.validate('Data Disclaimer', form.dataDisclaimer.toString())
       let isDonationItemValid = state.addedDonationItems.length > 0;
       if(!isDonationItemValid)
         state.showError('Error', 'At least one Donation Item is requred. 至少需要一件捐赠物品')
@@ -60,6 +62,15 @@ const DonationArea = ({state, dispatch} : any) => {
       
       if(isDonationTypeValid && isEnglishNameValid && isDonationItemValid && isPaymentValid && isDiscaimerChecked){
         dispatch({ type: HandleDonationSubmitted, payload: form })
+      }
+    }
+
+    const onPhoneTextChange = (value: string) => {
+      if(value && (!form.firstName || !form.lastName)){
+        let foundUser = state.selectPhone(state.users, value);
+        if(foundUser){
+          setForm({...form, phone: foundUser.phone, email:foundUser.email, firstName: foundUser.firstName, lastName: foundUser.lastName, street: foundUser.street, city: foundUser.city, state: foundUser.state, zipCode: foundUser.zipCode});
+        }
       }
     }
 
@@ -82,8 +93,8 @@ const DonationArea = ({state, dispatch} : any) => {
                                     variant="outline"
                                     size="md"
                                     >
-                                    <InputField keyboardType="phone-pad" placeholder="Phone 電話"
-                                    onChangeText={(value:string) => setForm({...form, phone:value})} />
+                                    <InputField keyboardType="phone-pad" placeholder="Phone 電話" value={form.phone}
+                                    onChangeText={(value: string) => onPhoneTextChange(value)} />
                                 </Input>
                             </Box>
                             <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
@@ -92,7 +103,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                     variant="outline"
                                     size="md"
                                     >
-                                    <InputField placeholder="Name in Chinese 捐款人中文名字"
+                                    <InputField value={form.chineseName} placeholder="Name in Chinese 捐款人中文名字"
                                     onChangeText={(value:string) => setForm({...form, chineseName:value})} />
                                 </Input>
                             </Box>
@@ -102,14 +113,14 @@ const DonationArea = ({state, dispatch} : any) => {
                                     variant="outline"
                                     size="md"
                                     >
-                                    <InputField placeholder="First Name"
+                                    <InputField placeholder="First Name" value={form.firstName}
                                     onChangeText={(value:string) => setForm({...form, firstName:value})} /> 
                                 </Input>
                                 <Input
                                     variant="outline"
                                     size="md"
                                     >
-                                    <InputField placeholder="Last Name"
+                                    <InputField placeholder="Last Name" value={form.lastName}
                                     onChangeText={(value:string) => setForm({...form, lastName:value})} /> 
                                 </Input>
                             </Box>
@@ -119,7 +130,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                     variant="outline"
                                     size="md"
                                     >
-                                    <InputField keyboardType="email-address" placeholder="Email 電子郵件"
+                                    <InputField keyboardType="email-address" placeholder="Email 電子郵件" value={form.email}
                                     onChangeText={(value:string) => setForm({...form, email:value})} />
                                 </Input>
                             </Box>
@@ -130,7 +141,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                     size="md"
                                     style={{marginTop:'2%'}}
                                     >
-                                    <InputField placeholder="Street"
+                                    <InputField placeholder="Street" value={form.street}
                                     onChangeText={(value:string) => setForm({...form, street:value})} />
                                 </Input>
                                 <Input
@@ -138,7 +149,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                     size="md"
                                     style={{marginTop:'2%'}}
                                     >
-                                    <InputField placeholder="City"
+                                    <InputField placeholder="City"  value={form.city}
                                     onChangeText={(value:string) => setForm({...form, city:value})} />
                                 </Input>
                                 <Input
@@ -146,7 +157,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                     size="md"
                                     style={{marginTop:'2%'}}
                                     >
-                                    <InputField placeholder="State"
+                                    <InputField placeholder="State"  value={form.state}
                                     onChangeText={(value:string) => setForm({...form, state:value})} />
                                 </Input>
                                 <Input
@@ -154,7 +165,7 @@ const DonationArea = ({state, dispatch} : any) => {
                                     size="md"
                                     style={{marginTop:'2%'}}
                                     >
-                                    <InputField keyboardType="number-pad" placeholder="Zip Code"
+                                    <InputField keyboardType="number-pad" placeholder="Zip Code"  value={form.zipCode}
                                     onChangeText={(value:string) => setForm({...form, zipCode:value})} />
                                 </Input>
                             </Box>

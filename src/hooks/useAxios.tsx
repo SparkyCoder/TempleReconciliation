@@ -80,10 +80,13 @@ const getPayments = async () => {
 
 const postDonation = async (donation: Donation) => {
   axios.post(`${URLS.Root}${URLS.PostDonation}`, donation).then(async () => {
+      if(donation && donation.phone){
+        state.clearUsers();
+      };
       auditDispatch({ type: HandlePostDonationComplete, payload: donation })
     })
     .catch((error) => {
-      state.showError('Error', 'Could not save donation.')
+      state.showError('Error', 'Could not save donation.' )
       auditDispatch({ type: HandleGetRequestError, payload: error })
     });
 }
