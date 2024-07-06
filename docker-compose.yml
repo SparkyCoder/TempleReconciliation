@@ -1,0 +1,37 @@
+version: '3.9'
+services:
+  reactnative:
+    build:
+      context: .
+      dockerfile: dockerfile.reactnative
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /dev/bus/usb:/dev/bus/usb  # Mount USB devices
+    ports:
+      - "8081:8081"
+    environment:
+      - NODE_ENV=development
+      - ANDROID_SDK_ROOT=/usr/local/android-sdk
+    privileged: true  # Grant the container access to all devices on the host
+    container_name: tr_rn
+    devices:
+      - "/dev/bus/usb:/dev/bus/usb"  # Ensure this is added
+    depends_on:
+      - android
+
+  android:
+    build:
+      context: .
+      dockerfile: dockerfile.android
+    environment:
+      - NODE_ENV=development
+      - ANDROID_SDK_ROOT=/usr/local/android-sdk
+    volumes:
+      - .:/app
+    devices:
+      - "/dev/bus/usb:/dev/bus/usb"  # Ensure this is added
+    ports:
+      - "8082:8082"
+    privileged: true  # Grant the container access to all devices on the host
+    container_name: tr_android
