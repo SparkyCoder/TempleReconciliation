@@ -2741,6 +2741,11 @@
   dependencies:
     "@babel/types" "^7.20.7"
 
+"@types/crypto-js@^4.2.2":
+  version "4.2.2"
+  resolved "https://registry.npmjs.org/@types/crypto-js/-/crypto-js-4.2.2.tgz"
+  integrity sha512-sDOLlVbHhXpAUAL0YHDUUwDZf3iN4Bwi4W6a0W0b+QcAezUbRtH4FVb+9J4h+XFPW7l/gQ9F8qC7P+Ec4k8QVQ==
+
 "@types/graceful-fs@^4.1.3":
   version "4.1.9"
   dependencies:
@@ -2779,6 +2784,11 @@
 
 "@types/prop-types@*":
   version "15.7.12"
+
+"@types/react-native-crypto-js@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@types/react-native-crypto-js/-/react-native-crypto-js-1.0.3.tgz"
+  integrity sha512-RrXgp58Lf8cfj5fLJoSHecSG+L87t1o5g5XwOHqgSpj18CtRUuwYKWFobqMK1nivTidcTveQG9lJDUUV7rJv8A==
 
 "@types/react-native-html-to-pdf@^0.8.3":
   version "0.8.3"
@@ -3465,6 +3475,16 @@ cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+crypto-js@^3.1.6:
+  version "3.3.0"
+  resolved "https://registry.npmjs.org/crypto-js/-/crypto-js-3.3.0.tgz"
+  integrity sha512-DIT51nX0dCfKltpRiXV+/TVZq+Qq2NgF4644+K7Ttnla7zEzqc+kjJyiB96BHNyUTBxyjzRcZYpUdZa+QAqi6Q==
+
+crypto-js@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.npmjs.org/crypto-js/-/crypto-js-4.2.0.tgz"
+  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
 
 css-in-js-utils@^3.1.0:
   version "3.1.0"
@@ -5298,6 +5318,11 @@ mkdirp@^0.5.1:
 mkdirp@^1.0.4:
   version "1.0.4"
 
+moment@^2.11.2, moment@^2.30.1:
+  version "2.30.1"
+  resolved "https://registry.npmjs.org/moment/-/moment-2.30.1.tgz"
+  integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
+
 ms@2.0.0:
   version "2.0.0"
 
@@ -5665,6 +5690,14 @@ react-is@^16.13.1:
 
 react-is@^17.0.1:
   version "17.0.2"
+
+react-native-aws-signature@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.npmjs.org/react-native-aws-signature/-/react-native-aws-signature-0.0.9.tgz"
+  integrity sha512-C8VbYQYahR7DWWL6lvpqK023Qg11TvW/qJt44Kap5IHf1Xu7RvXOk9w0u6xep397mPW7VYodmgOuUhpsqSNusw==
+  dependencies:
+    crypto-js "^3.1.6"
+    moment "^2.11.2"
 
 react-native-file-viewer@^2.1.5:
   version "2.1.5"

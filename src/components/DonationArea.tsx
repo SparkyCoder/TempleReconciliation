@@ -68,10 +68,12 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
     const onPhoneTextChange = (value: string) => {
       if(value && (!form.firstName || !form.lastName)){
         let foundUser = state.selectPhone(state.users, value);
-        if(foundUser){
+        if(foundUser?.firstName){
           setForm({...form, phone: foundUser.phone, email:foundUser.email, firstName: foundUser.firstName, lastName: foundUser.lastName, street: foundUser.street, city: foundUser.city, state: foundUser.state, zipCode: foundUser.zipCode});
+          return;
         }
       }
+      setForm({...form, phone: value})
     }
 
     return (

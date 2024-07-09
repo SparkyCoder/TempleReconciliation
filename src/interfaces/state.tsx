@@ -21,6 +21,8 @@ export interface State {
     isViewDonationItemsOpen: boolean,
     isPaymentModalOpen: boolean,
     selectedArea: string,
+    secretKey: string,
+    accessKey: string,
     payments: Array<string>,
     donationTypes: Array<string>,
     users: Array<User>

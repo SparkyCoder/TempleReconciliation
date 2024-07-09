@@ -40,8 +40,13 @@ const ContentArea = () => {
         saveData,
         getData,
         clearAllData,
-        clearUsers
+        clearUsers,
+        accessKey: '##########',
+        secretKey: '#########################'
     })
+
+    //For Developement Pursposes Only
+    useEffect(() => console.log(state.error), [state.error]);
 
     return (
         <>

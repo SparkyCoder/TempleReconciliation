@@ -1,7 +1,7 @@
 import AREAS from "../constants/Areas";
 import { State } from "../interfaces/state";
 
-export const HandleGetRequestError = "HandleGetRequestError";
+export const HandleError = "HandleError";
 export const HandleDonationTileOnClick = "HandleDonationTileOnClick";
 export const HandleDonationCancelButtonOnClick = "HandleDonationCancelButtonOnClick";
 export const HandleOnDonationAreaLoad = 'HandleOnDonationAreaLoad';
@@ -24,8 +24,8 @@ export const HandlePostDonationComplete = 'HandlePostDonationComplete';
 
 const ApplicationReducer = (state: State, action: any) => {
     switch (action.type) {
-      case HandleGetRequestError:
-      return { ...state, isGetPaymentsLoading:false, isPostDonationLoading:false, isDisclaimerModalOpen:false, isGetDonationTypesLoading:false, isGetFrontDeskPinLoadings:false, error: action.payload, isViewDonationItemsOpen:false, isPaymentModalOpen:false };
+      case HandleError:
+      return { ...state, isGetUsersLoading:false, isGetPaymentsLoading:false, isPostDonationLoading:false, isDisclaimerModalOpen:false, isGetDonationTypesLoading:false, isGetFrontDeskPinLoadings:false, error: action.payload, isViewDonationItemsOpen:false, isPaymentModalOpen:false };
       case HandleDonationTileOnClick:
         return {...state, selectedArea: AREAS.DonationArea} 
       case HandleDonationCancelButtonOnClick: 
