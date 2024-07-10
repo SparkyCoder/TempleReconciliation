@@ -28,9 +28,6 @@ const useStorage = () => {
         await AsyncStorage.removeItem(Storage.Payments);
         await AsyncStorage.removeItem(Storage.DonationTypes);
         await AsyncStorage.removeItem(Storage.Pins);
-
-        await AsyncStorage.removeItem(Storage.AccessKey);
-        await AsyncStorage.removeItem(Storage.SecretKey);
       };
 
       const clearUsers = async () => {

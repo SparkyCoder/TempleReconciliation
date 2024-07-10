@@ -41,6 +41,6 @@ export interface State {
     saveData: (key: string, value: any) => void,
     getData:<T>(key:string) => Promise<T>,
     postDonation: (donation: Donation) => void,
-    clearAllDdata: () => void,
+    clearAllData: () => void,
     clearUsers: () => void
 }

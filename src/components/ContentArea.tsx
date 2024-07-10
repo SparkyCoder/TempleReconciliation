@@ -13,9 +13,8 @@ import useSelect from "../hooks/useSelect";
 import useStorage from "../hooks/useStorage";
 import React from "react";
 import Header from "./Header";
-import { Settings } from "react-native";
 import SettingsArea from "./SettingsArea";
-import Storage from "../constants/Storage";
+import useApiCredentials from "../hooks/useApiCredentials";
 
 const ContentArea = () => {
     const {showError, showSuccess} = useMessage();
@@ -23,6 +22,7 @@ const ContentArea = () => {
     const {validate} = useValidation();
     const {createReceiptPdf} = useReceipt()
     const {saveData, getData, clearAllData, clearUsers} = useStorage();
+    const {getApiCredentials} = useApiCredentials();
 
 
     const [state, dispatch] = useReducer(ApplicationReducer, {
@@ -53,12 +53,8 @@ const ContentArea = () => {
     }, [state.selectedArea])
 
     const onComponentLoad = async () => {
-        const accessKey = await getData(Storage.AccessKey);
-        const secretKey = await getData(Storage.SecretKey);
-
-        const payload = {accessKey, secretKey};
-        console.log(payload)
-        dispatch({ type: HandlOnApiCredentialsLoaded, payload: payload })
+        var credentials = await getApiCredentials();
+        dispatch({ type: HandlOnApiCredentialsLoaded, payload: credentials })
     }
 
     //For Developement Pursposes Only
@@ -66,7 +62,7 @@ const ContentArea = () => {
 
     return (
         <>
-        <Header state={state} dispatch={dispatch}/>
+        <Header />
         <Box style={[styles.full, styles.contentArea]}>
             <Center>
                 <Box style={styles.subContentArea}>

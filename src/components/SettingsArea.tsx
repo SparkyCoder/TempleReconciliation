@@ -3,35 +3,42 @@ import React, { useState } from "react";
 import { DefaultProps } from "../interfaces/state";
 import { HandleCancelButtonOnClick } from "../reducers/ApplicationReducer";
 import { styles } from "../styles/styles";
-import Storage from "../constants/Storage";
+import useApiCredentials from "../hooks/useApiCredentials";
+import Divider from "./Divider";
 
 const SettingsArea = ({state, dispatch} : DefaultProps) => {
-    const [accessKey, setAccessKey] = useState<string>();
-    const [secretKey, setSecretKey] = useState<string>();
+    const {saveApiCredentials} = useApiCredentials();
+    const [accessKey, setAccessKey] = useState<string>('');
+    const [secretKey, setSecretKey] = useState<string>('');
 
     const onSave = async () => {
-        if(accessKey){
-            await state.saveData(Storage.AccessKey, accessKey);
-            state.showSuccess('Success', 'Access Key Saved.');
-        }
-
-        if(secretKey){
-            await state.saveData(Storage.SecretKey, secretKey);
-            state.showSuccess('Success', 'Secret Key Saved.');
-        }
-        
+        saveApiCredentials(accessKey, secretKey);
+        state.showSuccess('Success', 'Secret Key Saved.');
         dispatch({ type: HandleCancelButtonOnClick });
+    }
+
+    const onClearCache = () => {
+        state.clearAllData()
+        state.showSuccess('Success', 'Local cache has been cleared.')
     }
 
     return (
         <Box>
-            <View style={{flexDirection: 'row', alignItems: 'center', marginHorizontal: '5%', marginTop:'2%'}}>
-                <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-                    <View>
-                        <Text style={{width: 140, textAlign: 'center'}}>API Credentials</Text>
-                    </View>
-                <View style={{flex: 1, height: 1, backgroundColor: 'black'}} />
-            </View>
+            <Divider text={'Cache'} />
+            <Box style={{marginTop:'2%', borderColor:'black', borderWidth:0.5, marginHorizontal: '5%'}}>
+                <Center>
+                    <Button 
+                        size="md"
+                        variant="solid"
+                        action="primary"
+                        onTouchEnd={() => onClearCache()}
+                        style={{marginVertical:'2%'}}
+                        >
+                        <ButtonText>Clear Cache</ButtonText>
+                    </Button>
+                </Center>
+            </Box>
+            <Divider text={'Api Credentials'} />
             <Box style={{marginTop:'2%', borderColor:'black', borderWidth:0.5, marginHorizontal: '5%'}}>
             <Input
                 variant="outline"

@@ -4,13 +4,16 @@ import Tile from "./Tile";
 import useDimensions from "../hooks/useDimensions";
 import { HandleDonationTileOnClick, HandleSettingsTileOnClick } from "../reducers/ApplicationReducer";
 import Loading from "./Loading";
-import React from "react";
+import React, { useEffect } from "react";
 import { DefaultProps } from "../interfaces/state";
 
 const TileArea = ({state, dispatch} : DefaultProps) => {
     const {isVertical} = useDimensions();
 
     const getTiles = () => {
+        useEffect(() =>{
+            console.log(state.accessKey, state.secretKey)
+        },[])
         return (
             <>
                 { state.accessKey && state.secretKey && 
