@@ -1,6 +1,7 @@
 import { Box, Center, Heading, Image, Pressable } from "@gluestack-ui/themed";
 import { styles } from "../styles/styles";
 import useDimensions from "../hooks/useDimensions";
+import React from "react";
 
 const Tile = (props: any) => {
     const {isVertical} = useDimensions();

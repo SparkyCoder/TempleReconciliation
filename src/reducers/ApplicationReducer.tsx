@@ -3,7 +3,7 @@ import { State } from "../interfaces/state";
 
 export const HandleError = "HandleError";
 export const HandleDonationTileOnClick = "HandleDonationTileOnClick";
-export const HandleDonationCancelButtonOnClick = "HandleDonationCancelButtonOnClick";
+export const HandleCancelButtonOnClick = "HandleCancelButtonOnClick";
 export const HandleOnDonationAreaLoad = 'HandleOnDonationAreaLoad';
 export const HandleGetPaymentsComplete = 'HandleGetPaymentsComplete';
 export const HandleGetUsersComplete = 'HandleGetUsersComplete';
@@ -21,6 +21,8 @@ export const HandleDisclaimerModalClosed = 'HandleDisclaimerModalClosed';
 export const HandleOnPaymentModalClosed = 'HandleOnPaymentModalClosed';
 export const HandlePostDonationLoading = 'HandlePostDonationLoading'
 export const HandlePostDonationComplete = 'HandlePostDonationComplete';
+export const HandleSettingsTileOnClick = 'HandleSettingsTileOnClick';
+export const HandlOnApiCredentialsLoaded = 'HandlOnApiCredentialsLoaded';
 
 const ApplicationReducer = (state: State, action: any) => {
     switch (action.type) {
@@ -28,7 +30,9 @@ const ApplicationReducer = (state: State, action: any) => {
       return { ...state, isGetUsersLoading:false, isGetPaymentsLoading:false, isPostDonationLoading:false, isDisclaimerModalOpen:false, isGetDonationTypesLoading:false, isGetFrontDeskPinLoadings:false, error: action.payload, isViewDonationItemsOpen:false, isPaymentModalOpen:false };
       case HandleDonationTileOnClick:
         return {...state, selectedArea: AREAS.DonationArea} 
-      case HandleDonationCancelButtonOnClick: 
+      case HandleSettingsTileOnClick:
+        return {...state, selectedArea: AREAS.SettingsArea} 
+      case HandleCancelButtonOnClick: 
         return {...state, selectedArea: AREAS.TileArea}
       case HandleOnDonationAreaLoad:
         return {...state, donation:{}, isDisclaimerModalOpen:false, isGetUsersLoading:true, isGetPaymentsLoading:true, isGetDonationTypesLoading:true, isGetFrontDeskPinLoadings:true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
@@ -64,6 +68,8 @@ const ApplicationReducer = (state: State, action: any) => {
           return {...state, isPostDonationLoading: true}
       case HandlePostDonationComplete:
           return {...state, isPostDonationLoading: false, donation: action.payload}
+      case HandlOnApiCredentialsLoaded: 
+          return {...state, accessKey: action.payload?.accessKey, secretKey: action.payload?.secretKey}
 
       default:
         return state;

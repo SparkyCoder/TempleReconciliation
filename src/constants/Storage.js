@@ -4,6 +4,8 @@ const Storage = {
   DonationTypes: 'DonationTypes',
   Pins: 'LocalPins',
   ReceiptNumber: 'LocalReceiptNumber',
+  AccessKey: 'AccessKey',
+  SecretKey: 'SecretKey',
 };
 
 export default Storage;

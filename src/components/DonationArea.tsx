@@ -1,7 +1,7 @@
 import { Box, Button, Center, ButtonText, HStack, Heading, Icon, Input, InputField, ScrollView, ButtonIcon, AddIcon, EditIcon, Checkbox, CheckboxIndicator, CheckboxIcon, CheckIcon, CheckboxLabel, VStack, Text } from "@gluestack-ui/themed";
 import useDimensions from "../hooks/useDimensions";
 import Loading from "./Loading";
-import { HandleDisclaimerModalOpened, HandleDonationCancelButtonOnClick, HandleDonationSubmitted, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnDonationItemUpdated, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
+import { HandleCancelButtonOnClick, HandleDisclaimerModalOpened, HandleDonationSubmitted, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnDonationItemUpdated, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
 import { styles } from "../styles/styles";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
@@ -244,7 +244,7 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
                                       size="md"
                                       variant="solid"
                                       action="primary"
-                                      onTouchEnd={() => dispatch({ type: HandleDonationCancelButtonOnClick })}
+                                      onTouchEnd={() => dispatch({ type: HandleCancelButtonOnClick })}
                                       >
                                       <ButtonText>Cancel</ButtonText>
                                   </Button>

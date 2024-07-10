@@ -1,6 +1,7 @@
 const AREAS = {
     TileArea: 'TileArea' ,
-    DonationArea: 'DonationArea'
+    DonationArea: 'DonationArea',
+    SettingsArea: 'SettingsArea'
 }
 
 export default AREAS;
