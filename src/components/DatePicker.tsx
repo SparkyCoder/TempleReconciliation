@@ -1,19 +1,21 @@
 import { Box, Button, ButtonIcon, ButtonText, CalendarDaysIcon, Center, Heading, HStack, Text } from "@gluestack-ui/themed";
+import moment from "moment";
 import React, { useState } from "react";
 import DatePicker from "react-native-date-picker";
 
 const DateRangePicker = ({ label, date, setDate, minDate, maxDate } : any) => {
     const [open, setOpen] = useState(false)
+    console.log(minDate, maxDate)
     return (<>
         <DatePicker
             modal
             open={open}
-            date={date}
+            date={date?.toDate()}
             theme="light"
-            maximumDate={maxDate ?? new Date("9099-12-31")}
             onConfirm={(date: any) => {
+            let newDate = new moment(date)
             setOpen(false)
-            setDate(date)
+            setDate(newDate)
             }}
             onCancel={() => {
             setOpen(false)
@@ -21,8 +23,8 @@ const DateRangePicker = ({ label, date, setDate, minDate, maxDate } : any) => {
         />
         <Box style={{marginVertical:'3%', width:'50%'}}>
         <Center>
-        <Text>{date.toLocaleDateString()}</Text>
-        <Text>{date.toLocaleTimeString()}</Text>
+        <Text>{date.toDate().toLocaleDateString()}</Text>
+        <Text>{date.toDate().toLocaleTimeString()}</Text>
             <HStack>
                 <Button  
                 borderRadius="$2xl"
