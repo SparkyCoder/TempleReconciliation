@@ -6,7 +6,7 @@ import useMessage from "./useToast";
 const useApiCredentials = () => {
     const cipherKey = '#################'
     const {saveData, getData} = useStorage();
-    const {showError} = useMessage();
+    const {showError} = useMessage()
 
     const getApiCredentials : () => Promise<{accessKey:string,secretKey:string}> = async () => {
         const encryptedAccessKey = await getData<string>(Storage.AccessKey) ?? '';

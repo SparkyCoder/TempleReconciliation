@@ -3,6 +3,7 @@ import { State } from "../interfaces/state";
 
 export const HandleError = "HandleError";
 export const HandleDonationTileOnClick = "HandleDonationTileOnClick";
+export const HandleReportTileOnClick = 'HandleReportTileOnClick';
 export const HandleCancelButtonOnClick = "HandleCancelButtonOnClick";
 export const HandleOnDonationAreaLoad = 'HandleOnDonationAreaLoad';
 export const HandleGetPaymentsComplete = 'HandleGetPaymentsComplete';
@@ -28,8 +29,10 @@ const ApplicationReducer = (state: State, action: any) => {
     switch (action.type) {
       case HandleError:
       return { ...state, isGetUsersLoading:false, isGetPaymentsLoading:false, isPostDonationLoading:false, isDisclaimerModalOpen:false, isGetDonationTypesLoading:false, isGetFrontDeskPinLoadings:false, error: action.payload, isViewDonationItemsOpen:false, isPaymentModalOpen:false };
-      case HandleDonationTileOnClick:
+      case HandleDonationTileOnClick: 
         return {...state, selectedArea: AREAS.DonationArea} 
+      case HandleReportTileOnClick: 
+        return {...state, selectedArea: AREAS.ReportArea}
       case HandleSettingsTileOnClick:
         return {...state, selectedArea: AREAS.SettingsArea} 
       case HandleCancelButtonOnClick: 

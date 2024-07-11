@@ -15,6 +15,7 @@ import React from "react";
 import Header from "./Header";
 import SettingsArea from "./SettingsArea";
 import useApiCredentials from "../hooks/useApiCredentials";
+import ReportArea from "./ReportArea";
 
 const ContentArea = () => {
     const {showError, showSuccess} = useMessage();
@@ -60,6 +61,8 @@ const ContentArea = () => {
     //For Developement Pursposes Only
     useEffect(() => console.log(state.error), [state.error]);
 
+    useEffect(() => console.log(state.selectedArea), [state.selectedArea]);
+
     return (
         <>
         <Header />
@@ -69,6 +72,7 @@ const ContentArea = () => {
                     {state.selectedArea === AREAS.TileArea && <TileArea state={state} dispatch={dispatch} />}
                     {state.selectedArea === AREAS.DonationArea && <DonationArea state={state} dispatch={dispatch} />}
                     {state.selectedArea === AREAS.SettingsArea && <SettingsArea state={state} dispatch={dispatch} />}
+                    {state.selectedArea === AREAS.ReportArea && <ReportArea state={state} dispatch={dispatch} />}
                 </Box>
             </Center>                         
         </Box>

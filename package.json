@@ -21,6 +21,7 @@
     "react": "18.2.0",
     "react-native": "0.74.2",
     "react-native-aws-signature": "^0.0.9",
+    "react-native-date-picker": "^5.0.4",
     "react-native-file-viewer": "^2.1.5",
     "react-native-html-to-pdf": "^0.12.0",
     "react-native-svg": "^13.4.0",
