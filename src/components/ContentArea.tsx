@@ -61,8 +61,6 @@ const ContentArea = () => {
     //For Developement Pursposes Only
     useEffect(() => console.log(state.error), [state.error]);
 
-    useEffect(() => console.log(state.selectedArea), [state.selectedArea]);
-
     return (
         <>
         <Header />

@@ -4,22 +4,19 @@ import Tile from "./Tile";
 import useDimensions from "../hooks/useDimensions";
 import { HandleDonationTileOnClick, HandleReportTileOnClick, HandleSettingsTileOnClick } from "../reducers/ApplicationReducer";
 import Loading from "./Loading";
-import React, { useEffect } from "react";
+import React from "react";
 import { DefaultProps } from "../interfaces/state";
 
 const TileArea = ({state, dispatch} : DefaultProps) => {
     const {isVertical} = useDimensions();
 
     const getTiles = () => {
-        useEffect(() =>{
-            console.log(state.accessKey, state.secretKey)
-        },[])
         return (
             <>
                 { state.accessKey && state.secretKey && 
                     <>
                         <Tile title={'Donation'} subText={'捐助'} image={require('../../src/media/Donation.png')} onClick={() => dispatch({ type: HandleDonationTileOnClick })} />
-                        <Tile title={'Audit Report'} subText={'报告'} image={require('../../src/media/Report.png')} onClick={() => {console.log('Report Area'); dispatch({type: HandleReportTileOnClick})}} />
+                        <Tile title={'Audit Report'} subText={'报告'} image={require('../../src/media/Report.png')} onClick={() => dispatch({type: HandleReportTileOnClick})} />
                     </>
                 }
                 <Tile title={'Settings'} subText={'设置'} image={require('../../src/media/Settings.png')} onClick={() => dispatch({ type: HandleSettingsTileOnClick })} />
