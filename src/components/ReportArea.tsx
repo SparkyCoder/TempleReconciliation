@@ -14,7 +14,7 @@ const ReportArea = ({state, dispatch} : DefaultProps) => {
 
     useEffect(() => {
         if(toDate.diff(fromDate, 'days') >= 3){
-            state.showError('Error', 'Date ranges greater than 3 days will result in costly queries. Please narrow down your results.')
+            state.showError('Error', 'Date ranges greater than 3 days incur larger AWS costs. Please narrow down your results.')
             setShowGenerateReport(false);
             return;
         }

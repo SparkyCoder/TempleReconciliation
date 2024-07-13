@@ -20,9 +20,9 @@ Follow React Native's official documentation for setting up a developer environm
 
 ## Helpful Links
 
-[Gluestack UI Components](https://gluestack.io/ui/docs/home/overview/all-components)
-[react-native-html-to-pdf](https://github.com/christopherdro/react-native-html-to-pdf)
-[react-native-file-viewer](https://github.com/vinzscam/react-native-file-viewer)
+[Gluestack UI Components](https://gluestack.io/ui/docs/home/overview/all-components) <br/>
+[react-native-html-to-pdf](https://github.com/christopherdro/react-native-html-to-pdf) <br/>
+[react-native-file-viewer](https://github.com/vinzscam/react-native-file-viewer) <br/>
 
 ## PR Approval
 
@@ -46,6 +46,7 @@ Follow React Native's official documentation for setting up a developer environm
 - GET `/v1/donations/types`
 - GET `/v1/donations/pins`
 - POST `/v1/donations`
+- GET `/v1/donations?from=XXXXXX&to=XXXXXXX`
 
 ## DB Cost Estimate:
 

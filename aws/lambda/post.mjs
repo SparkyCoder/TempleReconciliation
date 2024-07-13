@@ -93,7 +93,7 @@ export const handler = async event => {
         Item: {
           PK: 'GMT#DONATION',
           SK: epoch,
-          Details: donation,
+          Data: donation,
         },
       };
 
