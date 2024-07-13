@@ -4,7 +4,7 @@ const URLS = {
   GetDonationTypes: '/v1/donations/types',
   GetFrontDeskPins: '/v1/donations/pins',
   GetUsers: '/v1/users',
-  PostDonation: '/v1/donations',
+  GetOrPostDonation: '/v1/donations',
 };
 
 export default URLS;

@@ -29,6 +29,7 @@ const ContentArea = () => {
     const [state, dispatch] = useReducer(ApplicationReducer, {
         selectedArea: Areas.TileArea,
         resetCacheCount: 0,
+        reportData:[],
         payments:[],
         donationTypes:[],
         donationItems: [],

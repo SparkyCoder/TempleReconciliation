@@ -1,11 +1,10 @@
-import { Box, Button, ButtonIcon, ButtonText, CalendarDaysIcon, Center, Heading, HStack, Text } from "@gluestack-ui/themed";
+import { Box, Button, ButtonIcon, ButtonText, CalendarDaysIcon, Center, HStack, Text } from "@gluestack-ui/themed";
 import moment from "moment";
 import React, { useState } from "react";
 import DatePicker from "react-native-date-picker";
 
 const DateRangePicker = ({ label, date, setDate, minDate, maxDate } : any) => {
     const [open, setOpen] = useState(false)
-    console.log(minDate, maxDate)
     return (<>
         <DatePicker
             modal

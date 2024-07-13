@@ -3,14 +3,17 @@ import React, { useEffect, useState } from "react";
 import { DefaultProps } from "../interfaces/state";
 import Divider from "./Divider";
 import DatePicker from "./DatePicker";
-import { HandleCancelButtonOnClick } from "../reducers/ApplicationReducer";
+import { HandleCancelButtonOnClick, HandleGetDonationsLoading } from "../reducers/ApplicationReducer";
 import moment from "moment";
+import useAxios from "../hooks/useAxios";
+import Loading from "./Loading";
 
 
 const ReportArea = ({state, dispatch} : DefaultProps) => {
     const [fromDate, setFromDate] = useState(new moment().set({hour:0,minute:0,second:0,millisecond:0}))
     const [toDate, setToDate] = useState(new moment().set({hour:12,minute:59,second:0,millisecond:0}))
     const [showGenerateReport, setShowGenerateReport] = useState(true);
+    const {getDonations} = useAxios(state, dispatch);
 
     useEffect(() => {
         if(toDate.diff(fromDate, 'days') >= 3){
@@ -28,8 +31,14 @@ const ReportArea = ({state, dispatch} : DefaultProps) => {
         setShowGenerateReport(true);
     }, [fromDate, toDate])
 
+    const onGenerateReportClick = () => {
+        dispatch({type: HandleGetDonationsLoading})
+        getDonations(fromDate.unix(), toDate.unix());
+    }
+
     return (
         <Box>
+            <Loading isLoading={state.isGetDonationsLoading} title={'Loading...'} />
             <Divider text={'Date Range'} />
             <Box style={{marginTop:'2%', borderColor:'black', borderWidth:0.5, marginHorizontal: '5%'}}>
                 <HStack style={{width:'100%'}}>
@@ -44,7 +53,7 @@ const ReportArea = ({state, dispatch} : DefaultProps) => {
                                       size="md"
                                       variant="solid"
                                       action="primary"
-                                      onTouchEnd={() => {}}
+                                      onTouchEnd={() => onGenerateReportClick()}
                                       >
                                       <ButtonText>Generate Audit Report</ButtonText>
                                   </Button>}

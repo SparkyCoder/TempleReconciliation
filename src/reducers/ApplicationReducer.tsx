@@ -7,6 +7,8 @@ export const HandleReportTileOnClick = 'HandleReportTileOnClick';
 export const HandleCancelButtonOnClick = "HandleCancelButtonOnClick";
 export const HandleOnDonationAreaLoad = 'HandleOnDonationAreaLoad';
 export const HandleGetPaymentsComplete = 'HandleGetPaymentsComplete';
+export const HandleGetDonationsLoading = 'HandleGetDonationsLoading';
+export const HandleGetDonationsComplete = 'HandleGetDonationsComplete';
 export const HandleGetUsersComplete = 'HandleGetUsersComplete';
 export const HandleGetDonationTypesComplete = 'HandleGetDonationTypesComplete'
 export const HandleOnDonationItemModalClose = 'HandleOnDonationItemModalClose'
@@ -73,6 +75,10 @@ const ApplicationReducer = (state: State, action: any) => {
           return {...state, isPostDonationLoading: false, donation: action.payload}
       case HandlOnApiCredentialsLoaded: 
           return {...state, accessKey: action.payload?.accessKey, secretKey: action.payload?.secretKey}
+      case HandleGetDonationsLoading:
+          return {...state, isGetDonationsLoading:true}
+      case HandleGetDonationsComplete:
+          return {...state, isGetDonationsLoading:false, reportData: action.payload}
 
       default:
         return state;

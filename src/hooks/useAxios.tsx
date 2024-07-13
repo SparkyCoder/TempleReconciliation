@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HandleError, HandleGetDonationTypesComplete, HandleGetFrontDeskPinsComplete, HandleGetPaymentsComplete, HandleGetUsersComplete, HandlePostDonationComplete } from "../reducers/ApplicationReducer";
+import { HandleError, HandleGetDonationsComplete, HandleGetDonationTypesComplete, HandleGetFrontDeskPinsComplete, HandleGetPaymentsComplete, HandleGetUsersComplete, HandlePostDonationComplete } from "../reducers/ApplicationReducer";
 import URLS from "../constants/Urls";
 import Storage from "../constants/Storage";
 import { Donation } from "../interfaces/donation";
@@ -80,13 +80,22 @@ const getPayments = async () => {
 }
 
 const postDonation = async (donation: Donation) => {
-  await SendRequestV2(MethodTypes.Post, URLS.PostDonation, donation, async() => {
+  await SendRequestV2(MethodTypes.Post, URLS.GetOrPostDonation, donation, async() => {
       if(donation && donation.phone){
         state.clearUsers();
       };
       auditDispatch({ type: HandlePostDonationComplete, payload: donation })
     },(error:string) => {
       state.showError('Error', 'Could not save donation.' )
+      auditDispatch({ type: HandleError, payload: error })
+    });
+}
+
+const getDonations = async (from:string,to:string) => {
+  await SendRequestV2(MethodTypes.Get, `${URLS.GetOrPostDonation}?from=${from}&to=${to}`, '', async(response:any) => {
+      auditDispatch({ type: HandleGetDonationsComplete, payload: response.data })
+    },(error:string) => {
+      state.showError('Error', 'Could not retrieve payment types.')
       auditDispatch({ type: HandleError, payload: error })
     });
 }
@@ -136,7 +145,7 @@ const SendRequestV2 = (method: string, path:string, body: any, onSuccess:any, on
   .catch(async (error) => onError(error));
 }
 
-    return {getDonationTypes, getPayments, getFrontDeskPins, getUsers, postDonation};
+    return {getDonationTypes, getPayments, getFrontDeskPins, getUsers, postDonation, getDonations};
 };
 
 export default useAxios;
