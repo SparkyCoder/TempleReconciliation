@@ -54,7 +54,7 @@ This guide provides instructions for setting up USBIPD on Windows to connect to 
    - Identify the BUSID of the USB device you want to attach from the list generated in the previous step.
    - Enable Sharing of the Device by running:
      ```sh
-     ubspid bind --busid <BUSID>
+     usbpid bind --busid <BUSID>
      ```
    - Replace `<BUSID>` with the actual BUSID of your USB device.
 
