@@ -1,7 +1,6 @@
-import { Box, Button, Center, ButtonText, HStack, Heading, Icon, Input, InputField, ScrollView, ButtonIcon, AddIcon, EditIcon, Checkbox, CheckboxIndicator, CheckboxIcon, CheckIcon, CheckboxLabel, VStack, Text } from "@gluestack-ui/themed";
+import { Box, Button, Center, ButtonText, HStack, Heading, Input, InputField, ScrollView, ButtonIcon, AddIcon, EditIcon, Checkbox, CheckboxIndicator, CheckboxIcon, CheckIcon, CheckboxLabel } from "@gluestack-ui/themed";
 import useDimensions from "../hooks/useDimensions";
 import Loading from "./Loading";
-import { HandleCancelButtonOnClick, HandleDisclaimerModalOpened, HandleDonationSubmitted, HandleOnDonationAreaLoad, HandleOnDonationItemModalOpen, HandleOnDonationItemUpdated, HandleOnViewDonationItemsModalOpen } from "../reducers/ApplicationReducer";
 import { styles } from "../styles/styles";
 import { useEffect, useState } from "react";
 import useAxios from "../hooks/useAxios";
@@ -14,6 +13,7 @@ import { Donation } from "../interfaces/donation";
 import DisclaimerModal from "./DisclaimerModal";
 import Disclaimers from "../constants/Disclaimers";
 import { DefaultProps } from "../interfaces/state";
+import { ReducerTypes } from "../reducers/ApplicationReducer";
 
 const DonationArea = ({state, dispatch} : DefaultProps) => {
     const {isVertical} = useDimensions();
@@ -37,8 +37,8 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
       id: "",
       hasPaid: false,
       referenceNumber: "",
-      item: [],
-      fileName: ""
+      fileName: "",
+      items: []
     };
     const [form, setForm] = useState<Donation>(defaultForm);
 
@@ -47,7 +47,7 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
       getUsers();
       getPayments();
       getFrontDeskPins();
-      dispatch({ type: HandleOnDonationAreaLoad })
+      dispatch({ type: ReducerTypes.HandleOnDonationAreaLoad })
     }, [])
 
     const onSubmit = () => {
@@ -61,7 +61,7 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
       let isPaymentValid = state.validate('Payment Option', form.payment)
       
       if(isDonationTypeValid && isEnglishNameValid && isDonationItemValid && isPaymentValid && isDiscaimerChecked){
-        dispatch({ type: HandleDonationSubmitted, payload: form })
+        dispatch({ type: ReducerTypes.HandleDonationSubmitted, payload: form })
       }
     }
 
@@ -183,7 +183,7 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
                                       p="$3.5"
                                       variant='solid'
                                       action="secondary"
-                                      onTouchEnd={() => dispatch({ type: HandleOnDonationItemModalOpen })}
+                                      onTouchEnd={() => dispatch({ type: ReducerTypes.HandleOnDonationItemModalOpen })}
                                       >
                                      <ButtonIcon as={AddIcon} />
                                   </Button>
@@ -194,7 +194,7 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
                                        p="$3.5"
                                        variant='solid'
                                        action="secondary"
-                                      onTouchEnd={() => dispatch({ type: HandleOnViewDonationItemsModalOpen })}
+                                      onTouchEnd={() => dispatch({ type: ReducerTypes.HandleOnViewDonationItemsModalOpen })}
                                       >
                                      <ButtonIcon as={EditIcon} />
                                   </Button>
@@ -213,7 +213,7 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
                                       size="md"
                                       variant="link"
                                       action="primary"
-                                      onTouchEnd={() =>  dispatch({ type: HandleDisclaimerModalOpened, payload: {title: Disclaimers.DataTitle, text: Disclaimers.DataMessage} })}
+                                      onTouchEnd={() =>  dispatch({ type: ReducerTypes.HandleDisclaimerModalOpened, payload: {title: Disclaimers.DataTitle, text: Disclaimers.DataMessage} })}
                                       >
                                       <ButtonText>Data Disclaimer</ButtonText>
                                   </Button>
@@ -244,7 +244,7 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
                                       size="md"
                                       variant="solid"
                                       action="primary"
-                                      onTouchEnd={() => dispatch({ type: HandleCancelButtonOnClick })}
+                                      onTouchEnd={() => dispatch({ type: ReducerTypes.HandleCancelButtonOnClick })}
                                       >
                                       <ButtonText>Cancel</ButtonText>
                                   </Button>

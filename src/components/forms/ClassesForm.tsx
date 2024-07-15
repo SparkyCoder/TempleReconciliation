@@ -2,10 +2,11 @@ import { Box, Input, InputField, InputSlot } from "@gluestack-ui/themed";
 import React, { useEffect, useState } from "react";
 import { ClassFormProps } from "../../interfaces/forms";
 import useDropDowns from "../../hooks/useDropdowns";
+import { DropDownList } from "../../interfaces/dropdown";
 
 const ClassesForm = ({state, type, details, setDetails, items}: ClassFormProps) => {
     const {getDropDown} = useDropDowns();
-    const [subItems, setSubItems] = useState<Array<string>>();
+    const [subItems, setSubItems] = useState<Array<DropDownList>>();
 
     useEffect(() => {
         let selectedItem = state.select(items, type);

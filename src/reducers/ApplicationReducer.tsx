@@ -1,85 +1,129 @@
 import AREAS from "../constants/Areas";
 import { State } from "../interfaces/state";
 
-export const HandleError = "HandleError";
-export const HandleDonationTileOnClick = "HandleDonationTileOnClick";
-export const HandleReportTileOnClick = 'HandleReportTileOnClick';
-export const HandleCancelButtonOnClick = "HandleCancelButtonOnClick";
-export const HandleOnDonationAreaLoad = 'HandleOnDonationAreaLoad';
-export const HandleGetPaymentsComplete = 'HandleGetPaymentsComplete';
-export const HandleGetDonationsLoading = 'HandleGetDonationsLoading';
-export const HandleGetDonationsComplete = 'HandleGetDonationsComplete';
-export const HandleGetUsersComplete = 'HandleGetUsersComplete';
-export const HandleGetDonationTypesComplete = 'HandleGetDonationTypesComplete'
-export const HandleOnDonationItemModalClose = 'HandleOnDonationItemModalClose'
-export const HandleOnDonationItemModalOpen = 'HandleOnDonationItemModalOpen'
-export const HandleOnDonationItemUpdated = 'HandleOnDonationItemUpdated';
-export const HandleOnViewDonationItemsModalOpen = 'HandleOnViewDonationItemsModalOpen';
-export const HandleOnViewDonationItemsModalClosed = 'HandleOnViewDonationItemsModalClosed'
-export const HandleDonationSubmitted = 'HandleDonationSubmitted';
-export const HandleGetFrontDeskPinsComplete = 'HandleGetFrontDeskPinsComplete';
-export const HandleReceiptCreated = 'HandleReceiptCreated';
-export const HandleDisclaimerModalOpened = 'HandleDisclaimerModalOpened';
-export const HandleDisclaimerModalClosed = 'HandleDisclaimerModalClosed';
-export const HandleOnPaymentModalClosed = 'HandleOnPaymentModalClosed';
-export const HandlePostDonationLoading = 'HandlePostDonationLoading'
-export const HandlePostDonationComplete = 'HandlePostDonationComplete';
-export const HandleSettingsTileOnClick = 'HandleSettingsTileOnClick';
-export const HandlOnApiCredentialsLoaded = 'HandlOnApiCredentialsLoaded';
+export const enum ReducerTypes{
+HandleError = "HandleError",
+HandleDonationTileOnClick = "HandleDonationTileOnClick",
+HandleReportTileOnClick = 'HandleReportTileOnClick',
+HandleCancelButtonOnClick = "HandleCancelButtonOnClick",
+HandleOnDonationAreaLoad = 'HandleOnDonationAreaLoad',
+HandleGetPaymentsComplete = 'HandleGetPaymentsComplete',
+HandleGetDonationsLoading = 'HandleGetDonationsLoading',
+HandleGetDonationsComplete = 'HandleGetDonationsComplete',
+HandleGetUsersComplete = 'HandleGetUsersComplete',
+HandleGetDonationTypesComplete = 'HandleGetDonationTypesComplete',
+HandleOnDonationItemModalClose = 'HandleOnDonationItemModalClose',
+HandleOnDonationItemModalOpen = 'HandleOnDonationItemModalOpen',
+HandleOnDonationItemUpdated = 'HandleOnDonationItemUpdated',
+HandleOnViewDonationItemsModalOpen = 'HandleOnViewDonationItemsModalOpen',
+HandleOnViewDonationItemsModalClosed = 'HandleOnViewDonationItemsModalClosed',
+HandleDonationSubmitted = 'HandleDonationSubmitted',
+HandleGetFrontDeskPinsComplete = 'HandleGetFrontDeskPinsComplete',
+HandleReceiptCreated = 'HandleReceiptCreated',
+HandleDisclaimerModalOpened = 'HandleDisclaimerModalOpened',
+HandleDisclaimerModalClosed = 'HandleDisclaimerModalClosed',
+HandleOnPaymentModalClosed = 'HandleOnPaymentModalClosed',
+HandlePostDonationLoading = 'HandlePostDonationLoading',
+HandlePostDonationComplete = 'HandlePostDonationComplete',
+HandleSettingsTileOnClick = 'HandleSettingsTileOnClick',
+HandlOnApiCredentialsLoaded = 'HandlOnApiCredentialsLoaded'
+}
 
-const ApplicationReducer = (state: State, action: any) => {
+export interface ReducerDispatchAction {
+  type: ReducerTypes;
+  payload?: any;
+}
+
+const ApplicationReducer = (state: State, action:ReducerDispatchAction): State => {
     switch (action.type) {
-      case HandleError:
+      case ReducerTypes.HandleError:
       return { ...state, isGetUsersLoading:false, isGetPaymentsLoading:false, isPostDonationLoading:false, isDisclaimerModalOpen:false, isGetDonationTypesLoading:false, isGetFrontDeskPinLoadings:false, error: action.payload, isViewDonationItemsOpen:false, isPaymentModalOpen:false };
-      case HandleDonationTileOnClick: 
+      case ReducerTypes.HandleDonationTileOnClick: 
         return {...state, selectedArea: AREAS.DonationArea} 
-      case HandleReportTileOnClick: 
+      case ReducerTypes.HandleReportTileOnClick: 
         return {...state, selectedArea: AREAS.ReportArea}
-      case HandleSettingsTileOnClick:
+      case ReducerTypes.HandleSettingsTileOnClick:
         return {...state, selectedArea: AREAS.SettingsArea} 
-      case HandleCancelButtonOnClick: 
+      case ReducerTypes.HandleCancelButtonOnClick: 
         return {...state, selectedArea: AREAS.TileArea}
-      case HandleOnDonationAreaLoad:
-        return {...state, donation:{}, isDisclaimerModalOpen:false, isGetUsersLoading:true, isGetPaymentsLoading:true, isGetDonationTypesLoading:true, isGetFrontDeskPinLoadings:true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
-      case HandleGetPaymentsComplete:
+      case ReducerTypes.HandleOnDonationAreaLoad:
+        return {...state, donation:{
+          donationType: "",
+          phone: "",
+          chineseName: "",
+          firstName: "",
+          lastName: "",
+          email: "",
+          street: "",
+          city: "",
+          state: "",
+          zipCode: "",
+          payment: "",
+          dataDisclaimer: false,
+          frontDeskAttendee: "",
+          id: "",
+          hasPaid: false,
+          referenceNumber: "",
+          fileName: "",
+          item: []
+        }, isDisclaimerModalOpen:false, isGetUsersLoading:true, isGetPaymentsLoading:true, isGetDonationTypesLoading:true, isGetFrontDeskPinLoadings:true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
+      case ReducerTypes.HandleGetPaymentsComplete:
         return {...state, isGetPaymentsLoading:false, payments: action.payload}
-      case HandleGetDonationTypesComplete:
+      case ReducerTypes.HandleGetDonationTypesComplete:
           return {...state, isGetDonationTypesLoading:false, donationTypes: action.payload}
-      case HandleGetUsersComplete:
+      case ReducerTypes.HandleGetUsersComplete:
           return {...state, isGetUsersLoading: false, users: action.payload}
-      case HandleGetFrontDeskPinsComplete:
+      case ReducerTypes.HandleGetFrontDeskPinsComplete:
         return {...state, isGetFrontDeskPinLoadings:false, frontDeskPins: action.payload}
-      case HandleOnDonationItemModalOpen:
+      case ReducerTypes.HandleOnDonationItemModalOpen:
           return {...state, isAddDonationItemModalOpen:true}
-      case HandleOnDonationItemModalClose:
+      case ReducerTypes.HandleOnDonationItemModalClose:
           return {...state, isAddDonationItemModalOpen:false}
-      case HandleOnDonationItemUpdated: 
+      case ReducerTypes.HandleOnDonationItemUpdated: 
           return {...state, addedDonationItems: action.payload, isAddDonationItemModalOpen:false}
-      case HandleOnViewDonationItemsModalOpen:
+      case ReducerTypes.HandleOnViewDonationItemsModalOpen:
           return {...state, isViewDonationItemsOpen:true}
-      case HandleOnViewDonationItemsModalClosed:
+      case ReducerTypes.HandleOnViewDonationItemsModalClosed:
           return {...state, isViewDonationItemsOpen:false}
-      case HandleDonationSubmitted:
+      case ReducerTypes.HandleDonationSubmitted:
           return {...state, isViewDonationItemsOpen:false, isAddDonationItemModalOpen:false, isPaymentModalOpen:true, donation: action.payload}
-      case HandleOnPaymentModalClosed:
+      case ReducerTypes.HandleOnPaymentModalClosed:
           return {...state, isPaymentModalOpen:false}
-      case HandleReceiptCreated:
-          return {...state, isPaymentModalOpen:false, selectedArea: AREAS.TileArea, donation: {}}
-      case HandleDisclaimerModalOpened:
+      case ReducerTypes.HandleReceiptCreated:
+          return {...state, isPaymentModalOpen:false, selectedArea: AREAS.TileArea, donation: {
+            donationType: "",
+            phone: "",
+            chineseName: "",
+            firstName: "",
+            lastName: "",
+            email: "",
+            street: "",
+            city: "",
+            state: "",
+            zipCode: "",
+            payment: "",
+            dataDisclaimer: false,
+            frontDeskAttendee: "",
+            id: "",
+            hasPaid: false,
+            referenceNumber: "",
+            fileName: "",
+            item: []
+          }}
+      case ReducerTypes.HandleDisclaimerModalOpened:
           return {...state, isDisclaimerModalOpen: true, disclaimerText: action.payload.text, disclaimerTitle: action.payload.title}
-      case HandleDisclaimerModalClosed:
+      case ReducerTypes.HandleDisclaimerModalClosed:
           return {...state, isDisclaimerModalOpen: false, disclaimerText: '', disclaimerTitle: ''}
-      case HandlePostDonationLoading:
+      case ReducerTypes.HandlePostDonationLoading:
           return {...state, isPostDonationLoading: true}
-      case HandlePostDonationComplete:
+      case ReducerTypes.HandlePostDonationComplete:
           return {...state, isPostDonationLoading: false, donation: action.payload}
-      case HandlOnApiCredentialsLoaded: 
+      case ReducerTypes.HandlOnApiCredentialsLoaded: 
           return {...state, accessKey: action.payload?.accessKey, secretKey: action.payload?.secretKey}
-      case HandleGetDonationsLoading:
+      case ReducerTypes.HandleGetDonationsLoading:
           return {...state, isGetDonationsLoading:true}
-      case HandleGetDonationsComplete:
+      case ReducerTypes.HandleGetDonationsComplete:
           return {...state, isGetDonationsLoading:false, reportData: action.payload}
-
       default:
         return state;
     }

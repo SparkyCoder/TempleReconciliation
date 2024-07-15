@@ -13,7 +13,7 @@ const useSelect = () => {
         if(!users) users = [];
         if(!number) number = '';
         let foundUser = users.filter((user: any) => user?.phone?.replace(/\D/g, '') === number?.replace(/\D/g, ''));
-        return foundUser.length > 0 ? foundUser[0] : {}
+        return foundUser.length > 0 ? foundUser[0] : undefined
     }
 
     return {select, selectPhone}

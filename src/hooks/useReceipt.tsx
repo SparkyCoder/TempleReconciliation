@@ -24,7 +24,7 @@ const useReceipt = () => {
             state.showError('Error', 'Could not find file path.')
             return;
           }
-
+          console.log(file.filePath)
           openReceiptPdf(file.filePath, onComplete)
         }
         catch(error){

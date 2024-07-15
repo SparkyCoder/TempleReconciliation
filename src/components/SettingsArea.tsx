@@ -1,7 +1,7 @@
-import { Box, Button, ButtonText, Center, HStack, Input, InputField, Text, View } from "@gluestack-ui/themed";
-import React, { useState } from "react";
+import { Box, Button, ButtonText, Center, HStack, Input, InputField } from "@gluestack-ui/themed";
+import React, {  useState } from "react";
 import { DefaultProps } from "../interfaces/state";
-import { HandleCancelButtonOnClick } from "../reducers/ApplicationReducer";
+import { ReducerTypes } from "../reducers/ApplicationReducer";
 import { styles } from "../styles/styles";
 import useApiCredentials from "../hooks/useApiCredentials";
 import Divider from "./Divider";
@@ -14,7 +14,7 @@ const SettingsArea = ({state, dispatch} : DefaultProps) => {
     const onSave = async () => {
         saveApiCredentials(accessKey, secretKey);
         state.showSuccess('Success', 'Secret Key Saved.');
-        dispatch({ type: HandleCancelButtonOnClick });
+        dispatch({ type: ReducerTypes.HandleCancelButtonOnClick });
     }
 
     const onClearCache = () => {
@@ -77,7 +77,7 @@ const SettingsArea = ({state, dispatch} : DefaultProps) => {
                                       size="md"
                                       variant="solid"
                                       action="primary"
-                                      onTouchEnd={() => dispatch({ type: HandleCancelButtonOnClick })}
+                                      onTouchEnd={() => dispatch({ type: ReducerTypes.HandleCancelButtonOnClick })}
                                       >
                                       <ButtonText>Cancel</ButtonText>
                                   </Button>

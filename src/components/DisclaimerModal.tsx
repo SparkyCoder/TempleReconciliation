@@ -1,10 +1,10 @@
 import { Button, ButtonText, Center, CloseIcon, Heading, Icon, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, Text } from "@gluestack-ui/themed";
-import {  HandleDisclaimerModalClosed } from "../reducers/ApplicationReducer";
 import React from "react";
+import { ReducerTypes } from "../reducers/ApplicationReducer";
 
 const DisclaimerModal = ({state, dispatch}: any) => {
     const onClose = () => {
-      dispatch({ type: HandleDisclaimerModalClosed });
+      dispatch({ type: ReducerTypes.HandleDisclaimerModalClosed });
     }
     
     return (<Modal

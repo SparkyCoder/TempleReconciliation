@@ -1,58 +1,46 @@
+import { Dispatch, SetStateAction } from "react"
 import { DropDownList } from "./dropdown"
+
+export interface Form{
+    type:string, 
+    amount:string, 
+    className?:string, 
+    remarks?:string, 
+    name?:string, 
+    relationship?:string, 
+    relative?:string,
+    date?:string
+}
 
 export interface FormProps {
     state:any, 
     type:string, 
-    details:object, 
-    setDetails:any,
-    items: Array<DropDownList>
-}
-
-export interface ClassItem {
-    type:string, 
-    className:string, 
-    amount:string, 
+    details:Form, 
+    setDetails:Dispatch<SetStateAction<Form>>,
+    items: Array<DropDownList> | undefined
 }
 
 export interface ClassFormProps {
     state:any, 
     type:string, 
-    details:ClassItem, 
+    details:Form, 
     setDetails:any,
-    items: Array<DropDownList>
-}
-
-export interface OthersItem {
-    remarks:string, 
+    items: Array<DropDownList> | undefined
 }
 
 export interface OthersFormProps {
-    details:OthersItem, 
+    details:Form, 
     setDetails:any,
-}
-
-export interface DefaultItem {
-    type:string, 
-    name:string, 
-    amount:string, 
 }
 
 export interface DefaultFormProps {
     state:any, 
     type:string, 
-    details:DefaultItem, 
+    details:Form, 
     setDetails:any
 }
 
-export interface OneTimeTabletItem {
-    type:string, 
-    name:string, 
-    relationship:string, 
-    relative:string,
-    date:string
-}
-
 export interface OneTimeTabletFormProps {
-    details:OneTimeTabletItem, 
+    details:Form, 
     setDetails:any
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { HandleError, HandleGetDonationsComplete, HandleGetDonationTypesComplete, HandleGetFrontDeskPinsComplete, HandleGetPaymentsComplete, HandleGetUsersComplete, HandlePostDonationComplete } from "../reducers/ApplicationReducer";
+import { ReducerTypes } from "../reducers/ApplicationReducer";
 import URLS from "../constants/Urls";
 import Storage from "../constants/Storage";
 import { Donation } from "../interfaces/donation";
@@ -13,17 +13,17 @@ const useAxios = (state: State, auditDispatch : any) => {
     let donationTypes = await state.getData(Storage.DonationTypes)
 
     if(donationTypes){
-      auditDispatch({ type: HandleGetDonationTypesComplete, payload: donationTypes })
+      auditDispatch({ type: ReducerTypes.HandleGetDonationTypesComplete, payload: donationTypes })
       return;
     }
 
    await SendRequestV2(MethodTypes.Get, URLS.GetDonationTypes, '', async(response:any) => {
       await state.saveData(Storage.DonationTypes, response.data);
-        auditDispatch({ type: HandleGetDonationTypesComplete, payload: response.data })
+        auditDispatch({ type: ReducerTypes.HandleGetDonationTypesComplete, payload: response.data })
       },
       async (error: any) => {
         state.showError('Error', 'Could not retrieve donation types.')
-        auditDispatch({ type: HandleError, payload: error })
+        auditDispatch({ type: ReducerTypes.HandleError, payload: error })
       });
 }
 
@@ -31,17 +31,17 @@ const useAxios = (state: State, auditDispatch : any) => {
     let users = await state.getData(Storage.Users)
 
     if(users){
-      auditDispatch({ type: HandleGetUsersComplete, payload: users })
+      auditDispatch({ type: ReducerTypes.HandleGetUsersComplete, payload: users })
       return;
     }
 
     await SendRequestV2(MethodTypes.Get, URLS.GetUsers, '', async(response:any) => {
       await state.saveData(Storage.Users, response.data);
-      auditDispatch({ type: HandleGetUsersComplete, payload: response.data })
+      auditDispatch({ type: ReducerTypes.HandleGetUsersComplete, payload: response.data })
       },
       async (error: any) => {
         state.showError('Error', 'Could not retrieve users.')
-        auditDispatch({ type: HandleError, payload: error })
+        auditDispatch({ type: ReducerTypes.HandleError, payload: error })
       });
 }
 
@@ -49,16 +49,16 @@ const useAxios = (state: State, auditDispatch : any) => {
     let pins = await state.getData(Storage.Pins)
 
     if(pins){
-      auditDispatch({ type: HandleGetFrontDeskPinsComplete, payload: pins })
+      auditDispatch({ type: ReducerTypes.HandleGetFrontDeskPinsComplete, payload: pins })
       return;
     }
 
     await SendRequestV2(MethodTypes.Get, URLS.GetFrontDeskPins, '', async(response:any) => {
         await state.saveData(Storage.Pins, response.data);
-        auditDispatch({ type: HandleGetFrontDeskPinsComplete, payload: response.data })
+        auditDispatch({ type: ReducerTypes.HandleGetFrontDeskPinsComplete, payload: response.data })
       },(error: string) => {
         state.showError('Error', 'Could not retrieve front desk pins.')
-        auditDispatch({ type: HandleError, payload: error })
+        auditDispatch({ type: ReducerTypes.HandleError, payload: error })
       });
 }
 
@@ -66,16 +66,16 @@ const getPayments = async () => {
   let payments = await state.getData(Storage.Payments)
 
   if(payments){
-    auditDispatch({ type: HandleGetPaymentsComplete, payload: payments })
+    auditDispatch({ type: ReducerTypes.HandleGetPaymentsComplete, payload: payments })
     return;
   }
 
   await SendRequestV2(MethodTypes.Get, URLS.GetPayments, '', async(response:any) => {
       await state.saveData(Storage.Payments, response.data);
-      auditDispatch({ type: HandleGetPaymentsComplete, payload: response.data })
+      auditDispatch({ type: ReducerTypes.HandleGetPaymentsComplete, payload: response.data })
     },(error:string) => {
       state.showError('Error', 'Could not retrieve payment types.')
-      auditDispatch({ type: HandleError, payload: error })
+      auditDispatch({ type: ReducerTypes.HandleError, payload: error })
     });
 }
 
@@ -84,19 +84,19 @@ const postDonation = async (donation: Donation) => {
       if(donation && donation.phone){
         state.clearUsers();
       };
-      auditDispatch({ type: HandlePostDonationComplete, payload: donation })
+      auditDispatch({ type: ReducerTypes.HandlePostDonationComplete, payload: donation })
     },(error:string) => {
       state.showError('Error', 'Could not save donation.' )
-      auditDispatch({ type: HandleError, payload: error })
+      auditDispatch({ type: ReducerTypes.HandleError, payload: error })
     });
 }
 
 const getDonations = async (from:string,to:string) => {
   await SendRequestV2(MethodTypes.Get, `${URLS.GetOrPostDonation}?from=${from}&to=${to}`, '', async(response:any) => {
-      auditDispatch({ type: HandleGetDonationsComplete, payload: response.data })
+      auditDispatch({ type: ReducerTypes.HandleGetDonationsComplete, payload: response.data })
     },(error:string) => {
       state.showError('Error', 'Could not retrieve payment types.')
-      auditDispatch({ type: HandleError, payload: error })
+      auditDispatch({ type: ReducerTypes.HandleError, payload: error })
     });
 }
 

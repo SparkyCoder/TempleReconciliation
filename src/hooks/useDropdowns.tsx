@@ -3,7 +3,7 @@ import { DropDownList } from "../interfaces/dropdown";
 import React from "react";
 
 const useDropDowns = () => {  
-    const getDropDown = (items: DropDownList | undefined, selectedValue: any, setStateEvent: any, placeholderText: string, isInvalid: boolean) => {
+    const getDropDown = (items: Array<DropDownList> | undefined, selectedValue: string, setStateEvent: any, placeholderText: string, isInvalid: boolean) => {
       items ??= [];
       
       let selectItems = items.map(item => 
@@ -14,10 +14,10 @@ const useDropDowns = () => {
         />);
   
           return (
-          <Select isInvalid={isInvalid} value={selectedValue} onValueChange={(value =>  setStateEvent(value))}>
+          <Select isInvalid={isInvalid} onValueChange={(value =>  setStateEvent(value))}>
             <SelectTrigger variant="outline" size="md" >
               <SelectInput placeholder={placeholderText} />
-              <SelectIcon mr="$3">
+              <SelectIcon>
                 <Icon as={ChevronDownIcon} />
               </SelectIcon>
             </SelectTrigger>

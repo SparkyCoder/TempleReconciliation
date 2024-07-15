@@ -1,4 +1,5 @@
-import { Box, Center, Modal, ModalBackdrop, ModalBody, ModalContent, Spinner, Text } from "@gluestack-ui/themed";
+import { Center, Modal, ModalBackdrop, ModalBody, ModalContent, Spinner, Text } from "@gluestack-ui/themed";
+import React from "react";
 
 const Loading = ({isLoading, title} : any) => {
     return (

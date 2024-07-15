@@ -1,4 +1,5 @@
-import { ClassItem, DefaultItem, OneTimeTabletItem, OthersItem } from "./forms";
+import {Form } from "./forms";
+import { User } from "./users";
 
 export interface Donation {
     donationType: string,
@@ -18,5 +19,17 @@ export interface Donation {
     hasPaid: boolean,
     referenceNumber: string,
     fileName: string,
-    item: Array<ClassItem> | Array<OthersItem> | Array<DefaultItem> | Array<OneTimeTabletItem>
+    items: Array<Form>
+}
+
+export interface SavedDonation {
+    dataDisclaimer: boolean,
+    date: string,
+    fileName: string,
+    frontDeskAttendee: string,
+    id: string,
+    payment: string,
+    referenceNumber: string,
+    user: User
+    items: Array<Form>
 }

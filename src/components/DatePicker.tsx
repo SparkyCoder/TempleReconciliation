@@ -3,7 +3,7 @@ import moment from "moment";
 import React, { useState } from "react";
 import DatePicker from "react-native-date-picker";
 
-const DateRangePicker = ({ label, date, setDate, minDate, maxDate } : any) => {
+const DateRangePicker = ({ label, date, setDate } : any) => {
     const [open, setOpen] = useState(false)
     return (<>
         <DatePicker
@@ -12,9 +12,8 @@ const DateRangePicker = ({ label, date, setDate, minDate, maxDate } : any) => {
             date={date?.toDate()}
             theme="light"
             onConfirm={(date: any) => {
-            let newDate = new moment(date)
             setOpen(false)
-            setDate(newDate)
+            setDate(moment(date))
             }}
             onCancel={() => {
             setOpen(false)

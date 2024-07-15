@@ -1,7 +1,7 @@
 import { Box, Center, CloseIcon, Heading, Icon, Input, InputField, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalHeader } from "@gluestack-ui/themed";
 import { sha256 } from 'js-sha256';
 import uuid from 'react-native-uuid';
-import { HandleOnPaymentModalClosed, HandlePostDonationComplete, HandlePostDonationLoading, HandleReceiptCreated } from "../reducers/ApplicationReducer";
+import { ReducerTypes } from "../reducers/ApplicationReducer";
 import { useEffect, useState } from "react";
 import React from "react";
 import { DefaultProps } from "../interfaces/state";
@@ -26,7 +26,7 @@ const PaymentsModal = ({state, dispatch}: DefaultProps) => {
 
     const onPaid = () => {
         try{
-        const onComplete = () => dispatch({type: HandleReceiptCreated });
+        const onComplete = () => dispatch({type: ReducerTypes.HandleReceiptCreated });
         state.createReceiptPdf(state, onComplete);
         }
         catch(error){
@@ -43,7 +43,7 @@ const PaymentsModal = ({state, dispatch}: DefaultProps) => {
             state.showError('Warning', 'This pin matches more than one front desk attendee. Please make sure pins are unique.')
         }
         else if(matchingPin.length === 1){ 
-            dispatch({type: HandlePostDonationLoading});
+            dispatch({type: ReducerTypes.HandlePostDonationLoading});
             const id = new Date().getTime().toString();
             let fileName = `Donation-Receipt-${state?.donation?.firstName ?? ''}-${state?.donation?.lastName ?? ''}-${id}.pdf`;
             const donation: Donation = {...state.donation, frontDeskAttendee: matchingPin[0].frontDeskAttendee, id: uuid.v4().toString(), fileName: fileName, hasPaid: true, referenceNumber: referenceNumber ?? '', items: state.addedDonationItems};
@@ -52,7 +52,7 @@ const PaymentsModal = ({state, dispatch}: DefaultProps) => {
     } 
 
     const onClose = () => {
-        dispatch({type: HandleOnPaymentModalClosed});
+        dispatch({type: ReducerTypes.HandleOnPaymentModalClosed});
     }
 
     return (<Modal 

@@ -1,54 +1,21 @@
 import { Box, Center } from "@gluestack-ui/themed";
 import { styles } from "../styles/styles";
 import { useEffect, useReducer } from "react";
-import ApplicationReducer, { HandlOnApiCredentialsLoaded } from "../reducers/ApplicationReducer";
+import ApplicationReducer, { ReducerTypes } from "../reducers/ApplicationReducer";
 import TileArea from "./TileArea";
-import Areas from "../constants/Areas";
 import AREAS from "../constants/Areas";
 import DonationArea from "./DonationArea";
-import useMessage from "../hooks/useToast";
-import useValidation from "../hooks/useValidation";
-import useReceipt from "../hooks/useReceipt";
-import useSelect from "../hooks/useSelect";
-import useStorage from "../hooks/useStorage";
 import React from "react";
 import Header from "./Header";
 import SettingsArea from "./SettingsArea";
 import useApiCredentials from "../hooks/useApiCredentials";
 import ReportArea from "./ReportArea";
+import useState from "../hooks/useState";
 
 const ContentArea = () => {
-    const {showError, showSuccess} = useMessage();
-    const {select, selectPhone} = useSelect();
-    const {validate} = useValidation();
-    const {createReceiptPdf} = useReceipt()
-    const {saveData, getData, clearAllData, clearUsers} = useStorage();
+    const {getInitialState} = useState();
     const {getApiCredentials} = useApiCredentials();
-
-
-    const [state, dispatch] = useReducer(ApplicationReducer, {
-        selectedArea: Areas.TileArea,
-        resetCacheCount: 0,
-        reportData:[],
-        payments:[],
-        donationTypes:[],
-        donationItems: [],
-        addedDonationItems: [],
-        frontDeskPins:[],
-        donation:{},
-        showError,
-        showSuccess,
-        validate,
-        createReceiptPdf,
-        select,
-        selectPhone,
-        saveData,
-        getData,
-        clearAllData,
-        clearUsers,
-        accessKey: '',
-        secretKey: ''
-    })
+    const [state, dispatch] = useReducer(ApplicationReducer, getInitialState())
 
     useEffect(() => {
         onComponentLoad();
@@ -56,11 +23,8 @@ const ContentArea = () => {
 
     const onComponentLoad = async () => {
         var credentials = await getApiCredentials();
-        dispatch({ type: HandlOnApiCredentialsLoaded, payload: credentials })
+        dispatch({ type: ReducerTypes.HandlOnApiCredentialsLoaded, payload: credentials })
     }
-
-    //For Developement Pursposes Only
-    useEffect(() => console.log(state.error), [state.error]);
 
     return (
         <>

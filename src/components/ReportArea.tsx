@@ -3,17 +3,25 @@ import React, { useEffect, useState } from "react";
 import { DefaultProps } from "../interfaces/state";
 import Divider from "./Divider";
 import DatePicker from "./DatePicker";
-import { HandleCancelButtonOnClick, HandleGetDonationsLoading } from "../reducers/ApplicationReducer";
+import { ReducerTypes } from "../reducers/ApplicationReducer";
 import moment from "moment";
 import useAxios from "../hooks/useAxios";
 import Loading from "./Loading";
+import useExcel from "../hooks/useExcel";
 
 
 const ReportArea = ({state, dispatch} : DefaultProps) => {
-    const [fromDate, setFromDate] = useState(new moment().set({hour:0,minute:0,second:0,millisecond:0}))
-    const [toDate, setToDate] = useState(new moment().set({hour:12,minute:59,second:0,millisecond:0}))
+    const [fromDate, setFromDate] = useState(moment().set({hour:0,minute:0,second:0,millisecond:0}))
+    const [toDate, setToDate] = useState(moment().set({hour:12,minute:59,second:0,millisecond:0}))
     const [showGenerateReport, setShowGenerateReport] = useState(true);
     const {getDonations} = useAxios(state, dispatch);
+    const {exportDataToExcel} = useExcel(state, dispatch);
+
+    useEffect(() => {
+        if(state.reportData.length > 0){
+            exportDataToExcel();
+        }
+    }, [state.reportData])
 
     useEffect(() => {
         if(toDate.diff(fromDate, 'days') >= 3){
@@ -32,8 +40,8 @@ const ReportArea = ({state, dispatch} : DefaultProps) => {
     }, [fromDate, toDate])
 
     const onGenerateReportClick = () => {
-        dispatch({type: HandleGetDonationsLoading})
-        getDonations(fromDate.unix(), toDate.unix());
+        dispatch({type: ReducerTypes.HandleGetDonationsLoading})
+        getDonations(fromDate.unix().toString(), toDate.unix().toString());
     }
 
     return (
@@ -47,30 +55,30 @@ const ReportArea = ({state, dispatch} : DefaultProps) => {
                 </HStack>
             </Box>
             <Box style={{marginTop:'2%', marginBottom:'2%', width: '100%'}}>
-                            <Box style={{marginTop:'2%'}}>
-                              <Center>
-                                {showGenerateReport && <Button 
-                                      size="md"
-                                      variant="solid"
-                                      action="primary"
-                                      onTouchEnd={() => onGenerateReportClick()}
-                                      >
-                                      <ButtonText>Generate Audit Report</ButtonText>
-                                  </Button>}
-                                </Center>
-                            </Box>
-                            <Box style={{marginTop:'15%'}}>
-                              <Center>
-                                <Button
-                                      size="md"
-                                      variant="solid"
-                                      action="primary"
-                                      onTouchEnd={() => dispatch({ type: HandleCancelButtonOnClick })}
-                                      >
-                                      <ButtonText>Cancel</ButtonText>
-                                  </Button>
-                                </Center>
-                            </Box>
+                <Box style={{marginTop:'2%'}}>
+                    <Center>
+                    {showGenerateReport && <Button 
+                            size="md"
+                            variant="solid"
+                            action="primary"
+                            onTouchEnd={() => onGenerateReportClick()}
+                            >
+                            <ButtonText>Generate Audit Report</ButtonText>
+                        </Button>}
+                    </Center>
+                </Box>
+                <Box style={{marginTop:'15%'}}>
+                    <Center>
+                    <Button
+                            size="md"
+                            variant="solid"
+                            action="primary"
+                            onTouchEnd={() => dispatch({ type: ReducerTypes.HandleCancelButtonOnClick })}
+                            >
+                            <ButtonText>Cancel</ButtonText>
+                        </Button>
+                    </Center>
+                </Box>
             </Box>
         </Box>
     );

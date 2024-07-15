@@ -1,43 +1,44 @@
 import { Box, Button, ButtonText, CloseIcon, Heading, Icon, Modal, ModalBackdrop, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader } from "@gluestack-ui/themed";
-import { HandleOnDonationItemUpdated, HandleOnDonationItemModalClose } from "../reducers/ApplicationReducer";
+import { ReducerTypes } from "../reducers/ApplicationReducer";
 import React, { useEffect, useState } from "react";
 import useDropDowns from "../hooks/useDropdowns";
 import useForms from "../hooks/useForms";
-import { ClassItem, DefaultItem, OneTimeTabletItem, OthersItem } from "../interfaces/forms";
+import { DropDownList } from "../interfaces/dropdown";
+import { Form } from "../interfaces/forms";
 
 const DonationItemsModal = ({state, dispatch, donationType}: any) => {
   const {getDropDown} = useDropDowns();
   const {renderForm} = useForms();
-  const [items, setItems] = useState<Array<string>>([]);
+  const [items, setItems] = useState<Array<DropDownList> | undefined>();
   const [type, setType] = useState<string>('');
-  const [details, setDetails] = useState<ClassItem | OthersItem | DefaultItem | OneTimeTabletItem | {}>({});
+  const [details, setDetails] = useState<Form>({type:'',amount:'0'});
 
   useEffect(() => {
     let selectedDonation = state.select(state.donationTypes, donationType);
-    setItems(selectedDonation.items ?? []);
+    setItems(selectedDonation.items);
   }, [donationType])
 
   const onItemAdd = () => {
           let updatedList = state.addedDonationItems;
           updatedList.push(details);
 
-          dispatch({ type: HandleOnDonationItemUpdated, payload: updatedList })
+          dispatch({ type: ReducerTypes.HandleOnDonationItemUpdated, payload: updatedList })
           state.showSuccess('Success', 'Item added.')
           clear();
     }
 
     const onClose = () => {
       clear();
-      dispatch({ type: HandleOnDonationItemModalClose });
+      dispatch({ type: ReducerTypes.HandleOnDonationItemModalClose });
     }
 
     const setTypes = (value: string) => {
       setType(value);
-      setDetails({...details, type: value})
+      setDetails({...details, type: value, amount:'1'})
     }
 
     const clear = () => {
-      setDetails({});
+      setDetails({type:'',amount:'0'});
       setType('');
     }
     
