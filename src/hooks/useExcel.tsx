@@ -4,6 +4,7 @@ import FileViewer from "react-native-file-viewer";
 import { State } from '../interfaces/state';
 import { ReducerTypes } from '../reducers/ApplicationReducer';
 import { SavedDonation } from '../interfaces/donation';
+import moment from 'moment';
 
 const useExcel = (state:State,dispatch:any) => {
   const map = () => {
@@ -12,22 +13,19 @@ const useExcel = (state:State,dispatch:any) => {
     const list = (array: string[]) => array.join(', ');
     return state.reportData.map((donation: SavedDonation) => {
       return {
-        dataDisclaimer: donation.dataDisclaimer,
-        date: donation.date,
-        fileName: donation.fileName,
-        frontDeskAttendee: donation.frontDeskAttendee,
-        id: donation.id,
-        payment: donation.payment,
-        referenceNumber: donation.referenceNumber,
-        firstName: donation.user.firstName,
-        lastName: donation.user.lastName,
-        chineseName: donation.user.chineseName,
+        date: moment(donation.date).format('MM/DD/YYYY HH:mm A'),
+        front_desk_attendee: donation.frontDeskAttendee,
+        first_name: donation.user.firstName,
+        last_name: donation.user.lastName,
+        chinese_name: donation.user.chineseName,
         email: donation.user.email,
         phone: donation.user.phone,
         street: donation.user.street,
         city: donation.user.city,
         state: donation.user.state,
         zipCode: donation.user.zipCode,
+        payment: donation.payment,
+        reference_number: donation.referenceNumber,
         items: list(donation.items.map(item => item.type)),
         totalAmount: `$${round(sum(donation.items.map(item => item.amount))).toFixed(2)}` ,
       }

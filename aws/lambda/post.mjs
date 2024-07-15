@@ -52,7 +52,6 @@ export const handler = async event => {
 
     const donation = {
       id: json.id ?? notAvailable,
-      fileName: json.fileName ?? notAvailable,
       date: date.toString() ?? notAvailable,
       dataDisclaimer: json.dataDisclaimer ?? notAvailable,
       payment: json.payment ?? notAvailable,

@@ -2,8 +2,8 @@ import RNHTMLtoPDF from 'react-native-html-to-pdf';
 import FileViewer from "react-native-file-viewer";
 import useMessage from "./useToast";
 import { State } from '../interfaces/state';
-import { ClassItem, DefaultItem, OneTimeTabletItem, OthersItem } from '../interfaces/forms';
 import Storage from '../constants/Storage';
+import { Form } from '../interfaces/forms';
 
 const useReceipt = () => {
     const {showError} = useMessage();
@@ -11,10 +11,9 @@ const useReceipt = () => {
     const createReceiptPdf = async (state: State, onComplete: () => void) => {
         try{
         const jsxString = await createReceiptHtml(state);
-        const timestamp = new Date().getTime();
         let options = {
             html: jsxString,
-            fileName: state?.donation?.fileName ?? `Donation-Receipt-${state?.donation?.firstName ?? ''}-${state?.donation?.lastName ?? ''}-${state?.donation?.id ?? timestamp}`,
+            fileName: 'receipt',
             directory: 'Documents',
           };
       
@@ -136,10 +135,6 @@ const useReceipt = () => {
                 <th>Attendee</th>
                  <td>${state?.donation?.frontDeskAttendee ?? 'N/A'}</td>
               </tr>` : ''}
-              ${state?.donation?.fileName ? `<tr>
-                <th>File Name</th>
-                 <td>${state?.donation?.fileName ?? 'N/A'}</td>
-              </tr>` : ''}
             </table>
             <div>${createDonationItemList(state)}</div>
             <footer>
@@ -151,7 +146,7 @@ const useReceipt = () => {
     }
 
     const createDonationItemList = (state: State) => {
-        return state.addedDonationItems.map((item:ClassItem | OthersItem | DefaultItem | OneTimeTabletItem, index:number) => {
+        return state.addedDonationItems.map((item:Form, index:number) => {
             return `
             <br /><br /><br />
             <h1>Donated Item #${index+1}</h1>

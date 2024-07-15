@@ -11,7 +11,7 @@ const DonationItemsModal = ({state, dispatch, donationType}: any) => {
   const {renderForm} = useForms();
   const [items, setItems] = useState<Array<DropDownList> | undefined>();
   const [type, setType] = useState<string>('');
-  const [details, setDetails] = useState<Form>({type:'',amount:'0'});
+  const [details, setDetails] = useState<Form>({type:'',amount:''});
 
   useEffect(() => {
     let selectedDonation = state.select(state.donationTypes, donationType);
@@ -34,11 +34,11 @@ const DonationItemsModal = ({state, dispatch, donationType}: any) => {
 
     const setTypes = (value: string) => {
       setType(value);
-      setDetails({...details, type: value, amount:'1'})
+      setDetails({...details, type: value})
     }
 
     const clear = () => {
-      setDetails({type:'',amount:'0'});
+      setDetails({type:'',amount:''});
       setType('');
     }
     
