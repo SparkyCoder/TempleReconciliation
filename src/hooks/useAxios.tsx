@@ -2,7 +2,7 @@ import axios from "axios";
 import { ReducerTypes } from "../reducers/ApplicationReducer";
 import URLS from "../constants/Urls";
 import Storage from "../constants/Storage";
-import { Donation } from "../interfaces/donation";
+import { Donation, SavedDonation } from "../interfaces/donation";
 import MethodTypes from "../constants/MethodTypes";
 import moment from 'moment'
 import Aws from '../constants/Aws';
@@ -91,9 +91,10 @@ const postDonation = async (donation: Donation) => {
     });
 }
 
-const getDonations = async (from:string,to:string) => {
+const getDonations = async (from: string, to: string, OnSuccess: (value: Array<SavedDonation>) => void) => {
   await SendRequestV2(MethodTypes.Get, `${URLS.GetOrPostDonation}?from=${from}&to=${to}`, '', async(response:any) => {
       auditDispatch({ type: ReducerTypes.HandleGetDonationsComplete, payload: response.data })
+      OnSuccess(response.data);
     },(error:string) => {
       state.showError('Error', 'Could not retrieve payment types.')
       auditDispatch({ type: ReducerTypes.HandleError, payload: error })

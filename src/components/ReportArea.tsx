@@ -8,6 +8,7 @@ import moment from "moment";
 import useAxios from "../hooks/useAxios";
 import Loading from "./Loading";
 import useExcel from "../hooks/useExcel";
+import { SavedDonation } from "../interfaces/donation";
 
 
 const ReportArea = ({state, dispatch} : DefaultProps) => {
@@ -18,14 +19,8 @@ const ReportArea = ({state, dispatch} : DefaultProps) => {
     const {exportDataToExcel} = useExcel(state, dispatch);
 
     useEffect(() => {
-        if(state.reportData.length > 0){
-            exportDataToExcel();
-        }
-    }, [state.reportData])
-
-    useEffect(() => {
-        if(toDate.diff(fromDate, 'days') >= 3){
-            state.showError('Error', 'Date ranges greater than 3 days incur larger AWS costs. Please narrow down your results.')
+        if(toDate.diff(fromDate, 'days') >= 7){
+            state.showError('Error', 'Date ranges greater than 7 days incur larger AWS costs. Please narrow down your results.')
             setShowGenerateReport(false);
             return;
         }
@@ -39,9 +34,17 @@ const ReportArea = ({state, dispatch} : DefaultProps) => {
         setShowGenerateReport(true);
     }, [fromDate, toDate])
 
+    useEffect(() => {
+        exportDataToExcel();
+    }, [state.reportData]);
+
     const onGenerateReportClick = () => {
         dispatch({type: ReducerTypes.HandleGetDonationsLoading})
-        getDonations(fromDate.unix().toString(), toDate.unix().toString());
+        getDonations(fromDate.unix().toString(), toDate.unix().toString(), (value: Array<SavedDonation>) => {
+            if(value.length === 0) {
+                state.showError('No Results Found.', 'Please adjust your filter criteria.')
+            }
+        });
     }
 
     return (
