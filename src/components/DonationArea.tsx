@@ -1,4 +1,4 @@
-import { Box, Button, Center, ButtonText, HStack, Heading, Input, InputField, ScrollView, ButtonIcon, AddIcon, EditIcon, Checkbox, CheckboxIndicator, CheckboxIcon, CheckIcon, CheckboxLabel } from "@gluestack-ui/themed";
+import { Box, Button, Center, ButtonText, HStack, Heading, Input, InputField, ButtonIcon, AddIcon, EditIcon, Checkbox, CheckboxIndicator, CheckboxIcon, CheckIcon, CheckboxLabel } from "@gluestack-ui/themed";
 import useDimensions from "../hooks/useDimensions";
 import Loading from "./Loading";
 import { styles } from "../styles/styles";
@@ -82,8 +82,7 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
                     <DonationItemsModal state={state} dispatch={dispatch} donationType={form.donationType ?? ''} />
                     <ViewDonationItemsModal state={state} dispatch={dispatch} />
                     <PaymentsModal state={state} dispatch={dispatch} />
-                    <DisclaimerModal state={state} dispatch={dispatch} text={'Test'} />
-                    <ScrollView>             
+                    <DisclaimerModal state={state} dispatch={dispatch} text={'Test'} />         
                         <Box style={styles.form}>
                         <Box style={isVertical ? styles.formSectionVertical : styles.formSectionHorizontal}>
                                 <Heading size="sm">Donation Type 捐赠类型</Heading>
@@ -252,7 +251,6 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
                             </Box>
                           </HStack>
                         </Box>
-                    </ScrollView>
                </Box>
     );
 };

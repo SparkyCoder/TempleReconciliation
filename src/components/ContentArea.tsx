@@ -1,4 +1,4 @@
-import { Box, Center } from "@gluestack-ui/themed";
+import { Box, Center, ScrollView } from "@gluestack-ui/themed";
 import { styles } from "../styles/styles";
 import { useEffect, useReducer } from "react";
 import ApplicationReducer, { ReducerTypes } from "../reducers/ApplicationReducer";
@@ -38,10 +38,12 @@ const ContentArea = () => {
         <Box style={[styles.full, styles.contentArea]}>
             <Center>
                 <Box style={styles.subContentArea}>
-                    {state.selectedArea === AREAS.TileArea && <TileArea state={state} dispatch={dispatch} />}
-                    {state.selectedArea === AREAS.DonationArea && <DonationArea state={state} dispatch={dispatch} />}
-                    {state.selectedArea === AREAS.SettingsArea && <SettingsArea state={state} dispatch={dispatch} />}
-                    {state.selectedArea === AREAS.ReportArea && <ReportArea state={state} dispatch={dispatch} />}
+                    <ScrollView>
+                        {state.selectedArea === AREAS.TileArea && <TileArea state={state} dispatch={dispatch} />}
+                        {state.selectedArea === AREAS.DonationArea && <DonationArea state={state} dispatch={dispatch} />}
+                        {state.selectedArea === AREAS.SettingsArea && <SettingsArea state={state} dispatch={dispatch} />}
+                        {state.selectedArea === AREAS.ReportArea && <ReportArea state={state} dispatch={dispatch} />}
+                    </ScrollView>
                 </Box>
             </Center>                         
         </Box>
