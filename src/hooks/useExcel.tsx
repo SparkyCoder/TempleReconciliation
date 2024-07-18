@@ -12,7 +12,7 @@ const useExcel = (state:State,dispatch:any) => {
     state.reportData.forEach(donation => {
       donation.items.forEach(item => {
         rows.push({
-          Date: moment(donation.date).format('MM/DD/YYYY hh:mm A'),
+          Date: moment(Number(donation.date)).format('MM/DD/YYYY hh:mm:ss A'),
           Front_Desk_Attendee: donation.frontDeskAttendee,
           First_Name: donation.user.firstName,
           Last_Name: donation.user.lastName,
@@ -46,7 +46,6 @@ const useExcel = (state:State,dispatch:any) => {
      
         RNFS.writeFile(RNFS.DocumentDirectoryPath + '/donations.xlsx', wbout, 'ascii').then(()=>{
             openReceiptPdf(RNFS.DocumentDirectoryPath + '/donations.xlsx', () => {
-              console.log('dispatching')
               dispatch({type: ReducerTypes.HandleGetDonationsComplete,payload:[]})
             })
         }).catch((error: any)=>{

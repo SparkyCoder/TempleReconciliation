@@ -4,6 +4,7 @@ import useMessage from "./useToast";
 import { State } from '../interfaces/state';
 import Storage from '../constants/Storage';
 import { Form } from '../interfaces/forms';
+import moment from 'moment';
 
 const useReceipt = () => {
     const {showError} = useMessage();
@@ -23,7 +24,6 @@ const useReceipt = () => {
             state.showError('Error', 'Could not find file path.')
             return;
           }
-          console.log(file.filePath)
           openReceiptPdf(file.filePath, onComplete)
         }
         catch(error){
@@ -151,6 +151,10 @@ const useReceipt = () => {
             <br /><br /><br />
             <h1>Donated Item #${index+1}</h1>
             <table>
+            <tr>
+                <th>Date</th> 
+                 <td>${moment().toDate().toLocaleDateString()} ${moment().toDate().toLocaleTimeString()}</td>
+              </tr>
               ${item?.type ? `<tr>
                 <th>Type</th>
                  <td>${item.type ?? 'N/A'}</td>
@@ -178,11 +182,7 @@ const useReceipt = () => {
               ${item?.relative ? `<tr>
                 <th>Relative</th>
                  <td>${item.relative ?? 'N/A'}</td>
-              </tr>`: ''}
-              ${item?.date ? `<tr>
-                <th>Date</th>
-                 <td>${item.date ?? 'N/A'}</td>
-              </tr>` : ''}
+              </tr>`: ''} 
             </table>`
         });
     }

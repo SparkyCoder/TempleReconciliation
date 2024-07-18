@@ -5,8 +5,7 @@ const dynamo = DynamoDBDocument.from(new DynamoDB());
 
 export const handler = async event => {
   try {
-    const date = new Date();
-    const epoch = date.getTime().toString();
+    const epoch = new Date().valueOf().toString();
     const notAvailable = '';
     const json = JSON.parse(event.body);
 
@@ -52,7 +51,7 @@ export const handler = async event => {
 
     const donation = {
       id: json.id ?? notAvailable,
-      date: date.toString() ?? notAvailable,
+      date: epoch.toString() ?? notAvailable,
       dataDisclaimer: json.dataDisclaimer ?? notAvailable,
       payment: json.payment ?? notAvailable,
       referenceNumber: json.referenceNumber ?? notAvailable,

@@ -12,8 +12,8 @@ import { SavedDonation } from "../interfaces/donation";
 
 
 const ReportArea = ({state, dispatch} : DefaultProps) => {
-    const [fromDate, setFromDate] = useState(moment().set({hour:0,minute:0,second:0,millisecond:0}))
-    const [toDate, setToDate] = useState(moment().set({hour:12,minute:59,second:0,millisecond:0}))
+    const [fromDate, setFromDate] = useState(moment().startOf("day"))
+    const [toDate, setToDate] = useState(moment().endOf("day"))
     const [showGenerateReport, setShowGenerateReport] = useState(true);
     const {getDonations} = useAxios(state, dispatch);
     const {exportDataToExcel} = useExcel(state, dispatch);
@@ -39,12 +39,12 @@ const ReportArea = ({state, dispatch} : DefaultProps) => {
     }, [state.reportData]);
 
     const onGenerateReportClick = () => {
-        dispatch({type: ReducerTypes.HandleGetDonationsLoading})
-        getDonations(fromDate.unix().toString(), toDate.unix().toString(), (value: Array<SavedDonation>) => {
-            if(value.length === 0) {
-                state.showError('No Results Found.', 'Please adjust your filter criteria.')
-            }
-        });
+       dispatch({type: ReducerTypes.HandleGetDonationsLoading})
+       getDonations(fromDate.valueOf().toString(), toDate.valueOf().toString(), (value: Array<SavedDonation>) => {
+           if(value.length === 0) {
+              state.showError('No Results Found.', 'Please adjust your filter criteria.')
+         }
+       });
     }
 
     return (
