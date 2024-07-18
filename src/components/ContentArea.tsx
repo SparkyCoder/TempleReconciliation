@@ -21,6 +21,12 @@ const ContentArea = () => {
         onComponentLoad();
     }, [state.selectedArea])
 
+    useEffect(() => {
+        if(state.error){
+            state.showError('Error', state.error.toString());
+        }
+    },[state.error])
+
     const onComponentLoad = async () => {
         var credentials = await getApiCredentials();
         dispatch({ type: ReducerTypes.HandlOnApiCredentialsLoaded, payload: credentials })

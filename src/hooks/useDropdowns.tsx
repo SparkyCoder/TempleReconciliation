@@ -15,7 +15,7 @@ const useDropDowns = () => {
   
           return (
           <Select isInvalid={isInvalid} onValueChange={(value =>  setStateEvent(value))}>
-            <SelectTrigger variant="outline" size="md" >
+            <SelectTrigger variant="outline" size="lg" >
               <SelectInput placeholder={placeholderText} />
               <SelectIcon>
                 <Icon as={ChevronDownIcon} />

@@ -7,18 +7,18 @@ import moment from 'moment';
 
 const useExcel = (state:State,dispatch:any) => {
   const map = () => {
-    let rows: { Date: string; Front_Desk_Attendee: string; First_Name: string; Last_Name: string; Chinese_Name: string; Item_Type: string; Item_Name: string | undefined; Amount: string; Payment: string; Reference_Number: string; Email: string; Phone: string; Street: string; City: string; State: string; ZipCode: string; }[] = [];
+    let details = []
+    let rows: { Details: string, Date: string; Front_Desk_Attendee: string; First_Name: string; Last_Name: string; Chinese_Name: string; Item_Type: string; Amount: string; Payment: string; Reference_Number: string; Email: string; Phone: string; Street: string; City: string; State: string; ZipCode: string; }[] = [];
 
     state.reportData.forEach(donation => {
       donation.items.forEach(item => {
-        rows.push({
+        let newRow = {
           Date: moment(Number(donation.date)).format('MM/DD/YYYY hh:mm:ss A'),
           Front_Desk_Attendee: donation.frontDeskAttendee,
           First_Name: donation.user.firstName,
           Last_Name: donation.user.lastName,
           Chinese_Name: donation.user.chineseName,
           Item_Type: item.type,
-          Item_Name: item.name,
           Amount: `$${Number(item.amount).toFixed(2)}`,
           Payment: donation.payment,
           Reference_Number: donation.referenceNumber,
@@ -28,7 +28,35 @@ const useExcel = (state:State,dispatch:any) => {
           City: donation.user.city,
           State: donation.user.state,
           ZipCode: donation.user.zipCode,
-        })
+          Details: ''
+        }
+
+        if(item.name){
+          details.push(` Name: ${item.name}`)
+        }
+
+        if(item.className){
+          details.push(` Class Name: ${item.className}`)
+        }
+
+        if(item.relationship){
+          details.push(` Relationship: ${item.relationship}`)
+        }
+
+        if(item.relative){
+          details.push(` Relative: ${item.relative}`)
+        }
+
+        if(item.date){
+          details.push(` Date: ${item.date}`)
+        }
+
+        if(item.remarks){
+          details.push(` Remarks: ${item.remarks}`)
+        }
+
+        newRow.Details = details.join(", ")
+        rows.push(newRow);
     });
     })
 
@@ -45,22 +73,22 @@ const useExcel = (state:State,dispatch:any) => {
         const wbout = XLSX.write(wb, {type:'binary', bookType:"xlsx"});
      
         RNFS.writeFile(RNFS.DocumentDirectoryPath + '/donations.xlsx', wbout, 'ascii').then(()=>{
-            openReceiptPdf(RNFS.DocumentDirectoryPath + '/donations.xlsx', () => {
+          openSpreadsheet(RNFS.DocumentDirectoryPath + '/donations.xlsx', () => {
               dispatch({type: ReducerTypes.HandleGetDonationsComplete,payload:[]})
             })
         }).catch((error: any)=>{
-          dispatch({type: ReducerTypes.HandleError, payload: error})
+          dispatch({type: ReducerTypes.HandleError, payload: 'Could not create spreadsheet. '+ error})
         }); 
     
       }
 
-      const openReceiptPdf = (filePath: string, onComplete: any) => {
+      const openSpreadsheet = (filePath: string, onComplete: any) => {
         FileViewer.open(filePath)
         .then(() => {
            onComplete();
         })
         .catch((error) => {
-          dispatch({type: ReducerTypes.HandleError, payload: error})
+          dispatch({type: ReducerTypes.HandleError, payload: 'Could not open spreadsheet. ' + error})
         });
     }
 

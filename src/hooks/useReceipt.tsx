@@ -27,7 +27,7 @@ const useReceipt = () => {
           openReceiptPdf(file.filePath, onComplete)
         }
         catch(error){
-            showError('Error', 'Could not create receipt PDF.')
+            showError('Error', 'Could not create receipt PDF. ' + error)
         }
     }
 
@@ -80,8 +80,8 @@ const useReceipt = () => {
             <h1>Donation Details</h1>
             <table>
               <tr>
-                <th>Donation Date</th>
-                <td>${state?.donation?.id}</td> 
+                <th>Date</th> 
+                 <td>${moment().toDate().toLocaleDateString()} ${moment().toDate().toLocaleTimeString()}</td>
               </tr>
               ${state?.donation?.chineseName ? `<tr>
                 <th>Chinese Name</th>
@@ -151,10 +151,6 @@ const useReceipt = () => {
             <br /><br /><br />
             <h1>Donated Item #${index+1}</h1>
             <table>
-            <tr>
-                <th>Date</th> 
-                 <td>${moment().toDate().toLocaleDateString()} ${moment().toDate().toLocaleTimeString()}</td>
-              </tr>
               ${item?.type ? `<tr>
                 <th>Type</th>
                  <td>${item.type ?? 'N/A'}</td>
