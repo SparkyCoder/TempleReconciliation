@@ -6,12 +6,17 @@ import { styles } from "../styles/styles";
 import useApiCredentials from "../hooks/useApiCredentials";
 import Divider from "./Divider";
 import Storage from "../constants/Storage";
+import useDropDowns from "../hooks/useDropdowns";
+import { DropDownList } from "../interfaces/dropdown";
 
 const SettingsArea = ({state, dispatch} : DefaultProps) => {
     const {saveApiCredentials} = useApiCredentials();
+    const {getDropDown} = useDropDowns();
     const [accessKey, setAccessKey] = useState<string>('');
     const [secretKey, setSecretKey] = useState<string>('');
     const [newReceiptNumber, setNewReceiptNumber] = useState<string>('');
+    const [environments] = useState<DropDownList[]>([{label: 'develop'}, {label:'production'}])
+    const [selectedEnvironment, setSelectedEnvironment] = useState<string>('')
 
     const onSave = async () => {
         if(accessKey && secretKey){
@@ -23,6 +28,13 @@ const SettingsArea = ({state, dispatch} : DefaultProps) => {
             await onSetReceiptNumber();
             state.showSuccess('Success', `Next receipt number is ${Number(newReceiptNumber)}.`);
         }
+
+        if(selectedEnvironment){
+            state.saveData(Storage.Environment, selectedEnvironment);
+            state.clearAllData();
+            state.showSuccess('Success', `Environment now set to ${selectedEnvironment}.`);
+        }
+
         dispatch({ type: ReducerTypes.HandleCancelButtonOnClick });
     }
 
@@ -50,6 +62,10 @@ const SettingsArea = ({state, dispatch} : DefaultProps) => {
                         <ButtonText>Clear Cache</ButtonText>
                     </Button>
                 </Center>
+            </Box>
+            <Divider text={'Environment'} />
+            <Box style={{marginTop:'2%', borderColor:'black', borderWidth:0.5, marginHorizontal: '5%'}}>
+            { getDropDown(environments, selectedEnvironment, (value:string) => setSelectedEnvironment(value), 'Select Environment', false) }
             </Box>
             <Divider text={'Next Receipt Number'} />
             <Box style={{marginTop:'2%', borderColor:'black', borderWidth:0.5, marginHorizontal: '5%'}}>

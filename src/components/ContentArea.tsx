@@ -11,6 +11,7 @@ import SettingsArea from "./SettingsArea";
 import useApiCredentials from "../hooks/useApiCredentials";
 import ReportArea from "./ReportArea";
 import useState from "../hooks/useState";
+import Storage from "../constants/Storage";
 
 const ContentArea = () => {
     const {getInitialState} = useState();
@@ -23,6 +24,7 @@ const ContentArea = () => {
 
     useEffect(() => {
         if(state.error){
+            console.log(state.error)
             state.showError('Error', state.error.toString());
         }
     },[state.error])
@@ -30,6 +32,9 @@ const ContentArea = () => {
     const onComponentLoad = async () => {
         var credentials = await getApiCredentials();
         dispatch({ type: ReducerTypes.HandlOnApiCredentialsLoaded, payload: credentials })
+
+        var environment = await state.getData(Storage.Environment);
+        dispatch({ type: ReducerTypes.HandleOnEnvironmentChanged, payload: environment })
     }
 
     return (

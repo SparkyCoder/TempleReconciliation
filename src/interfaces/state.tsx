@@ -36,6 +36,7 @@ export interface State {
     disclaimerText: string,
     resetCacheCount: number,
     error: unknown,
+    environment: string,
     reportData: Array<SavedDonation>,
     showError: (title: string, message: string) => void,
     showSuccess: (title: string, message: string) => void,

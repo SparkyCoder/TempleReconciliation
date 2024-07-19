@@ -19,8 +19,8 @@ const useState = () => {
             selectedArea: Areas.TileArea,
             resetCacheCount: 0,
             reportData: [],
-            payments: [{ label:''}],
-            donationTypes: [{label: ''}],
+            payments: [{ label: '' }],
+            donationTypes: [{ label: '' }],
             addedDonationItems: [],
             frontDeskPins: [],
             donation: {
@@ -74,7 +74,8 @@ const useState = () => {
             },
             validatePermissions: function (onSuccess: () => void, onDenied: () => void, onError: (error: unknown) => void): void {
                 throw new Error("Function not implemented.");
-            }
+            },
+            environment: ""
         }
 
         return initialState;

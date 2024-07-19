@@ -13,7 +13,7 @@ const TileArea = ({state, dispatch} : DefaultProps) => {
     const getTiles = () => {
         return (
             <>
-                { state.accessKey && state.secretKey && 
+                { state.accessKey && state.secretKey && state.environment &&
                     <>
                         <Tile title={'Donation'} subText={'捐助'} image={require('../../src/media/Donation.png')} onClick={() => dispatch({ type: ReducerTypes.HandleDonationTileOnClick })} />
                         <Tile title={'Audit Report'} subText={'报告'} image={require('../../src/media/Report.png')} onClick={() => dispatch({type: ReducerTypes.HandleReportTileOnClick})} />

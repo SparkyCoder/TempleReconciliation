@@ -10,7 +10,7 @@ const useStorage = () => {
           const jsonValue = JSON.stringify(value);
           await AsyncStorage.setItem(key, jsonValue);
         } catch (e) {
-           showError('Save Error', `Could not save ${key} to local storage.`)
+           showError('Save Error', `Could not save ${key} to local storage. ${e}`)
         }
       };
 
@@ -19,7 +19,7 @@ const useStorage = () => {
           const jsonValue = await AsyncStorage.getItem(key);
           return jsonValue != null ? JSON.parse(jsonValue) : null;
         } catch (e) {
-            showError('Retrieval Error', `Could not retrieve ${key} to local storage.`)
+            showError('Retrieval Error', `Could not retrieve ${key} to local storage. ${e}`)
         }
       };
 

@@ -102,7 +102,7 @@ const SendRequestV2 = (method: string, path:string, body: any, onSuccess:any, on
   let headers: any = {
     'Content-Type': 'application/json',
     'X-Amz-Date': iso8601FormattedDate,
-    'Host': Aws.Host,
+    'Host': getHost(),
     'Content-Length': body.length
   }
 
@@ -113,12 +113,12 @@ const SendRequestV2 = (method: string, path:string, body: any, onSuccess:any, on
       AccessKeyId: state.accessKey
   };
   var options = {
-      path: `/${Aws.Environment}${path}`,
+      path: `/${getEnvironment()}${path}`,
       method: method,
       service: Aws.Service,
       headers: {
           'X-Amz-Date': iso8601FormattedDate,
-          'host': Aws.Host,
+          'host': getHost(),
           'Content-Length': body.length
       },
       region: Aws.Region,
@@ -132,12 +132,20 @@ const SendRequestV2 = (method: string, path:string, body: any, onSuccess:any, on
 
   headers.Authorization = authorization.Authorization;
 
-  axios(`https://${Aws.Host}/${Aws.Environment}${path}`, {
+  axios(`https://${getHost()}/${getEnvironment()}${path}`, {
     method: method,
     data: body,
     headers: headers
   }).then(async (response) => onSuccess(response))
   .catch(async (error) => onError(error));
+}
+
+const getHost = () => {
+  return (state.environment === 'production') ? Aws.HostProduction : Aws.HostDevelop;
+}
+
+const getEnvironment = () => {
+  return (state.environment === 'production') ? Aws.EnvironmentProduction : Aws.EnvironmentDevelop;
 }
 
     return {getDonationTypes, getPayments, getFrontDeskPins, getUsers, postDonation, getDonations};

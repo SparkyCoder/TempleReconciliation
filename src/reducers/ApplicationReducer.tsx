@@ -26,7 +26,8 @@ HandleOnPaymentModalClosed = 'HandleOnPaymentModalClosed',
 HandlePostDonationLoading = 'HandlePostDonationLoading',
 HandlePostDonationComplete = 'HandlePostDonationComplete',
 HandleSettingsTileOnClick = 'HandleSettingsTileOnClick',
-HandlOnApiCredentialsLoaded = 'HandlOnApiCredentialsLoaded'
+HandlOnApiCredentialsLoaded = 'HandlOnApiCredentialsLoaded',
+HandleOnEnvironmentChanged = 'HandleOnEnvironmentChanged'
 }
 
 export interface ReducerDispatchAction {
@@ -65,7 +66,7 @@ const ApplicationReducer = (state: State, action:ReducerDispatchAction): State =
           hasPaid: false,
           referenceNumber: "",
           fileName: "",
-          item: []
+          items: []
         }, isDisclaimerModalOpen:false, isGetUsersLoading:true, isGetPaymentsLoading:true, isGetDonationTypesLoading:true, isGetFrontDeskPinLoadings:true, isAddDonationItemModalOpen:false, addedDonationItems: [], isViewDonationItemsOpen:false}
       case ReducerTypes.HandleGetPaymentsComplete:
         return {...state, isGetPaymentsLoading:false, payments: action.payload}
@@ -108,7 +109,7 @@ const ApplicationReducer = (state: State, action:ReducerDispatchAction): State =
             hasPaid: false,
             referenceNumber: "",
             fileName: "",
-            item: []
+            items: []
           }}
       case ReducerTypes.HandleDisclaimerModalOpened:
           return {...state, isDisclaimerModalOpen: true, disclaimerText: action.payload.text, disclaimerTitle: action.payload.title}
@@ -124,6 +125,8 @@ const ApplicationReducer = (state: State, action:ReducerDispatchAction): State =
           return {...state, isGetDonationsLoading:true}
       case ReducerTypes.HandleGetDonationsComplete:
           return {...state, isGetDonationsLoading:false, reportData: action.payload}
+      case ReducerTypes.HandleOnEnvironmentChanged:
+          return {...state, environment: action.payload}
       default:
         return state;
     }

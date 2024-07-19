@@ -6,6 +6,7 @@ const Storage = {
   ReceiptNumber: 'LocalReceiptNumber',
   AccessKey: 'AccessKey',
   SecretKey: 'SecretKey',
+  Environment: 'Environment',
 };
 
 export default Storage;
