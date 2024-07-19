@@ -137,7 +137,7 @@ const SendRequestV2 = (method: string, path:string, body: any, onSuccess:any, on
     data: body,
     headers: headers
   }).then(async (response) => onSuccess(response))
-  .catch(async (error) => onError(error));
+  .catch(async (error) => onError(`https://${getHost()}/${getEnvironment()}${path}  -   ${error}`));
 }
 
 const getHost = () => {
