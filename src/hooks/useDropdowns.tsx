@@ -14,7 +14,7 @@ const useDropDowns = () => {
         />);
   
           return (
-          <Select isInvalid={isInvalid} onValueChange={(value =>  setStateEvent(value))}>
+          <Select selectedValue={selectedValue} isInvalid={isInvalid} onValueChange={(value =>  setStateEvent(value))}>
             <SelectTrigger variant="outline" size="lg" >
               <SelectInput placeholder={placeholderText} />
               <SelectIcon>

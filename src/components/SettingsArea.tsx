@@ -16,8 +16,8 @@ const SettingsArea = ({state, dispatch} : DefaultProps) => {
     const [secretKey, setSecretKey] = useState<string>('');
     const [newReceiptNumber, setNewReceiptNumber] = useState<string>('');
     const [environments] = useState<DropDownList[]>([{label: 'develop'}, {label:'production'}])
-    const [selectedEnvironment, setSelectedEnvironment] = useState<string>('')
-
+    const [selectedEnvironment, setSelectedEnvironment] = useState<string>(state.environment)
+console.log(state.environment)
     const onSave = async () => {
         if(accessKey && secretKey){
             saveApiCredentials(accessKey, secretKey);
