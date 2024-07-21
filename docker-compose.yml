@@ -14,7 +14,7 @@ services:
       - /app/node_modules
       - /dev/bus/usb:/dev/bus/usb
     privileged: true
-    container_name: tr_android
+    container_name: temple_recon_android
     ports:
       - '8081:8081'
     devices:
