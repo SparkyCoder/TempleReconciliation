@@ -1,7 +1,7 @@
 # Use the official Node.js image as a parent image
 FROM node:18
 
-# Install additional dependencies for React Native and ADB
+# Install additional dependencies for React Native, Android, and ADB
 RUN apt-get update && apt-get install -y \
     wget \
     tar \
@@ -28,7 +28,11 @@ RUN mkdir -p $ANDROID_SDK_ROOT/cmdline-tools \
 
 # Accept licenses and install SDK components
 RUN yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses \
-    && $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0" "emulator" "system-images;android-34;google_apis;x86_64"
+    && $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platform-tools" \
+    && $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "platforms;android-34" \
+    && $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "build-tools;34.0.0" \
+    && $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "emulator" \
+    && $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager "system-images;android-34;google_apis;x86_64"
 
 # Set the working directory to /app
 WORKDIR /app
@@ -49,14 +53,13 @@ RUN dos2unix ./android/gradlew
 # Run gradlew to ensure it is set up correctly
 RUN ./android/gradlew --version
 
-    
-# Copy the wait_for_adb_device.sh script to /usr/local/bin and ensure it is executable and has Unix line endings
-COPY ./wait_for_adb_device.sh /usr/local/bin/
-RUN dos2unix /usr/local/bin/wait_for_adb_device.sh
-RUN chmod +x /usr/local/bin/wait_for_adb_device.sh
+# Copy the entrypoint script
+COPY entrypoint.sh /usr/local/bin/
+RUN dos2unix /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # Expose the port Metro Bundler runs on
 EXPOSE 8081
 
-# Command to run the application (Metro bundler for React Native)
-CMD ["sh", "-c", "adb start-server && wait_for_adb_device.sh && npm start -- --port 8081"]
+# Command to run the entrypoint script
+CMD ["entrypoint.sh"]

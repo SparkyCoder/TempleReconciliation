@@ -1,20 +1,21 @@
+# docker-compose.yml
 version: '3.9'
 
 services:
-  reactnative:
+  metro:
     build:
       context: .
-      dockerfile: dockerfile.reactnative
+      dockerfile: dockerfile.android
+    environment:
+      - NODE_ENV=development
+      - ANDROID_SDK_ROOT=/usr/local/android-sdk
     volumes:
       - .:/app
       - /app/node_modules
       - /dev/bus/usb:/dev/bus/usb
+    privileged: true
+    container_name: tr_android
     ports:
       - '8081:8081'
-    environment:
-      - NODE_ENV=development
-      - ANDROID_SDK_ROOT=/usr/local/android-sdk
-    privileged: true
-    container_name: tr_rn
     devices:
       - /dev/bus/usb:/dev/bus/usb
