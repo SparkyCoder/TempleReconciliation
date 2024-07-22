@@ -99,7 +99,7 @@ console.log(state.environment)
             </Box>
             <Box style={{marginTop:'2%', marginBottom:'2%', width: '100%'}}>
             <HStack style={{marginTop:'2%', width: '100%'}}>
-                            <Box style={styles.formSectionHorizontal}>
+                            <Box style={{width:'50%'}}>
                               <Center>
                                 <Button 
                                       size="md"
@@ -111,7 +111,7 @@ console.log(state.environment)
                                   </Button>
                                 </Center>
                             </Box>
-                            <Box style={styles.formSectionHorizontal}>
+                            <Box style={{width:'50%'}}>
                               <Center>
                                 <Button
                                       size="md"

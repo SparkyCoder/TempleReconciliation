@@ -1,4 +1,4 @@
-import { Center, HStack, ScrollView, VStack } from "@gluestack-ui/themed";
+import { Box, Center, HStack, ScrollView, Text, VStack } from "@gluestack-ui/themed";
 import { styles } from "../styles/styles";
 import Tile from "./Tile";
 import useDimensions from "../hooks/useDimensions";
@@ -28,20 +28,21 @@ const TileArea = ({state, dispatch} : DefaultProps) => {
         <>
                     <Loading state={state} title={'Loading report data...'} />
                     {isVertical ? 
-                    <VStack space="md" style={styles.stack}>
+                    <VStack space="xs" style={styles.stack}>
                             <ScrollView style={styles.scrollview}>
                                 <Center>
                                     {getTiles()}
                                 </Center>
                             </ScrollView>
                     </VStack>
-                    :                    
-                        <HStack space='lg' style={styles.stack}>
-                            <ScrollView horizontal={true} style={styles.scrollview}>
-                                {getTiles()}
-                            </ScrollView>
+                    :       
+                   
+                    <Center>           
+                        <HStack space='2xl' style={styles.stack}>
+                                {getTiles()}                       
                         </HStack>
-                       
+                        </Center> 
+                      
                     } 
                </>
     );

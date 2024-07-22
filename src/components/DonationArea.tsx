@@ -225,7 +225,7 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
                         </Box>
                         <Box style={{marginTop:'2%', marginBottom:'2%', width: '100%'}}>
                           <HStack style={{marginTop:'2%', width: '100%'}}>
-                            <Box style={styles.formSectionHorizontal}>
+                            <Box style={{width:'50%'}}>
                               <Center>
                                 <Button 
                                       size="md"
@@ -237,7 +237,7 @@ const DonationArea = ({state, dispatch} : DefaultProps) => {
                                   </Button>
                                 </Center>
                             </Box>
-                            <Box style={styles.formSectionHorizontal}>
+                            <Box style={{width:'50%'}}>
                               <Center>
                                 <Button
                                       size="md"
