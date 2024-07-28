@@ -1,0 +1,21 @@
+# docker-compose.yml
+version: '3.9'
+
+services:
+  android:
+    build:
+      context: .
+      dockerfile: dockerfile.android
+    environment:
+      - NODE_ENV=development
+      - ANDROID_SDK_ROOT=/usr/local/android-sdk
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /dev/bus/usb:/dev/bus/usb
+    privileged: true
+    container_name: temple_recon_android
+    ports:
+      - '8081:8081'
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
